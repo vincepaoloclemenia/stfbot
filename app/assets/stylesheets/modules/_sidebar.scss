@@ -1,0 +1,99 @@
+.sidebar {
+    position: absolute;
+    margin-top: 60px;
+    padding: 0px;
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    left: 0;
+    background: $main-color;
+    transition: 0.3s;
+    z-index: 9;
+    ul {
+        padding: 0;
+    }
+    ul li{
+        cursor: pointer;
+        color: $white;
+        list-style: none;
+        padding: 20px 15px;
+        &:hover:not(#toggle-btn){
+            background: $twitter-blue;
+            transition: 0.5s;
+        }
+    }
+    ul li a.menu-link{ 
+        text-decoration: none;
+        color: $white;
+        font-size: 11px;
+        font-weight: 900px;
+        margin-left: 3px;
+        height: 100%;
+        width: 100%;
+        span {
+            padding-left: 20px;
+            &.hide {
+                margin-left: -100%;
+                transition: 0.3s;
+            }
+        }
+    }
+    &.active { width: 60px }
+
+    .sidebar-btn{
+        background-color: transparent; 
+        box-sizing: none;
+        cursor: pointer;
+        border: none;
+        position: absolute;
+        left: 13px;
+        top: 6px;
+        right: -50px;
+        height: 30px;
+        width: 30px;
+        outline: none;
+        &.toggle span{
+            background: $white;
+        }
+        &.toggle span:before{
+            top: -5px;
+            transform: rotate(0deg);
+        }
+        &.toggle span:after{
+            top: 5px;
+            transform: rotate(0deg);
+        }
+    }
+    .sidebar-btn span{
+        position: absolute;
+        display: block;
+        width: 15px;
+        height: 1.5px;
+        top: 14px;
+        transition: 0.5s;
+        background: transparent;
+        &:before{
+            position: absolute;
+            content: '';
+            top: 0;            
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: $white;
+            transition: 0.5s;
+            transform: rotate(45deg);
+        }
+        &:after{
+            position: absolute;
+            content: '';
+            top: 0px;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: $white;
+            transition: 0.5s;
+            transform: rotate(-45deg);
+        }
+    }
+
+}

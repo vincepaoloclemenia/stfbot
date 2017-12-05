@@ -1,0 +1,15 @@
+.alert-message {
+    position: fixed;
+    min-width: 360px;
+    text-align: center;
+    @include border-radius(0);
+    top: 0;
+    left: 50%;
+    z-index: 9999;
+    transform: translate(-50%, 0);
+    transition: transform 550ms ease-in;
+  
+    &.slideup {
+     transform: translate(-50%, -100%);
+    }
+}

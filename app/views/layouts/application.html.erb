@@ -3,13 +3,32 @@
   <head>
     <title>Stfbot</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
+  <% if notice %>
+    <%= react_component('NoticeWrapper', { message: notice, type: 'success' }) %>
+  <% elsif alert %>
+    <%= react_component('NoticeWrapper', { message: alert, type: 'danger' }) %>
+  <% end %> 
+
   <body>
-    <%= yield %>
+    <% if user_signed_in? || admin_signed_in? %>
+      <%= render '/layouts/nav' %>
+      <div class="main-panel">
+        <%= render '/layouts/sidebar'%>
+          
+          <%= yield %>
+         
+      </div>
+    <% else %>
+      <%= render '/layouts/nav' %>
+      <div class="container">
+          <%= yield %>
+      </div>
+    <% end %>       
+    
   </body>
 </html>

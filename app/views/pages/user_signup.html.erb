@@ -1,0 +1,68 @@
+<div>
+    <div class="row m70">
+        <div class="welcome-user">
+            <center>
+                <h3>Thank you for your Interest!</h3>
+                <p>Pick one and you're good to go!</p>
+            </center>
+        </div>
+    </div>
+    <div class="row m70">
+        <div col="col">
+
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="panel"> 
+                    <div class"panel panel-body">
+                        <div class="row m70">
+                            <div class="signup-container">                  
+                                <center>
+                                    <h3><b>Job seeking?</b></h3>
+                                    <p>
+                                        Create jobseeker account
+                                    </p>
+                                    <%= link_to 'Start Job Hunting', new_user_registration_path(role: @job_seeker), class: "btn btn-primary signup-btn" %>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 col-md-2 col-sm-2">
+            </div>
+
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="panel"> 
+                    <div class"panel panel-body">
+                        <div class="row m70">
+                            <div class="signup-container">                      
+                                <center>
+                                    <h3><b>Looking for employee?</b></h3>
+                                    <p>
+                                        Create recruiter acount
+                                    </p>
+                                    <%= link_to 'Request for Demo', new_user_registration_path(role: @employer), class: "btn btn-success signup-btn" %>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-lg-4 col-lg-offset-4">
+            <p class="account-exist">
+                Already have an account? <%= link_to "Log in", new_user_session_path, class: 'login-link' %>.
+            </p>
+            <p class="agreement">By creating an account you agree to our Terms and Conditions,
+            our Privacy Policy, and our End User License Agreement.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+    </div>
+</div>

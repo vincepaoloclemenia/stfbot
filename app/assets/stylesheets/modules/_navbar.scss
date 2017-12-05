@@ -1,0 +1,51 @@
+.navbar {
+    z-index: 999;
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    background-color: white;
+    .navbar-brand {
+        margin-right: 25px !important;
+        display: block;
+    }
+}
+
+.navbar-collapse {
+    .navbar-right { 
+        background-color: $white;         
+    }
+    .navbar-nav > li > a {   
+        color: $main-color;
+    }
+}
+
+.navbar-default{
+
+    .navbar-nav > li > a {   
+        &:hover {
+            color: darken($twitter-blue, 5%);
+            transition: 0.5s;
+        }
+    }
+
+    .navbar-header {
+        
+        .navbar-brand {
+            vertical-align: middle;
+            letter-spacing: 1.4px;
+            font-weight: 500;
+        }
+        
+    }
+
+    .dropdown-menu > li > a:hover {
+		background-color: darken($twitter-blue, 5%);
+        color: $white;
+	}
+
+	.navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
+		background-color: darken($twitter-blue, 5%);
+		color: $white;	
+	}
+
+}

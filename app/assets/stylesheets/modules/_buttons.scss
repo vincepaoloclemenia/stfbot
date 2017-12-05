@@ -1,0 +1,19 @@
+.actions{
+    padding-top: 15px;
+    padding-bottom: 15px;    
+    .signup-btn{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .btn-signup, .btn-login{
+        background-color: $main-color; 
+        width: 100%;
+        &:hover{
+            background-color: lighten($main-color, 10%);
+            transition: 0.5s;
+        }
+
+        height: 50px;
+    }
+}

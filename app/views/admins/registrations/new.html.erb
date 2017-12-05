@@ -1,0 +1,62 @@
+<div class="row m70">
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-3">
+    <div class="devise-form">
+
+      <div class="row pt20">
+        <div class="col-xs-10 col-lg-10 col-md-10 col-xs-offset-1 col-md-offset-1 col-lg-offset-1">
+
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
+            <%= f.hidden_field :role, value: params[:role] %>
+              <div class="row pb20">
+                  
+                <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                  <%= f.text_field :first_name, autofocus: true, class: 'form-control', placeholder: 'First Name' %>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                  <%= f.text_field :last_name, class: 'form-control', placeholder: 'Last Name' %>
+                </div>
+                  
+              </div>
+
+                <div class="form-group pd5">
+                  <%= f.email_field :email, class: 'form-control', placeholder: 'Email' %>
+                </div>
+
+                <div class="form-group pd5">
+                  <%= f.text_field :username, class: 'form-control', placeholder: 'Username' %>
+                </div>
+
+                <div class="form-group pd5">  
+                  <%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password' %>
+                </div>
+                
+                <div class="form-group pd5">  
+                  <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'Confirmation' %>
+                </div>
+
+                <div class="form-group pd5">  
+                  <div class="actions">
+                    <%= f.submit "Sign up", class: 'btn btn-primary btn-signup' %>
+                  </div>       
+                </div>
+                
+              <% end %>
+
+            </div>
+          </div>
+        
+        <div class="row text-center">
+          <div class="col-lg-8 col-lg-offset-2">
+              <p class="account-exist">
+                  Already have an account? <%= link_to "Log in", new_user_session_path, class: 'login-link' %>.
+              </p>
+              <p class="agreement">By creating an account you agree to our Terms and Conditions,
+              our Privacy Policy, and our End User License Agreement.
+              </p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+

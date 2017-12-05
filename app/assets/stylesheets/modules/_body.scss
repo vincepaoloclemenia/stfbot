@@ -1,0 +1,27 @@
+body {
+    background-color: $background;
+    h1, h2, h3, h4, h5 ,h6 {
+        font-family: 'Volkorn SC', sans-serif;
+        font-weight: 300;
+    }
+
+    .main-panel {
+        position: relative;
+        min-height: 100%;
+        margin: 0px 20px 40px 220px;
+        &.adjust{
+            margin-left: 80px;
+            transition: 0.3s;
+        }
+    }
+
+    p.account-exist{
+        color: lighten($font-grey, 20%);
+    }
+
+    p.agreement{
+        font-size: 11px;
+        color: lighten($font-grey, 40%);
+    }
+    .container.sidebar-menu { margin: 100% }
+}

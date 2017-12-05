@@ -10,6 +10,20 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+ @import url(http://fonts.googleapis.com/css?family=Lora|Ubuntu|Noto+Sans|Ubuntu|Vollkorn+SC|Work+Sans:300,400,500);
+ @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css); 
+ @import "bootstrap-sprockets";
+ @import "bootstrap";
+ @import "partials/variables";
+ @import "partials/keyframes";
+ @import "partials/mixins";
+ @import "modules/body";
+ @import "modules/navbar";
+ @import "modules/panels";
+ @import "modules/forms";
+ @import "modules/paddings";
+ @import "modules/buttons";
+ @import "modules/sidebar";
+ @import "modules/alert";
+ 

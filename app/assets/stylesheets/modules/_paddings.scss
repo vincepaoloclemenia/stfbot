@@ -1,0 +1,26 @@
+.row{
+    &.m70{
+        margin-top: 70px;
+        margin-bottom: 70px;
+    }
+    &.mb50{ margin-bottom: 50px }
+
+    &.pb20{
+        padding-bottom: 20px;
+    }
+    &.pt20{
+        padding-top: 20px;
+    }
+}
+
+.form-group{
+
+    &.pd5 { padding-bottom: 5px }
+}
+
+.text-center{
+    &.mb05{
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+}
