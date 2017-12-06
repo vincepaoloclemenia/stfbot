@@ -1,5 +1,7 @@
-<% if user_signed_in? %>
+<% if user_signed_in? && current_user.role == 'applicant' && !admin_signed_in?%>
     <%= render 'employee' %>
-<% else %>
-    <%= render 'non_user' %>
+<% elsif user_signed_in? && current_user.role == 'employer' && !admin_signed_in? %>
+    <%= render 'employer' %>
+<% elsif admin_signed_in? && !user_signed_in? %>
+    <%= render 'admin' %>    
 <% end %>

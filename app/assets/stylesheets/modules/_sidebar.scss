@@ -31,10 +31,12 @@
         height: 100%;
         width: 100%;
         span {
+            font-family: 'Volkorn SC', sans-serif;
+            position: absolute;
             padding-left: 20px;
+            transition: 1s;
             &.hide {
-                margin-left: -100%;
-                transition: 0.3s;
+                display: none;
             }
         }
     }

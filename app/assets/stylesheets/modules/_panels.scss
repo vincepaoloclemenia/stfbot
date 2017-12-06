@@ -5,7 +5,13 @@
         padding-right: 25px;
     }
     position: relative;
-    box-shadow: 3px 3px 3px 3px rgba(204, 204, 204, 0.75);
+    box-shadow: 3px rgba(204, 204, 204, 0.48);
+
+    .panel-heading{
+        padding: 10px;
+        border-bottom: 1px $font-grey;
+    }
+
     .post-form-panel {
         margin-bottom: -21px;
     }
@@ -13,9 +19,7 @@
         width: 100%;
         border-radius: 4px 4px 0px 0px;
     }
-    .panel-heading ~ .panel-image img.panel-image-preview {
-        border-radius: 0px;
-    }
+    
     .panel-image ~ .panel-body, .panel-image.hide-panel-body ~ .panel-body {
         overflow: hidden;
     }
