@@ -1,0 +1,12 @@
+<div class='row m70'>
+    <div class='col-lg-10 col-lg-offset-1'>
+        <div class='panel'>
+            <div class='panel-heading'>Subscribed Companies
+                <%= link_to 'Add New Company', new_company_path, class: 'btn btn-primary pull-right table-btn', remote: true %>
+            </div>
+            <%= react_component 'CompanyTable' %>
+        </div>
+    </div>
+</div>
+
+<%= render 'partials/modal' %>

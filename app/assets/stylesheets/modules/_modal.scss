@@ -1,0 +1,22 @@
+ #modal{   
+    h5.modal-title{ float: left }
+
+    .form-control{
+        &.company-input{
+            border-radius: 0;
+        }
+    }
+    
+    label.form-label{
+        font-size: 11px;
+        font-family: 'Noto Sans', sans-serif;
+        color: $font-grey;
+    }
+
+    .modal-footer{
+        &.no-border{
+            padding-top: 20px;
+            border: none;
+        }
+    }
+ }

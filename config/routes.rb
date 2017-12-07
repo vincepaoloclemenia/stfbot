@@ -4,6 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users, except: :show
   resources :admins, except: [:create, :destroy, :new]
+  resources :companies
+
+  namespace :api do
+    resources :companies, only: :index
+  end
+  
   get 'users/:username' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard
   get 'user_signup' => 'pages#user_signup', as: :register

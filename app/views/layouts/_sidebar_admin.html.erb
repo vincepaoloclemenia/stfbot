@@ -2,8 +2,8 @@
     <div class='sidebar'>
         <ul>
             <li id="toggle-btn"><button class='sidebar-btn'><span></span></button></li>
-            <li><a href="/" class="menu-link"><i class="fa fa-tachometer fa-lg" aria-hidden="true"><span>Dashboard</span></i></a></li>
-            <li><a href="/" class="menu-link"><i class="fa fa-list-alt fa-lg" aria-hidden="true"><span>Companies</span></i></a></li>
+            <li class="<%= which_link?('pages')%>"><%= link_to '<i class="fa fa-tachometer fa-lg" aria-hidden="true"><span>Dashboard</span></i>'.html_safe, root_path, class: 'menu-link' %></li>
+            <li class="<%= which_link?('companies')%>"><%= link_to '<i class="fa fa-list-alt fa-lg" aria-hidden="true"><span>Companies</span></i>'.html_safe, companies_path, class: 'menu-link' %></li>
             <li><a href="/" class="menu-link"><i class="fa fa-heart-o fa-lg" aria-hidden="true"><span>Employees</span></i></a></li>
         </ul>
     </div>

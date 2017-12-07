@@ -17,3 +17,34 @@
         height: 50px;
     }
 }
+
+.btn.btn-primary{
+    &.pull-right{        
+        float: right;        
+    }
+    &.table-btn, &.modal-btn {
+        font-size: 11px;
+        font-family: 'Noto Sans', sans-serif;
+        background-color: $blue;
+        &:hover{
+            background-color: $main-color;
+            transition: 0.5s;
+        }
+    }
+    &.modal-cancel{
+        font-size: 11px;
+        font-family: 'Noto Sans', sans-serif;
+        background-color: transparent;
+        border: none;
+        color: tomato;
+        &:hover {
+            background-color: tomato;
+            color: $white;
+            transition: 0.5s;
+        }
+    }
+}
+span.action-gap{
+    padding-left: 1em;
+    padding-right: 1em;
+}

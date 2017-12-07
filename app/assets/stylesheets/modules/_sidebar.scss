@@ -18,8 +18,18 @@
         list-style: none;
         padding: 20px 15px;
         &:hover:not(#toggle-btn){
-            background: $twitter-blue;
+            background: $light-blue;
             transition: 0.5s;
+            a.menu-link{ color: $main-color }
+        }
+        &.active-link {
+            &:hover{
+                a.menu-link{ color: $white }
+            }
+            a.menu-link{ 
+                color: $light-blue;
+                transition: 0.5s; 
+            }
         }
     }
     ul li a.menu-link{ 
@@ -34,7 +44,6 @@
             font-family: 'Volkorn SC', sans-serif;
             position: absolute;
             padding-left: 20px;
-            transition: 1s;
             &.hide {
                 display: none;
             }

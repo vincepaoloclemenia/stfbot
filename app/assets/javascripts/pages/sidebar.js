@@ -2,9 +2,9 @@ var SideBar = {
     init: function(){
         $('.sidebar-btn').click(function(){
             $('.sidebar').toggleClass('active');
-            $('.menu-link span').toggleClass('hide');
             $(this).toggleClass('toggle');
             $('.main-panel').toggleClass('adjust');
+            $('.menu-link span').toggleClass('hide');
         })
     }
 }

@@ -14,7 +14,7 @@
     <%= react_component('NoticeWrapper', { message: alert, type: 'danger' }) %>
   <% end %> 
 
-  <body>
+  <body class="<%= controller.controller_name %> <%= controller.action_name %><%= user_signed_in? || admin_signed_in? ? '': ' guest'%>">
     <% if user_signed_in? || admin_signed_in? %>
       <%= render '/layouts/nav' %>
       <div class="main-panel">

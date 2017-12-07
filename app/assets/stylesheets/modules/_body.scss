@@ -1,8 +1,12 @@
-body {
-    background-color: $background;
+body:not(.guest) {
+    background-color: $light-blue;
     h1, h2, h3, h4, h5 ,h6 {
         font-family: 'Volkorn SC', sans-serif;
         font-weight: 700;
+    }
+
+    &.guest{
+        background-color: $background;
     }
 
     .main-panel {
