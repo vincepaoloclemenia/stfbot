@@ -15,4 +15,3 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require initialization
-//= require_tree .

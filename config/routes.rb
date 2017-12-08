@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :companies, only: :index
   end
   
+  get 'add_user' => 'companies#add_user', as: :add_user  
   get 'users/:username' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard
   get 'user_signup' => 'pages#user_signup', as: :register

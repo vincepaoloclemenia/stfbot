@@ -1,6 +1,7 @@
 class Company < ApplicationRecord
     has_many :employees, class_name: 'CompanyEmployee'
     has_many :users, class_name: 'User', through: :employees
+    accepts_nested_attributes_for :users, allow_destroy: true
     
     def hire(applicant)
         employees.create(user_id: applicant.id, hiring_date: Date.today.to_date)

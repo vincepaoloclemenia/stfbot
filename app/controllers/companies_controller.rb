@@ -1,12 +1,12 @@
 class CompaniesController < ApplicationController
     before_action :authenticate_admin!
-    before_action :find_company, except: [:new, :index, :create, :create_group]
-    after_action :create_group, only: :create
+    before_action :find_company, except: [:new, :index, :create]
+    #after_action :create_group, only: :create
     def index
     end
 
     def new
-        @newCompany = Company.new(company_params)
+        @company = Company.new(company_params)
     end
 
     def create
@@ -33,6 +33,20 @@ class CompaniesController < ApplicationController
     end
 
     def update
+        @company.update(company_params)
+        respond_to do |f|
+            if @company.save
+                f.html{
+                    redirect_to companies_path,
+                    notice: "Company #{@company.name} was succesfully updated"
+                }
+            else
+                f.html{
+                    redirect_to new_company_path,
+                    alert: "ALERT! Error: #{@company.errors.full_messages}"
+                }
+            end
+        end 
     end
 
     def destroy
@@ -47,7 +61,9 @@ class CompaniesController < ApplicationController
         end
 
         def company_params
-            params.fetch(:company, {}).permit(:name, :address, :telefax)
+            params.fetch(:company, {}).permit(:name, :address, :telefax,
+                        users_attributes: [:email,{ password: Devise.friendly_token.first(8), role: 'admin'}, :password_confirmation, :confirmed_at]
+                        )
         end
 
         def create_group

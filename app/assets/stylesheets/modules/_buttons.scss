@@ -22,7 +22,7 @@
     &.pull-right{        
         float: right;        
     }
-    &.table-btn, &.modal-btn {
+    &.table-btn, &.modal-btn, &.add_fields {
         font-size: 11px;
         font-family: 'Noto Sans', sans-serif;
         background-color: $blue;
@@ -47,4 +47,13 @@
 span.action-gap{
     padding-left: 1em;
     padding-right: 1em;
+}
+
+.remove_fields{
+    font-size: 11px;
+    font-family: 'Noto Sans', sans-serif;
+    background-color: transparent;
+    border: none;
+    color: tomato;
+    float: right;
 }

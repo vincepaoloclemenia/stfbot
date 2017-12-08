@@ -55,7 +55,7 @@ class CompanyTable extends React.Component{
                         <td>{company.address}</td>
                         <td>{company.contact}</td>
                         <td>{company.total_of_employees}</td>
-                        <td><a className="glyphicon glyphicon-edit" href={`/companies/${company.id}/edit`}></a>                            
+                        <td><a className="glyphicon glyphicon-edit" href={`/companies/${company.id}/edit`} data-remote='true'></a>                            
                             <span className='action-gap'></span>
                             <a 
                             className="glyphicon glyphicon-trash red" 

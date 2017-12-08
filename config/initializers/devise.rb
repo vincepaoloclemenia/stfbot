@@ -6,13 +6,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '1cb0ac7d525e86f135a6c436442ca066e37c1a70898b3e0e2b9038c8766bd981b7289c1b307e4a9d7c22eb8577e8d237812b6312874e4b3ad22d9b44be8ba979'
+  #config.secret_key = '1cb0ac7d525e86f135a6c436442ca066e37c1a70898b3e0e2b9038c8766bd981b7289c1b307e4a9d7c22eb8577e8d237812b6312874e4b3ad22d9b44be8ba979'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  #config.mailer_sender = 'vincentpaoloclemenia@gmail.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -34,7 +34,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  #config.authentication_keys = [:login]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
