@@ -22,7 +22,7 @@
         <li><a href="/home" class='menu-link'>Messages </a></li>
         <li class="dropdown">
 
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/avatar.png" class="rounded-img" height="25px" width="25px"> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<%= current_user.avatar.url %>" class="rounded-img" height="25px" width="25px"> <span class="caret"></span></a>
             
           <ul class="dropdown-menu">
             <li><%= link_to 'My Profile', profile_path(current_user.username) %></li>

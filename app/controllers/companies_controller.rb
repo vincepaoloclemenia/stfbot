@@ -62,7 +62,7 @@ class CompaniesController < ApplicationController
 
         def company_params
             params.fetch(:company, {}).permit(:name, :address, :telefax,
-                        users_attributes: [:email,{ password: Devise.friendly_token.first(8), role: 'admin'}, :password_confirmation, :confirmed_at]
+                            users_attributes: [:email, :first_name, :last_name, :password, :username, :role, :id, :_destroy]
                         )
         end
 

@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
-    has_many :employees, class_name: 'CompanyEmployee'
-    has_many :users, class_name: 'User', through: :employees
+    has_many :employees, class_name: 'CompanyEmployee', dependent: :destroy
+    has_many :users, class_name: 'User', through: :employees, dependent: :destroy
     accepts_nested_attributes_for :users, allow_destroy: true
     
     def hire(applicant)

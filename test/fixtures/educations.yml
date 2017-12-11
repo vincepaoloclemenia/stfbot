@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  education_attainment: MyString
+  school_name: MyString
+  attend_from: 2017-12-08
+  attend_to: 2017-12-08
+  graduated?: false
+  accomplishments: MyText
+
+two:
+  education_attainment: MyString
+  school_name: MyString
+  attend_from: 2017-12-08
+  attend_to: 2017-12-08
+  graduated?: false
+  accomplishments: MyText

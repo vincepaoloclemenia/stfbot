@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207090004) do
+ActiveRecord::Schema.define(version: 20171208085442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,10 @@ ActiveRecord::Schema.define(version: 20171207090004) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.integer "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["confirmation_token"], name: "index_admins_on_confirmation_token", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
@@ -57,6 +61,29 @@ ActiveRecord::Schema.define(version: 20171207090004) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_company_employees_on_company_id"
     t.index ["user_id"], name: "index_company_employees_on_user_id"
+  end
+
+  create_table "educations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "education_attainment"
+    t.string "school_name"
+    t.date "attend_from"
+    t.date "attend_to"
+    t.boolean "graduated?"
+    t.text "accomplishments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "course"
+    t.index ["user_id"], name: "index_educations_on_user_id"
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.string "literacy_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_skills_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -86,11 +113,28 @@ ActiveRecord::Schema.define(version: 20171207090004) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "address"
+    t.string "contact"
+    t.boolean "employed?", default: false
     t.index ["company_employee_id"], name: "index_users_on_company_employee_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "work_experiences", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "company_name"
+    t.string "job_title"
+    t.string "job_description"
+    t.date "employment_from"
+    t.date "empoyment_to"
+    t.string "job_level"
+    t.string "job_functions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_work_experiences_on_user_id"
   end
 
 end

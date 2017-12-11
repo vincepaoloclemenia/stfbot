@@ -4,11 +4,19 @@ class User < ApplicationRecord
 
   has_one :employer, class_name: 'CompanyEmployee'
   has_one :company, through: :employer
-
+  has_many :educations, dependent: :destroy
+  has_many :skills, dependent: :destroy
+  has_many :work_experiences, dependent: :destroy
+  
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable
           #:confirmable, :lockable, :timeoutable,
           #:authentication_keys => [:login], :timeout_in => 1.hours
+
+  has_attached_file :avatar, :styles => {:medium => "300x300>", :thumb => "35x35>" }, :default_url => "/img/no-user-image.jpg"
+  validates_attachment :avatar,
+                      :content_type => { :content_type => /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" },
+                      :size => { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
 
   validates_presence_of :first_name, :last_name, :role
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }
@@ -28,9 +36,11 @@ class User < ApplicationRecord
   end
 
   def validate_role
-    roles = ['applicant', 'employer', 'admin']
-    if roles.exclude?(self.role)
-      errors.add(:role, :invalid)
+    if new_record?
+      roles = ['applicant', 'employer', 'company_admin']
+      if roles.exclude?(self.role)
+        errors.add(:role, :invalid)
+      end
     end
   end
 

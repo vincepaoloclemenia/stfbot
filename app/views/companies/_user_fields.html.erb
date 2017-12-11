@@ -1,7 +1,15 @@
 <fieldset>
-    <div class="panel-body">   
-        <%= f.hidden_field :_destroy %>
-        <%= link_to "remove", '#', class: "remove_fields" %>
+    <div class="panel-body">
+        <div>   
+            <%= f.hidden_field :password, value: 'password123' %>
+            <%= f.hidden_field :role, value: 'company_admin' %>
+        </div>
+        <div class='row pb20'>
+            <div class="col-lg-12">
+                <%= f.hidden_field :_destroy %>
+                <%= link_to "remove", '#', class: "remove_fields" %>
+            </div>
+        </div>
 
         <div class="row pb20">
             <div class="col-lg-3">
@@ -9,6 +17,22 @@
             </div>
             <div class="col-lg-9">
                 <%= f.email_field :email, class: 'form-control company-input', placeholder: 'Email' %>
+            </div>
+        </div>
+        <div class="row pb20">
+            <div class="col-lg-3">
+                <%= f.label 'First Name', class: 'form-label ' %>
+            </div>
+            <div class="col-lg-9">
+                <%= f.text_field :first_name, class: 'form-control company-input', placeholder: 'First Name' %>
+            </div>
+        </div>
+        <div class="row pb20">
+            <div class="col-lg-3">
+                <%= f.label 'Last Name', class: 'form-label ' %>
+            </div>
+            <div class="col-lg-9">
+                <%= f.text_field :last_name, class: 'form-control company-input', placeholder: 'Last name' %>
             </div>
         </div>
         <div class="row pb20">
