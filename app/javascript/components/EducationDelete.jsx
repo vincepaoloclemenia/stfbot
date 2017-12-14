@@ -21,20 +21,18 @@ export default class EducationDelete extends React.Component{
 
     render(){
         return(
-            <div className='col-lg-offeset-3 col-md-offset-3 col-sm-offset-3 col-lg-9 col-md-9 col-sm-9 col-xs-9'>        
-                <div id={`education-${this.props.education.id}`} className='display-none'>
-                    <div className='row'>
-                        <div className='col-lg-4 col-md-4 col-sm-4'>
-                            <button onClick={() => this.props.onEdit(this.props.education)} className='btn btn-primary transparent'>Edit</button>
-                        </div>
-                        <div className='col-lg-4 col-md-4 col-sm-4'>
-                            <button onClick={this.handleDelete.bind(this)}className='btn btn-primary modal-cancel'
-                                    data-confirm="Are you sure?" 
-                                    rel="nofollow" 
-                                    data-method="delete"
-                                    >Delete</button>
-                        </div>
+            <div className='col-lg-offeset-3 col-md-offset-3 col-sm-offset-3 col-lg-9 col-md-9 col-sm-9 col-xs-9'>                        
+                <div className='row'>
+                    <div className='col-lg-4 col-md-4 col-sm-4'>
+                        <button onClick={() => this.props.onEdit(this.props.education)} className='btn btn-primary transparent'>Edit</button>
+                    
+                        <button onClick={this.handleDelete.bind(this)}className='btn btn-primary modal-cancel pull-right'
+                                data-confirm="Are you sure?" 
+                                rel="nofollow" 
+                                data-method="delete"
+                                >Delete</button>
                     </div>
+        
                 </div>
             </div>
         )

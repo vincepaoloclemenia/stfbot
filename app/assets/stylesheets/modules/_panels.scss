@@ -32,15 +32,10 @@
         &.mb25{ margin-bottom: 25px }
     }
 
-    div.hide-buttons{ display: none }
-
-    div.display-none{ 
+    div.display{
         height: 50px;
-        display: none;
-    }
-    div.show-buttons{
-        height: 50px;
-        display: block;
+        &.hide { visibility: hidden }
+        &.show { visibility: visible }
     }
 
     p.job-title{ font-weight: bold }

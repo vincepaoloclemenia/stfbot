@@ -69,13 +69,15 @@ export default class EducationNew extends React.Component{
 
     render(){
         return(
+            
             <div className='panel-body mb25 mt25'>
+
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
                         <label className='panel-label'>Education Attainment</label>
                         <VirtualizedSelect
                         options={this.state.attainments}
-                        onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College Graduate' ? true : false })}
+                        onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College' ? true : false })}
                         value={this.state.attainment}
                                              
                         />
@@ -174,7 +176,7 @@ export default class EducationNew extends React.Component{
             return true
         }
 
-        if ( this.state.attainment !== null && this.state.attainment.label === 'College Graduate' && this.state.course === null ){
+        if ( this.state.attainment !== null && this.state.attainment.label === 'College' && this.state.course === null ){
             return true
         }
         return false 

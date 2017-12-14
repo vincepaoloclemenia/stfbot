@@ -13,8 +13,6 @@ export default class EducationsContainer extends React.Component{
         this.handleClickAdd = this.handleClickAdd.bind(this)
         this.handleCancel = this.handleCancel.bind(this)
         this.handleAdd = this.handleAdd.bind(this)
-        this.hideButtons = this.hideButtons.bind(this)
-        this.showButtons = this.showButtons.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
         this.exitEdit = this.exitEdit.bind(this)
@@ -85,22 +83,6 @@ export default class EducationsContainer extends React.Component{
         })
     }
 
-    hideButtons(event){
-        if(event.nativeEvent.offsetY < 0 || event.nativeEvent.offsetX < 0 ){
-            $('#education-'+event.target.id).removeClass('show-buttons');
-            $('#education-'+event.target.id).addClass('display-none');
-        }
-        //console.log(event.nativeEvent.offsetX, event.nativeEvent.offsetY)        
-    }
-
-    showButtons(event){
-        if(event.nativeEvent.offsetY > 0 || event.nativeEvent.offsetX > 0){
-            $('#education-'+event.target.id).removeClass('display-none');
-            $('#education-'+event.target.id).addClass('show-buttons');
-        }
-        //console.log(event.nativeEvent.offsetX, event.nativeEvent.offsetY)      
-    }
-
     render(){
         if (this.state.fetching){
             return(
@@ -133,12 +115,12 @@ export default class EducationsContainer extends React.Component{
                 <div className="panel-heading ml15 mr15 with-border"><h5>Education Attainment</h5></div>
                     <div className="panel-body mb25 mt25">
                         {this.state.userEducations.map ((educ) => 
-                            <div id={educ.id} onMouseEnter={this.showButtons.bind()} onMouseLeave={this.hideButtons.bind()} className='row pt20 pb20' key={educ.id}>
+                            <div className='row pt20 pb20' key={educ.id}>
                                 <div className='col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-lg-2 col-md-2 col-sm-2 col-xs-2'>
                                     <i className="fa fa-university fa-2x with-color" aria-hidden="true"></i>
                                 </div>
                                 <div className='col-lg-9 col-md-9 col-sm-9 col-xs-9'>
-                                    <p>{educ.education_attainment} {educ.graduate ? 'Graduate' : 'Undergraduate'}{educ.course === null ? '':<b>{` ${educ.course}`}</b> }</p>
+                                    {this.renderEducationAttainment(educ.graduate, educ.course, educ.education_attainment)}
                                     <p>{educ.school_name} ( {educ.attend_from} - {educ.attend_to} )</p>
                                 </div>
                                 <EducationDelete education={educ} onDelete={this.handleDelete} onEdit={this.handleEdit} />                   
@@ -148,5 +130,22 @@ export default class EducationsContainer extends React.Component{
                 <button type='button' onClick={this.handleClickAdd.bind()} className='btn btn-primary full-width'>Add Education Background</button>
             </div>
         )
+    }
+
+    renderEducationAttainment(status, course, attainment){
+        if(status && attainment === 'College' && course !== null){
+            return(
+                <p>Bachelor Graduate of <b>{course}</b></p>
+            )
+        }
+        if(status && attainment === 'Vocational' && course !== null){
+            return(
+                <p>Finished Vocational course of <b>{course}</b></p>
+            )
+        }
+        return(
+            <p>{attainment}</p>
+        )
+        
     }
 }

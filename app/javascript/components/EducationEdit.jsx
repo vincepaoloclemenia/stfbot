@@ -15,14 +15,13 @@ export default class EducationEdit extends React.Component{
             years: [],
             courses: [],
             schoolName: this.props.education.school_name,
-            course: this.props.education.course,
-            attainment: this.props.education.education_attainment, 
-            monthFrom: new Date(this.props.education.attend_from).getMonth(),
-            yearFrom: new Date(this.props.education.attend_from).getFullYear(),
-            monthTo: new Date(this.props.education.attend_to).getMonth(),            
-            yearTo: new Date(this.props.education.attend_to).getFullYear(),
-            wasGraduated: this.props.education.graduate,
-            showCourse: false
+            course: null,
+            attainment: null, 
+            monthFrom: null,
+            yearFrom: null,
+            monthTo: null,            
+            yearTo: null,
+            wasGraduated: this.props.education.graduate
         }
     }
 
@@ -46,31 +45,32 @@ export default class EducationEdit extends React.Component{
         })
     }
 
-    findItem(element){
-        return element.label === this.props.education.school_name
-    }
-
     componentWillMount(){
         const array = this.state.universities
         console.log(array.findIndex(this.findItem))
         $.ajax({
-            url: '/api/educations/new.json',
+            url: '/api/educations/get_options.json',
             method: 'GET',
             dataType: 'JSON',
+            data: { id: this.props.education.id },
             success: (data) => {
                 this.setState({
                     universities: data.universities,
                     attainments: data.attainments,
                     months: data.months,
                     years: data.years,
-                    courses: data.courses
+                    courses: data.courses, 
+                    attainment: data.attainments.find(x => x.label === this.props.education.education_attainment),
+                    course: data.courses.find(x => x.label === this.props.education.course),
+                    schoolName: data.universities.find( x => x.label === this.props.education.school_name ),
+                    monthFrom: data.months.find( x => x.value === new Date(this.props.education.attend_from).getMonth()),
+                    yearFrom: data.years.find( x => x.label === new Date(this.props.education.attend_from).getFullYear()),
+                    monthTo: data.months.find( x => x.value === new Date(this.props.education.attend_to).getMonth()),
+                    yearTo: data.years.find( x => x.label === new Date(this.props.education.attend_to).getFullYear())
                 })
             }
         })
-    }
-
-    findItem(obj, state){
-        obj.label === state;
+        
     }
 
     handleCheck(event){
@@ -85,7 +85,7 @@ export default class EducationEdit extends React.Component{
                         <label className='panel-label'>Education Attainment</label>
                         <VirtualizedSelect
                         options={this.state.attainments}
-                        onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College Graduate' ? true : false })}
+                        onChange={(item) => this.setState({ attainment: item })}
                         value={this.state.attainment}
                                              
                         />
@@ -184,14 +184,14 @@ export default class EducationEdit extends React.Component{
             return true
         }
 
-        if ( this.state.attainment !== null && this.state.attainment === 'College Graduate' && this.state.course === null ){
+        if ( this.state.attainment !== null && this.state.attainment === 'College' && this.state.course === null ){
             return true
         }
         return false 
     }
 
     renderCourse(){
-        if (this.state.showCourse) { 
+        if (this.state.attainment !== null && this.state.attainment.label === 'College') { 
             return(
                 <div className='row pb20'>
                     <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>

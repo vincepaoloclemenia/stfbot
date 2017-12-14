@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create, :destroy, :update] do
       delete :delete_picture, on: :collection
     end
-    resources :educations, only: [:index, :new, :create, :destroy, :update]
+    resources :educations, only: [:index, :new, :create, :destroy, :update] do
+      get :get_options, on: :collection
+    end
     resources :skills, only: [:index, :create, :destroy, :update]
     resources :work_experiences, only: [:index, :create, :destroy, :update]
   end

@@ -61,6 +61,7 @@
         bottom: -5px; 
         height: 40px;
     }
+    &.hide { visibility: hidden }
 }
 span.action-gap{
     padding-left: 1em;
