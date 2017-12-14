@@ -11,6 +11,9 @@
  * It is generally better to create a new file per style scope.
  *
  */
+ @import 'react-select/dist/react-select.css';
+ @import 'react-virtualized/styles.css';
+ @import 'react-virtualized-select/styles.css';
  @import url(http://fonts.googleapis.com/css?family=Lora|Ubuntu|Noto+Sans|Ubuntu|Vollkorn+SC|Work+Sans:300,400,500);
  @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css); 
  @import "bootstrap-sprockets";
@@ -29,3 +32,4 @@
  @import "modules/table";
  @import "modules/modal";
  @import "modules/avatar";
+ @import "modules/fontawesome";

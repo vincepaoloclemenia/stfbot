@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     private
         def find_user
-            @user = User.find_by_username(params[:username])
+            @user = User.find_by_id(params[:id])
         end
 
         def user_params
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         
         def authorize_user
             if current_user
-                redirect_to root_path, alert: 'Access Denied' if current_user != User.find_by_username(params[:username]) && current_user.role != 'employer'
+                redirect_to root_path, alert: 'Access Denied' if current_user != User.find_by_id(params[:id]) && current_user.role != 'employer'
             end
         end
 end

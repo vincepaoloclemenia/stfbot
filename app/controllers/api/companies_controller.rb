@@ -1,4 +1,4 @@
-class Api::CompaniesController < ApplicationController
+class Api::CompaniesController < Api::BaseController
     before_action :authenticate_admin!
 
     def index

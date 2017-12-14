@@ -1,55 +1,56 @@
 <div class="row m70">
-    <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 
-        <div class='row pb20'>
-            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class='row pb20'>
-                            <div class='col-lg-5'>
-                                <%= avatar_for(@user, size: 100, id: "upload_preview") %>
-                                <%#= react_component 'App' %>
-                            </div>
-                            <div class='col-lg-7'>
-                                <p><%= @user.full_name %></p>                                
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class='row pb15'>
+                                <div class='col-lg-5'>
+                                    <%= avatar_for(@user, size: 100, id: "upload_preview") %>
+                                    <%#= react_component 'App' %>
+                                </div>
+                                <div class='col-lg-7'>
+                                    <p><%= @user.full_name %></p>                                
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-                <div class="panel">
-                    <div class="panel-heading"><h5><%= @user.full_name %></h5></div>
-                    <div class="panel-body">
-                    </div>
+
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='panel'>
+                    <div class="panel-heading"><h5>Work Experience</h5></div>
+                        <%= react_component 'WorkExperience' %>
+                    </div>                
+                </div>
+            </div>
+
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <%= react_component 'EducationsContainer' %>           
+                </div>
+            </div>
+            
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='panel'>
+                    <div class="panel-heading"><h5>Skills</h5></div>
+                        <%= react_component 'UserSkills' %>
+                    </div>                
+                </div>
+            </div>
+
+        </div>
+        <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+            <div class='row pb15'>
+                <div class='panel'>
                 </div>
             </div>
         </div>
-        <div class='row pb20'>
-            <div class='col-lg-offset-4 col-lg-8'>
-                <div class='panel'>
-                <div class="panel-heading"><h5>Work Experience</h5></div>
-                    <%= react_component 'WorkExperience' %>
-                </div>                
-            </div>
-        </div>
-        <div class='row pb20'>
-            <div class='col-lg-offset-4 col-lg-8'>
-                <div class='panel'>
-                <div class="panel-heading"><h5>Education Attainment</h5></div>
-                    <%= react_component 'EducationBackground' %>
-                </div>                
-            </div>
-        </div>
-        <div class='row pb20'>
-            <div class='col-lg-offset-4 col-lg-8'>
-                <div class='panel'>
-                <div class="panel-heading"><h5>Skills</h5></div>
-                    <%= react_component 'UserSkills' %>
-                </div>                
-            </div>
-        </div>
-
     </div>
 </div>
 

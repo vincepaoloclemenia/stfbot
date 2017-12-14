@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root to: 'pages#index'
   devise_for :admins, path: 'admins'
   devise_for :users
-  resources :users, except: :show do 
+  resources :users do 
     get :profile, on: :collection, as: :user_profile
   end
   resources :admins, except: [:create, :destroy, :new]
@@ -13,8 +13,9 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create, :destroy, :update] do
       delete :delete_picture, on: :collection
     end
-    resources :educations, only: [:index, :create, :destroy, :update]
+    resources :educations, only: [:index, :new, :create, :destroy, :update]
     resources :skills, only: [:index, :create, :destroy, :update]
+    resources :work_experiences, only: [:index, :create, :destroy, :update]
   end
   
   get 'add_user' => 'companies#add_user', as: :add_user  

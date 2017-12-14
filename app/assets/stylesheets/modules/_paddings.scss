@@ -8,6 +8,9 @@
     &.pb20{
         padding-bottom: 20px;
     }
+    &.pb15{
+        padding-bottom: 15px;
+    }
     &.pt20{
         padding-top: 20px;
     }
@@ -17,6 +20,7 @@
     &.ml25{
         margin-left: 25px;
     }
+    &.pt20 { padding-top: 20px }
 }
 
 .form-group{
@@ -28,5 +32,14 @@
     &.mb05{
         margin-top: 10px;
         margin-bottom: 25px;
+    }
+}
+span.gap3{
+    padding-left: 3em; 
+    &.with-text{
+        padding-left: 3em;
+        color: gray;
+        font-weight: bold;
+        font-size: 13px; 
     }
 }

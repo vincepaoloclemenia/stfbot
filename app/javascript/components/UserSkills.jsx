@@ -14,17 +14,14 @@ class UserSkills extends React.Component{
     render(){
         return(
             <div className="panel-body">
-                <div className='row'>
-                        <div className='col-lg-3'>
-                            <h6>Skills</h6>
-                        </div>
-                {this.state.userSkills.map ((skill)=>
-                        
-                        <div className='col-lg-3' key={skill.id} >
-                            <p>{skill.name} </p>
-                            <p>{skill.literacy_level} </p>
-                        </div>                       
-                )}
+                <div className='row pb20'>
+                    <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4'>
+                            
+                        {this.state.userSkills.map ((skill)=>
+                            <li className='skill-item' key={skill.id}>{skill.name}<span className='gap3 with-text'>{skill.literacy_level}</span></li>                   
+                        )}
+
+                    </div>
                 </div>
             </div>
         )

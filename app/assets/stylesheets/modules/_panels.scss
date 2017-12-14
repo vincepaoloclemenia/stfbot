@@ -1,16 +1,49 @@
 .panel{
+    border-radius: 0px;
     width: 100%;
     &.pdr25{
         margin-right: 25px;
         padding-right: 25px;
     }
     position: relative;
-    box-shadow: 3px 3px 3px 3px rgba(0, 82, 97, 0.48);
+    //box-shadow: 3px 3px 3px 3px rgba(0, 82, 97, 0.48);
 
     .panel-heading{
         padding: 20px;
         border-bottom: 1px $font-grey;
+        &.ml15 { margin-left: 15px }
+        &.mr15 { margin-right: 15px }
+        &.with-border{
+            border-bottom: 1px solid gray;
+        }
     }
+
+    label.panel-label{
+        font-family: 'Noto Sans', sans-serif;
+        color: $font-grey;
+        font-size: 13px;
+        font-weight: 100px;
+        padding-bottom: 5px;
+        padding-top: 5px
+    }
+
+    .panel-body{
+        &.mt25{ margin-top: 25px }
+        &.mb25{ margin-bottom: 25px }
+    }
+
+    div.hide-buttons{ display: none }
+
+    div.display-none{ 
+        height: 50px;
+        display: none;
+    }
+    div.show-buttons{
+        height: 50px;
+        display: block;
+    }
+
+    p.job-title{ font-weight: bold }
 
     .post-form-panel {
         margin-bottom: -21px;
@@ -37,5 +70,9 @@
     }
     .post-panel {
         margin-top: -21px;
+    }
+    li.skill-item{
+        font-weight: 20px;
+        font-size: 15px;
     }
 }

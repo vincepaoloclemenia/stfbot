@@ -5,7 +5,7 @@ json.educations do |education|
         json.education_attainment education.education_attainment
         json.attend_from education.attend_from.strftime('%B %Y')
         json.attend_to education.attend_to.strftime('%B %Y')
-        json.graduate education.graduated?
+        json.graduate education.status
         json.course education.course
     end
 end
