@@ -41,7 +41,9 @@ export default class EducationNew extends React.Component{
             },
             success: (response ) => {
                 this.props.onAdd(response)
-                console.log ('It Worked!', response)
+            },
+            error: (response) => {
+                this.props.onCloseForm()
             }
         })
     }
@@ -77,7 +79,7 @@ export default class EducationNew extends React.Component{
                         <label className='panel-label'>Education Attainment</label>
                         <VirtualizedSelect
                         options={this.state.attainments}
-                        onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College' ? true : false })}
+                        onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College' || value.label === 'Vocational' ? true : false, course: value.label === 'High School' ? null : this.state.course })}
                         value={this.state.attainment}
                                              
                         />
@@ -176,7 +178,7 @@ export default class EducationNew extends React.Component{
             return true
         }
 
-        if ( this.state.attainment !== null && this.state.attainment.label === 'College' && this.state.course === null ){
+        if ( this.state.attainment !== null && (this.state.attainment.label === 'College' || this.state.attainment.label === 'Vocational') && this.state.course === null ){
             return true
         }
         return false 
@@ -186,7 +188,7 @@ export default class EducationNew extends React.Component{
         if (this.state.showCourse) { 
             return(
                 <div className='row pb20'>
-                    <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
+                    <div className='col-md-10 col-md-offset-1'>
                         <label className='panel-label'>Course/Degree: </label>       
                         <Select.Creatable
                         options={this.state.courses}

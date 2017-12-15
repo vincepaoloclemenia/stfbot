@@ -21,7 +21,7 @@ export default class EducationEdit extends React.Component{
             yearFrom: null,
             monthTo: null,            
             yearTo: null,
-            wasGraduated: this.props.education.graduate
+            wasGraduated: this.props.education.graduate,
         }
     }
 
@@ -41,13 +41,14 @@ export default class EducationEdit extends React.Component{
             success: (response ) => {
                 this.props.onUpdate(response)
                 console.log ('It Worked!', response)
+            },
+            error: (response) => {
+                this.props.closeForm()
             }
         })
     }
 
     componentWillMount(){
-        const array = this.state.universities
-        console.log(array.findIndex(this.findItem))
         $.ajax({
             url: '/api/educations/get_options.json',
             method: 'GET',
@@ -85,7 +86,7 @@ export default class EducationEdit extends React.Component{
                         <label className='panel-label'>Education Attainment</label>
                         <VirtualizedSelect
                         options={this.state.attainments}
-                        onChange={(item) => this.setState({ attainment: item })}
+                        onChange={(item) => this.setState({ attainment: item, course: null })}
                         value={this.state.attainment}
                                              
                         />
@@ -184,14 +185,14 @@ export default class EducationEdit extends React.Component{
             return true
         }
 
-        if ( this.state.attainment !== null && this.state.attainment === 'College' && this.state.course === null ){
+        if ( this.state.attainment !== null && (this.state.attainment.label === 'College' || this.state.attainment.label === 'Vocational' ) && this.state.course === null ){
             return true
         }
         return false 
     }
 
     renderCourse(){
-        if (this.state.attainment !== null && this.state.attainment.label === 'College') { 
+        if (this.state.attainment !== null && (this.state.attainment.label === 'College' || this.state.attainment.label === 'Vocational')) { 
             return(
                 <div className='row pb20'>
                     <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>

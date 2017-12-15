@@ -9,6 +9,7 @@
     "react": "^16.2.0",
     "react-datepicker": "^0.61.0",
     "react-dom": "^16.2.0",
+    "react-froala-wysiwyg": "^2.7.3",
     "react-images-uploader": "^1.1.0",
     "react-select": "^1.1.0",
     "react-virtualized-select": "^3.1.0",

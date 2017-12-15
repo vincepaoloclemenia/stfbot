@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       get :get_options, on: :collection
     end
     resources :skills, only: [:index, :create, :destroy, :update]
-    resources :work_experiences, only: [:index, :create, :destroy, :update]
+    resources :work_experiences
   end
   
   get 'add_user' => 'companies#add_user', as: :add_user  

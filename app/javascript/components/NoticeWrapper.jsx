@@ -14,21 +14,22 @@ class NoticeWrapper extends React.Component {
   }
 
   render () {
-    if (this.state.slideUp) {
-      return (
-        <div className={`alert alert-message slideup alert-${this.props.type}`}>
-          {this.props.message}
-        </div>
-      );
-    } else {
-      return (
-        <div className={`alert alert-message alert-${this.props.type}`}>
-          {this.props.message}
-        </div>
-      );
+    if (this.props.type){
+      if (this.state.slideUp) {
+          return (
+            <div className={`alert alert-message slideup alert-${this.props.type}`}>
+              {this.props.message}
+            </div>
+          );
+        } else {
+          return (
+            <div className={`alert alert-message alert-${this.props.type}`}>
+              {this.props.message}
+            </div>
+          );
+        }
+      }
     }
-  }
-
 }
 
 module.exports = NoticeWrapper

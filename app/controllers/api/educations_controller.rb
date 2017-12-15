@@ -18,7 +18,9 @@ class Api::EducationsController < Api::BaseController
     def create
         @education = current_user.educations.create(education_params)
         if @education.save
-            render json: { status: 200, message: 'Education Saved'}.to_json
+            render json: { status: 200, message: 'Education Saved' }.to_json
+        else
+            render json: { errors: @education.errors.full_messages }
         end
     end
 

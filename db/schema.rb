@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212073538) do
+ActiveRecord::Schema.define(version: 20171215035932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,11 +129,12 @@ ActiveRecord::Schema.define(version: 20171212073538) do
     t.string "job_title"
     t.string "job_description"
     t.date "employment_from"
-    t.date "empoyment_to"
+    t.date "employment_to"
     t.string "job_level"
     t.string "job_functions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "employment_status", default: false
     t.index ["user_id"], name: "index_work_experiences_on_user_id"
   end
 
