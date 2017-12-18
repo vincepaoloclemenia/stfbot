@@ -1,3 +1,4 @@
+var moment = require('moment');
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
@@ -23,8 +24,8 @@ export default class WorkExperienceEdit extends React.Component{
                 company_name: this.state.company,
                 job_title: this.state.jobTitle,
                 job_level: this.state.jobLevel.label,
-                employment_from: new Date(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`),
-                employment_to: this.state.employed ? null : new Date(`${this.state.monthTo.label} ${this.state.yearTo.label}`),
+                employment_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, "MMM-YYYY").format(),
+                employment_to: this.state.employed ? null : moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, "MMM-YYYY").format(),
                 job_functions: this.state.jobFunction.label,
                 employment_status: this.state.employed
             }},
@@ -51,10 +52,10 @@ export default class WorkExperienceEdit extends React.Component{
                     jobFunctions: data.job_functions,
                     jobFunction: data.job_functions.find( x => x.label === this.props.experience.job_functions ),
                     jobLevel: data.job_levels.find( x => x.label === this.props.experience.job_level ),
-                    monthFrom: data.months.find( x => x.value === new Date(this.props.experience.employment_from).getMonth()),
-                    yearFrom: data.years.find( x => x.label === new Date(this.props.experience.employment_from).getFullYear()),
-                    monthTo: data.months.find( x => x.value === new Date(this.props.experience.employment_to).getMonth()),
-                    yearTo: data.years.find( x => x.label === new Date(this.props.experience.employment_to).getFullYear())  
+                    monthFrom: data.months.find( x => x.label === moment(`${this.props.experience.employment_from}`, "MMM-YYYY").format('MMM')),
+                    yearFrom: data.years.find( x => x.label === moment(`${this.props.experience.employment_from}`, "MMM-YYYY").year()),
+                    monthTo: data.months.find( x => x.label === moment(`${this.props.experience.employment_to}`, "MMM-YYYY").format('MMM')),
+                    yearTo: data.years.find( x => x.label === moment(`${this.props.experience.employment_to}`, "MMM-YYYY").year())  
                 })
             }
         })

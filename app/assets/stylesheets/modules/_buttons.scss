@@ -19,6 +19,7 @@
 }
 
 .btn.btn-primary{
+    &.inline{ display: inline-block }
     &.pull-right{        
         float: right;        
     }

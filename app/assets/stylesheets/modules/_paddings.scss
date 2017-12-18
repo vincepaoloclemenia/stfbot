@@ -43,3 +43,13 @@ span.gap3{
         font-size: 13px; 
     }
 }
+
+span.gap-left50{
+    margin-left: 30%;
+    &.with-text{
+        padding-left: 3em;
+        color: gray;
+        font-weight: bold;
+        font-size: 13px; 
+    }
+}

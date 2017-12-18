@@ -1,3 +1,4 @@
+var moment = require('moment');
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
@@ -32,8 +33,8 @@ export default class EducationEdit extends React.Component{
             data: { 
                     education: { school_name: this.state.schoolName.label,
                                     education_attainment: this.state.attainment.label,
-                                    attend_from: new Date(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`),
-                                    attend_to: new Date(`${this.state.monthTo.label} ${this.state.yearTo.label}`),
+                                    attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
+                                    attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
                                     course: this.state.course === null ? '' : this.state.course.label,
                                     status: this.state.wasGraduated                    
                                 }
@@ -64,10 +65,10 @@ export default class EducationEdit extends React.Component{
                     attainment: data.attainments.find(x => x.label === this.props.education.education_attainment),
                     course: data.courses.find(x => x.label === this.props.education.course),
                     schoolName: data.universities.find( x => x.label === this.props.education.school_name ),
-                    monthFrom: data.months.find( x => x.value === new Date(this.props.education.attend_from).getMonth()),
-                    yearFrom: data.years.find( x => x.label === new Date(this.props.education.attend_from).getFullYear()),
-                    monthTo: data.months.find( x => x.value === new Date(this.props.education.attend_to).getMonth()),
-                    yearTo: data.years.find( x => x.label === new Date(this.props.education.attend_to).getFullYear())
+                    monthFrom: data.months.find( x => x.label === moment(`${this.props.education.attend_from}`, "MMM-YYYY").format('MMM')),
+                    yearFrom: data.years.find( x => x.label === moment(`${this.props.education.attend_from}`, "MMM-YYYY").year()),
+                    monthTo: data.months.find( x => x.label === moment(`${this.props.education.attend_to}`, "MMM-YYYY").format('MMM')),
+                    yearTo: data.years.find( x => x.label === moment(`${this.props.education.attend_to}`, "MMM-YYYY").year())
                 })
             }
         })

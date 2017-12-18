@@ -21,9 +21,9 @@ export default class EducationDelete extends React.Component{
 
     render(){
         return(
-            <div className='col-lg-offeset-2 col-md-offset-2 col-sm-offset-2 col-lg-10 col-md-10 col-sm-9 col-xs-10'>                        
+            <div className='col-lg-10 col-md-10 col-sm-9 col-xs-10 col-xs-10 col-lg-offeset-1 col-md-offset-1 col-sm-offset-1'>                        
                 <div className='row'>
-                    <div className='col-lg-4 col-md-4 col-sm-4'>
+                    <div className='col-offset-lg-8 col-md-offset-8 col-sm-offset-8 col-lg-4 col-md-4 col-sm-4'>
                         <button onClick={() => this.props.onEdit(this.props.education)} className='btn btn-primary transparent'>Edit</button>
                     
                         <button onClick={this.handleDelete.bind(this)}className='btn btn-primary modal-cancel pull-right'

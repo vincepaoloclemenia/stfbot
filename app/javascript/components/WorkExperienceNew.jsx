@@ -1,9 +1,11 @@
+var moment = require('moment');
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
 import Select from 'react-select';
 import React, { Component } from 'react';
 import VirtualizedSelect from 'react-virtualized-select'
+
 
 
 // disabled={this.disableButton()}
@@ -33,8 +35,8 @@ export default class WorkExperienceNew extends React.Component{
                 company_name: this.state.company,
                 job_title: this.state.jobTitle,
                 job_level: this.state.jobLevel.label,
-                employment_from: new Date(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`),
-                employment_to: this.state.checked ? null : new Date(`${this.state.monthTo.label} ${this.state.yearTo.label}`),
+                employment_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, "MMM-YYYY").format(),
+                employment_to: this.state.checked ? null : moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, "MMM-YYYY").format(),
                 job_functions: this.state.jobFunction.label,
                 employment_status: this.state.checked
             }},

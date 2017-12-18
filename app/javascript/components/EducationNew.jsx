@@ -1,3 +1,4 @@
+var moment = require('moment');
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
@@ -33,8 +34,8 @@ export default class EducationNew extends React.Component{
             data: { 
                     education: { school_name: this.state.selectValue.label,
                                     education_attainment: this.state.attainment.label,
-                                    attend_from: new Date(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`),
-                                    attend_to: new Date(`${this.state.monthTo.label} ${this.state.yearTo.label}`),
+                                    attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
+                                    attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
                                     course: this.state.course === null ? '' : this.state.course.label,
                                     status: this.state.wasGraduated                    
                                 }

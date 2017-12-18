@@ -5,7 +5,7 @@ class Api::SkillsController < Api::BaseController
     end
 
     def create
-        respond_with :api, current_user.skills.create(skill_params)
+        current_user.skills.create(skill_params)
     end
 
     def destroy
