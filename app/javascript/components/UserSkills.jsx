@@ -14,7 +14,7 @@ export default class UserSkills extends React.Component{
 
     handleAdd(){
         this.setState({ openNew: false, fetching: true })
-        $.getJSON('/api/skills.json', (response) => { this.setState({ userSkills: response }) });
+        $.getJSON('/api/skills.json', (response) => { this.setState({ userSkills: response.skills }) });
     }
 
     exitAdd(){
@@ -22,26 +22,26 @@ export default class UserSkills extends React.Component{
     }
 
     componentWillMount(){
-        $.getJSON('/api/skills.json', (response) => { this.setState({ userSkills: response }) });        
+        $.getJSON('/api/skills.json', (data) => { this.setState({ userSkills: data.skills }) });        
     }
 
     render(){
         if(this.state.openNew){
             return(
                 <div className='panel'>
-                    <div className="panel-heading ml15 mr15 with-border"><h5>Add New Set of Skill</h5></div>
+                    <div className="panel-heading ml15 mr15 with-border"><h5>Skills</h5></div>
                     <UserSkillsNew addNew={this.handleAdd.bind(this)} onCloseForm={this.exitAdd.bind(this)} />
                 </div>
             )
         }
         return(
             <div className='panel'>
-                <div className="panel-heading ml15 mr15 with-border"><h5>Work Experiences</h5></div>
+                <div className="panel-heading ml15 mr15 with-border"><h5>Skills</h5></div>
                     <div className="panel-body mb25 mt25">
                         <div className='col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1'>        
                             {this.state.userSkills.map ((skill)=>
-                                <div className='row pb20'>
-                                    <li className='skill-item' key={skill.id}>{skill.name}<span className='gap3 with-text'>{skill.literacy_level}</span></li>
+                                <div className='row pb20' key={skill.id}>
+                                    <li className='skill-item'>{skill.name}<span className='gap3 with-text'>{skill.literacy_level}</span></li>
                                 </div>                   
                             )}
                         </div>

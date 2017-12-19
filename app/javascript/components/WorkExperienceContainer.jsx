@@ -110,16 +110,16 @@ export default class WorkExperienceContainer extends React.Component{
                     <div className="panel-body mb25 mt25">
                     {this.state.userExperiences.map ((exp) => 
                         <div className='row pt20 pb20' key={exp.id}>
-                            <div className='col-lg-offset-1 col-md-offset-1 col-lg-1 col-md-1'>
-                                <i className="fa fa-building fa-lg with-color" aria-hidden="true"></i>
+                            <div className='col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                                <i className="fa fa-building fa-2x with-color" aria-hidden="true"></i>
                             </div>
-                            <div className='col-lg-3'>
-                                <p>{exp.employment_from} - {exp.employment_to}</p>
-                            </div>
-                            <div className='col-lg-7'>
+                            <div className='col-lg-9 col-md-9 col-sm-9 col-xs-9'>
                                 <p className='job-title'>{exp.job_title} at {exp.company_name}</p>
+                                <p>{exp.employment_from} - {exp.employment_to}</p>                                
                             </div>
-                            <WorkExperienceDelete experience={exp} onDelete={this.handleDelete} onEdit={this.handleEdit} />       
+                            
+                            <WorkExperienceDelete experience={exp} onDelete={this.handleDelete} onEdit={this.handleEdit} />
+                                  
                         </div>
                     )}
                 </div>

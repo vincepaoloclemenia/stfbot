@@ -28,5 +28,11 @@
 }
 
 .form-control{
-    position: relative;
+    //position: relative;
+    &.pull-right{ float: right }
+}
+
+.input-group{
+    &.pull-right{ float: right }
+    &.mr20{ margin-right: 20px }
 }

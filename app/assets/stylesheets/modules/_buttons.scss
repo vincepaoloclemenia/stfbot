@@ -21,8 +21,11 @@
 .btn.btn-primary{
     &.inline{ display: inline-block }
     &.pull-right{        
-        float: right;        
+        float: right !important;
+        position: normal;       
     }
+
+    &.btn35{ height: 35px }
     &.table-btn, &.modal-btn, &.add_fields {
         font-size: 11px;
         font-family: 'Noto Sans', sans-serif;
@@ -33,6 +36,7 @@
         }
     }
     &.transparent{
+        border: none;
         color: $main-color;
         font-size: 11px;
         font-family: 'Noto Sans', sans-serif;

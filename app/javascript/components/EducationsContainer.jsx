@@ -123,7 +123,9 @@ export default class EducationsContainer extends React.Component{
                                     {this.renderEducationAttainment(educ.graduate, educ.course, educ.education_attainment)}
                                     <p>{educ.school_name} ( {educ.attend_from} - {educ.attend_to} )</p>
                                 </div>
-                                <EducationDelete education={educ} onDelete={this.handleDelete} onEdit={this.handleEdit} />                   
+                                
+                                <EducationDelete education={educ} onDelete={this.handleDelete} onEdit={this.handleEdit} />
+                                                  
                             </div>
                         )}                
                     </div>
