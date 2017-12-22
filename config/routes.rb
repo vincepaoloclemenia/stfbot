@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   namespace :api do
     resources :companies, only: :index
     resources :users, only: [:index, :create, :destroy, :update] do
+      get :user_profile, on: :collection
+      get :get_countries, on: :collection
+      get :get_states, on: :collection
+      get :get_cities, on: :collection
+      get :get_date, on: :collection
       delete :delete_picture, on: :collection
     end
     resources :educations, only: [:index, :new, :create, :destroy, :update] do

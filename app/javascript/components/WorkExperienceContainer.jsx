@@ -73,19 +73,31 @@ export default class WorkExperienceContainer extends React.Component{
     }
 
     componentWillMount(){
+        this.setState({ fetching: true })
         $.ajax({
             url: '/api/work_experiences.json',
             method: 'GET',
             dataType: 'JSON',
             success: (data) => {
                 this.setState({
-                    userExperiences: data.experiences
+                    userExperiences: data.experiences, fetching: false
                 })
             }
         })
     }
 
     render(){
+
+        if(this.state.fetching){
+            return(
+                <div className='panel'>
+                    <div className="panel-heading ml15 mr15 with-border"><h5>Work Experiences</h5></div>
+                    <div className='panel-body mb25 mt25'>
+                        <center><i className="fa fa-spinner fa-spin fa-2x fa-fw with-color"></i></center>
+                    </div>
+                </div>
+            )
+        }
 
         if (this.state.openNew){
             return(
@@ -122,7 +134,7 @@ export default class WorkExperienceContainer extends React.Component{
                                   
                         </div>
                     )}
-                </div>
+                    </div>
                 <button type='button' onClick={this.handleNew.bind()} className='btn btn-primary full-width'>Add Work Experiences</button>
             </div>
         )

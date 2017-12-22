@@ -26,15 +26,19 @@
         padding-bottom: 5px;
         padding-top: 5px;
         &.pull-right{ float: right }
+        &.pull-left{ float: left; }
     }
 
-    div.pull-right{
+    .Select-input.stay-right{ display: inline-block }
+
+    div.form.pull-right{
         float: right
     }
 
     .panel-body{
         &.mt25{ margin-top: 25px }
         &.mb25{ margin-bottom: 25px }
+        &.mr20{ margin-right: 20px }
     }
 
     div.display{

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user!, only: []
+    before_action :authenticate_user!, only: [:profile]
     before_action :find_user, only: [:show, :authorize_user]
     before_action :authorize_user, only: :show 
 
@@ -13,6 +13,11 @@ class UsersController < ApplicationController
     def show
     end
 
+    def update
+        current_user.update(user_params)
+        current_user.address.update(address_params)
+    end
+
     def profile
         @user = current_user
     end
@@ -23,7 +28,11 @@ class UsersController < ApplicationController
         end
 
         def user_params
-            params.require(:user).permit(:email, :username, :first_name, :last_name, :role, :password, :password_confirmation, :confirmed_at)
+            params.require(:user).permit(:email, :username, :first_name, :last_name, :role, :password, :password_confirmation, :confirmed_at, :gender, :birthdate)
+        end
+
+        def address_params
+            params.require(:address).permit(:country, :state, :city, :street)
         end
         
         def authorize_user
