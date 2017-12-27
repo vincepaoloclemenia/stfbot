@@ -2,7 +2,7 @@ class Api::SkillsController < Api::BaseController
     before_action :authenticate_user!
     def index
         @skills = current_user.skills.all
-        @last_skill = current_user.skills.last.id
+        @last_skill = current_user.skills.size === 0 ? 0 : current_user.skills.last.id
     end
 
     def create

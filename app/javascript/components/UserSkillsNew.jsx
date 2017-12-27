@@ -32,7 +32,10 @@ export default class UserSkillsNew extends React.Component{
             data: JSON.stringify({ skills: this.state.temporary, ids: this.state.ids }),
             contentType: 'application/json',
             success: (data) => {
-                this.props.addNew()
+                this.props.addNew()              
+            },
+            error: () => {
+                $.notify("Error in saving. Please check input fields", "error")
             }
         })
         
@@ -46,7 +49,8 @@ export default class UserSkillsNew extends React.Component{
     }
 
     componentWillMount(){
-        $.getJSON('/api/skills.json', (data) => { this.setState({ skills: data.skills, lastSkill: data.last_skill }) }); 
+        if (this.props.newUser){ return }
+        $.getJSON('/api/skills.json', (data) => { this.setState({ skills: data.skills, lastSkill: data.last_skill }) });         
     }
 
     render(){

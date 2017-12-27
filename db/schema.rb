@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222032905) do
+ActiveRecord::Schema.define(version: 20171226084630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,10 @@ ActiveRecord::Schema.define(version: 20171222032905) do
     t.boolean "employed?", default: false
     t.date "birthdate"
     t.string "gender"
+    t.string "resume_file_name"
+    t.string "resume_content_type"
+    t.datetime "resume_updated_at"
+    t.integer "resume_file_size"
     t.index ["company_employee_id"], name: "index_users_on_company_employee_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

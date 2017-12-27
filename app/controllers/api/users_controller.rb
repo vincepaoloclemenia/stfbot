@@ -13,23 +13,47 @@ class Api::UsersController < Api::BaseController
         respond_with User.destroy(params[:id])
     end
 
-    def update 
+    def update        
         current_user.update(user_params)
         if current_user.address.present? 
             current_user.address.update(address_params)            
         else
-            current_user.address.create_address(address_params)            
+            current_user.create_address(address_params)            
         end
     end
 
     def delete_avatar
-        current_user_user.avatar = nil
+        current_user.avatar = nil
         current_user.save
         #status: 200
     end
 
+    def delete_resume
+        current_user.resume = nil
+        current_user.save
+    end
+
     def user_profile
         @user = current_user
+    end
+
+    def get_resume
+        @file_name  = if current_user.resume_file_name.nil?
+            'Choose a file'
+        else
+            File.basename(current_user.resume_file_name)
+        end
+        @resume = if current_user.resume_file_name.nil?
+            nil
+        else
+            current_user.resume
+        end
+
+        render json: { resume: @resume, file_name: @file_name }
+    end
+
+    def upload_resume
+        current_user.update(resume: params[:resume])
     end
 
     def get_countries

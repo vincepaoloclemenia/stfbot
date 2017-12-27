@@ -11,21 +11,37 @@
             <div class='row pb15'>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     
-                    <%= react_component 'WorkExperienceContainer' %>
+                    <%= react_component 'WorkExperienceContainer', props: { newUser: current_user.work_experiences.size == 0 } %>
                                    
                 </div>
             </div>
 
             <div class='row pb15'>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <%= react_component 'EducationsContainer' %>           
+                    <%= react_component 'EducationsContainer', props: { newUser: current_user.educations.size == 0 } %>           
                 </div>
             </div>
             
             <div class='row pb15'>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     
-                    <%= react_component 'UserSkills' %>
+                    <%= react_component 'UserSkills', props: { newUser: current_user.skills.size == 0 } %>
+                                 
+                </div>
+            </div>
+
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    
+                    <%= react_component 'UserSkills', props: { newUser: current_user.skills.size == 0 } %>
+                                 
+                </div>
+            </div>
+
+            <div class='row pb15'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    
+                    <%= react_component 'ResumeUpload', props: { newUser: current_user.nil? } %>
                                  
                 </div>
             </div>

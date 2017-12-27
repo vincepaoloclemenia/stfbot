@@ -20,6 +20,8 @@ export default class EducationsContainer extends React.Component{
     }
 
     componentWillMount(){
+        if(this.props.newUser){ return }
+        
         this.setState({ fetching: true })
         $.ajax({
             url: '/api/educations.json',
@@ -29,6 +31,7 @@ export default class EducationsContainer extends React.Component{
                 this.setState({ userEducations: data.educations, fetching: false })
             }
         })
+        
     }
 
     handleClickAdd(){
@@ -53,6 +56,7 @@ export default class EducationsContainer extends React.Component{
                 this.setState({ userEducations: data.educations, fetching: false })
             }
         })
+        $.notify("Education Attainment successfully added", { className: 'success', position: 'top center' } );
     }
 
     handleDelete(){
@@ -65,6 +69,7 @@ export default class EducationsContainer extends React.Component{
                 this.setState({ userEducations: data.educations, fetching: false })
             }
         })
+        $.notify("Education attainment deleted", { className: 'warn', position: 'top center' } );
     }
 
     handleEdit(data){
@@ -81,6 +86,7 @@ export default class EducationsContainer extends React.Component{
                 this.setState({ userEducations: data.educations, fetching: false })
             }
         })
+        $.notify("Education Attainment successfully updated", { className: 'success', position: 'top center' } );
     }
 
     render(){
@@ -98,7 +104,7 @@ export default class EducationsContainer extends React.Component{
             return(
                 <div className='panel'>
                     <div className="panel-heading ml15 mr15 with-border"><h5>New Record for Education Attainment</h5></div>
-                    <EducationNew onAdd={this.handleAdd} onCloseForm={this.handleCancel}/>
+                    <EducationNew newUser={this.props.newUser} onAdd={this.handleAdd} onCloseForm={this.handleCancel}/>
                 </div>
             )            
         } 
@@ -129,7 +135,7 @@ export default class EducationsContainer extends React.Component{
                             </div>
                         )}                
                     </div>
-                <button type='button' onClick={this.handleClickAdd.bind()} className='btn btn-primary full-width'>Add Education Background</button>
+                <button type='button' onClick={this.handleClickAdd.bind()} className='btn btn-primary table-btn full-width'>Add Education Background</button>
             </div>
         )
     }

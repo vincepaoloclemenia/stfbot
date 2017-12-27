@@ -16,7 +16,10 @@ Rails.application.routes.draw do
       get :get_states, on: :collection
       get :get_cities, on: :collection
       get :get_date, on: :collection
+      get :get_resume, on: :collection
+      put :upload_resume, on: :collection
       delete :delete_picture, on: :collection
+      delete :delete_resume, on: :collection
     end
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection

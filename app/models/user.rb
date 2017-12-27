@@ -15,9 +15,11 @@ class User < ApplicationRecord
           #:authentication_keys => [:login], :timeout_in => 1.hours
 
   has_attached_file :avatar, :styles => {:medium => "300x300>", :thumb => "35x35>" }, :default_url => "/img/no-user-image.jpg"
+  has_attached_file :resume
   validates_attachment :avatar,
                       :content_type => { :content_type => /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" },
                       :size => { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
+  validates_attachment :resume, content_type: { content_type: /^application\/(pdf|doc|docx)/, message: "Only accepts pdf or doc files" }
 
   validates_presence_of :first_name, :last_name, :role
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }
@@ -32,8 +34,8 @@ class User < ApplicationRecord
   end
 
   def capitalize_names
-    first_name.capitalize!
-    last_name.capitalize!
+    first_name.split.map(&:capitalize!).join(' ')
+    last_name.split.map(&:capitalize!).join(' ')
   end
 
   def validate_role

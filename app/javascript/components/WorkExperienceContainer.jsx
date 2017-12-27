@@ -32,6 +32,7 @@ export default class WorkExperienceContainer extends React.Component{
                 this.setState({ userExperiences: data.experiences, fetching: false })
             }
         })
+        $.notify("Work Experience added successfully", { className: 'success', position: 'top center' } ); 
     }
 
     handleClose(){
@@ -52,6 +53,7 @@ export default class WorkExperienceContainer extends React.Component{
                 this.setState({ userExperiences: data.experiences, fetching: false })
             }
         })
+        $.notify("Work experience deleted", { className: 'warn', position: 'top center' } );
     }
 
     handleUpdate(){
@@ -66,6 +68,7 @@ export default class WorkExperienceContainer extends React.Component{
                 })
             }
         })
+        $.notify("Work Experience successfully updated", { className: 'success', position: 'top center' } );
     }
 
     exitEdit(){
@@ -73,6 +76,8 @@ export default class WorkExperienceContainer extends React.Component{
     }
 
     componentWillMount(){
+        if (this.props.newUser){ return }
+
         this.setState({ fetching: true })
         $.ajax({
             url: '/api/work_experiences.json',
@@ -84,6 +89,7 @@ export default class WorkExperienceContainer extends React.Component{
                 })
             }
         })
+        
     }
 
     render(){
@@ -135,7 +141,7 @@ export default class WorkExperienceContainer extends React.Component{
                         </div>
                     )}
                     </div>
-                <button type='button' onClick={this.handleNew.bind()} className='btn btn-primary full-width'>Add Work Experiences</button>
+                <button type='button' onClick={this.handleNew.bind()} className='btn btn-primary table-btn full-width'>Add Work Experiences</button>
             </div>
         )
     }

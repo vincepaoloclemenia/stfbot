@@ -5,17 +5,20 @@ import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
 import Select from 'react-select'
 import VirtualizedSelect from 'react-virtualized-select'
+//import ImagesUploader from 'react-images-uploader';
 
 export default class UserEdit extends React.Component{
     constructor(props){
         super(props)
-        this.state = { countries: [], 
+        this.state = { 
+            countries: [], 
             userData: this.props.user,
             userAvatar: this.props.user.avatar, 
             firstName: this.props.user.first_name, 
             lastName: this.props.user.last_name,
             userState: null,
             userCity: null,
+            contact: this.props.user.contact === null ? '' : this.props.user.contact,
             userStreet: this.props.user.street,
             birthDay: this.props.days.find( x => x.label === moment(`${this.props.user.birthdate}`, 'MMMM DD YYYY').format('D')),
             birthMonth: this.props.months.find( x => x.label === moment(`${this.props.user.birthdate}`, 'MMMM DD YYYY').format('MMM')),
@@ -69,6 +72,37 @@ export default class UserEdit extends React.Component{
         })
     }
 
+    readURL(input) {
+	    if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+
+	      reader.onload = function (e) {
+	      	$('#upload_preview').attr('src', e.target.result);
+	      }
+
+	      reader.readAsDataURL(input.files[0]);
+	    }
+		
+
+		$("#avatar_file_field").change(function(){
+			readURL(this);
+		});
+
+		$("#remove-avatar").on('click', function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '#{api_delete_avatar_path}',
+				method: 'DELETE',
+				success: () => {
+					var new_avatar = $("#avatar_file_field");
+					new_avatar.replaceWith( new_avatar.val('').clone( true ) );
+					$("#upload_preview").replaceWith('#{image_tag @user.avatar.url, class: "image-size", id: "upload_preview"}');
+				}
+			})
+			
+        });
+    }
+
     changeState(value){
         this.setState({ userState: value })
         $.ajax({
@@ -86,8 +120,8 @@ export default class UserEdit extends React.Component{
             url: `/api/users/${this.props.user.id}`,
             method: 'PUT',
             data: { user:{ 
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
+                first_name: this.state.firstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
+                last_name: this.state.lastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
                 gender: this.state.userGender.label,
                 contact: this.state.contact,
                 birthdate: moment(`${this.state.birthMonth.label} ${this.state.birthDay.label}, ${this.state.birthYear.label}`, 'MMMM DD, YYYY').format('MMMM DD, YYYY') 
@@ -109,113 +143,157 @@ export default class UserEdit extends React.Component{
         return(
             <div className="panel-body mr20 mb25 mt25">
                 <div className="row ml20 pb20">
-                    <div className="col-lg-4 col-md-8">
-                        <span dangerouslySetInnerHTML={{ __html: this.state.userAvatar}} />
-                    </div>
-                    <div className='col-lg-8 col-md-8'>
-                        <div className='input-group pull-right pt30'>
-                            <input type='file' className='btn btn-primary transparent' onChange={(file) => this.setState({ userAvatar: `<img width=\"100\" height=\"100\" alt=\"avatar image\" class=\"avatar-image\" src=\"${file}" />`})} />
-                            <span className='gap3'><button className='btn btn-primary modal-cancel'>Remove Photo</button></span>
+                    <div className="col-lg-12 col-md-12 col-sm-12">
+                        <div className='col-lg-4 col-md-4 col-sm-4'>
+                            <span dangerouslySetInnerHTML={{ __html: this.state.userAvatar}} />
+                        </div>
+                        <div className='col-lg-8 col-md-8 col-sm-8'>
+                            <div className='row pt35'>
+                                <div className='col-md-6 col-sm-6'>
+                                    <input type='file' />
+                                </div>
+                                <div className='col-md-3 col-sm-3'>
+                                    <button className='btn btn-primary modal-cancel' >Remove Photo</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className='row ml20 pb20'>
                     <div className='col-md-12 col-sm-12 col-xs-12'>
-                        <div className='col-md-6'>
-                            <label className='panel-label'>First Name</label>
+                        <div className='col-md-4 col-sm-4'>
+                            <label className='panel-label'>Name: </label>
+                        </div>
+                        <div className='col-md-4 col-sm-4'>
                             <input className='form-control' value={this.state.firstName} onChange={(event) => this.setState({ firstName: event.target.value })} />
                         </div>
-                        <div className='col-md-6'>
-                            <label className='panel-label'>Last Name</label>
+                        <div className='col-md-4 col-sm-4'>
                             <input className='form-control' value={this.state.lastName} onChange={(event) => this.setState({ lastName: event.target.value })}/>
                         </div>
                     </div>
                 </div>
 
                 <div className='row ml20 pb20'>
-                    <div className='col-md-12 col-sm-12 col-xs-12'>                        
-                        <label className='panel-label'>Email</label>
-                        <input className='form-control' readOnly='true' value={this.props.user.email} />                        
+                    <div className='col-md-12 col-sm-12 col-xs-12'>
+                        <div className='col-md-4 col-sm-4'>                        
+                            <label className='panel-label'>Email</label>
+                        </div>
+                        <div className='col-md-8'>
+                            <input className='form-control' readOnly='true' value={this.props.user.email} />
+                        </div>                        
                     </div>
                 </div>
 
                 <div className='row ml20 pb20'>
                     <div className='col-md-12 col-sm-12 col-xs-12'>
-                    <label className='panel-label'>Country</label>
-                        <Select.Creatable
-                            optionClassName='form-control'
-                            options={this.state.countries}
-                            onChange={this.changeCountry.bind(this)}
-                            value={this.state.country}
-                            placeholder='Your country'                   
-                        />
-                    </div>
-                </div>
-
-                <div className='row ml20 pb20'>
-                    <div className='col-md-6 col-sm-6 col-xs-6'>
-                        <label className='panel-label'>State/Region</label>
-                        <Select.Creatable
-                            optionClassName='form-control'
-                            options={this.state.countryStates}
-                            onChange={this.changeState.bind(this)}
-                            value={this.state.userState}                  
-                        />
-                    </div>
-                    <div className='col-md-6 col-sm-6 col-xs-6'>
-                        <label className='panel-label'>City</label>
-                        <Select.Creatable
-                            optionClassName='form-control'
-                            options={this.state.stateCities}
-                            onChange={(value) => this.setState({ userCity: value })}
-                            value={this.state.userCity}                  
-                        />
+                        <div className='col-md-4 col-sm-4'>  
+                            <label className='panel-label'>Country</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'>  
+                            <Select.Creatable
+                                optionClassName='form-control'
+                                options={this.state.countries}
+                                onChange={this.changeCountry.bind(this)}
+                                value={this.state.country}
+                                placeholder='Your country'                   
+                            />
+                        </div>
                     </div>
                 </div>
 
                 <div className='row ml20 pb20'>
                     <div className='col-md-12 col-sm-12 col-xs-12'>
-                        <label className='panel-label'>Street</label>
-                        <input className='form-control' value={this.state.userStreet} onChange={event => this.setState({ userStreet: event.target.value })} placeholder='Street Address'/>
+                        <div className='col-md-4 col-sm-4'> 
+                            <label className='panel-label'>State/Region</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'> 
+                            <Select.Creatable
+                                optionClassName='form-control'
+                                options={this.state.countryStates}
+                                onChange={this.changeState.bind(this)}
+                                value={this.state.userState}                  
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className='row ml20 pb20'>
+                    <div className='col-md-12 col-sm-12 col-xs-12'>
+                        <div className='col-md-4 col-sm-4'> 
+                            <label className='panel-label'>City</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'> 
+                            <Select.Creatable
+                                optionClassName='form-control'
+                                options={this.state.stateCities}
+                                onChange={(value) => this.setState({ userCity: value })}
+                                value={this.state.userCity}                  
+                            />
+                        </div>
                     </div>
                 </div>
 
                 <div className='row ml20 pb20'>
-                    <div className='col-md-6 col-sm-6 col-xs-6'>
-                        <label className='panel-label'>Gender</label>
-                        <VirtualizedSelect
-                            options={this.state.genders}
-                            onChange={(gender) => this.setState({ userGender: gender })}
-                            value={this.state.userGender}                                             
-                        />
+                    <div className='col-md-12 col-sm-12 col-xs-12'>
+                        <div className='col-md-4 col-sm-4'>  
+                            <label className='panel-label'>Street</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'>  
+                            <input className='form-control' value={this.state.userStreet} onChange={event => this.setState({ userStreet: event.target.value })} placeholder='Street Address'/>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='row ml20 pb20'>
+                    <div className='col-md-12 col-sm-12 col-xs-12'>
+                        <div className='col-md-4 col-sm-4'>  
+                            <label className='panel-label'>Gender</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'>  
+                            <VirtualizedSelect
+                                options={this.state.genders}
+                                onChange={(gender) => this.setState({ userGender: gender })}
+                                value={this.state.userGender}                                             
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='row ml20 pb20'>
                     <div className='col-md-12 col-sm-12 col-xs-12'>                                                    
-                        
+                        <div className='col-md-4'>
                             <label className='panel-label pull-left'>Birthdate</label>
-                            
-                            
-                                <VirtualizedSelect
-                                    options={this.state.months}
-                                    onChange={(month) => this.setState({ birthMonth: month })}
-                                    value={this.state.birthMonth}                                             
-                                />
-                            
-                       
-                        
+                        </div>    
+                        <div className='col-md-3'>    
+                            <VirtualizedSelect
+                                options={this.state.months}
+                                onChange={(month) => this.setState({ birthMonth: month })}
+                                value={this.state.birthMonth}                                             
+                            />
+                        </div>    
+                        <div className='col-md-2'>   
                             <VirtualizedSelect
                                 options={this.state.days}
                                 onChange={(day) => this.setState({ birthDay: day })}
                                 value={this.state.birthDay}                                             
                             />
-                       
+                        </div>
+                        <div className='col-md-3'>   
                             <VirtualizedSelect
                                 options={this.state.years}
                                 onChange={(year) => this.setState({ birthYear: year })}
                                 value={this.state.birthYear}                                             
                             />
-                                              
+                        </div>              
+                    </div>
+                </div>
+
+                <div className='row ml20 pb20'>
+                    <div className='col-md-12 col-sm-12 col-xs-12'>
+                        <div className='col-md-4 col-sm-4'>                          
+                            <label className='panel-label'>Contact</label>
+                        </div>
+                        <div className='col-md-8 col-sm-8'>  
+                            <input className='form-control' value={this.state.contact} onChange={ event => this.setState({ contact: event.target.value })} placeholder='Your contact number' />                        
+                        </div>                    
                     </div>
                 </div>
 
@@ -226,7 +304,6 @@ export default class UserEdit extends React.Component{
                         </div> 
                         <div className='col-md-4 col-lg-4 col-sm-4'>
                             <button type='button' onClick={() => this.props.onCloseForm()} className='btn btn-primary full-width modal-cancel'>Cancel</button>
-                            <button type='button' onClick={() => console.log(this.state.birthDay.label, this.state.birthYear.label, this.state.birthMonth.label, this.state.gender, this.state.userCity.label)} >Click</button>
                         </div>
                     </div>                 
                 </div>

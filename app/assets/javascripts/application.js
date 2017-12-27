@@ -15,3 +15,4 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require initialization
+//= require notify

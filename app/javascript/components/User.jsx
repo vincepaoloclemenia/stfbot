@@ -9,6 +9,7 @@ export default class User extends React.Component{
     }
 
     componentDidMount(){
+        
         this.setState({ fetching: true })
         $.ajax({
             url: '/api/users/user_profile.json',
@@ -30,7 +31,7 @@ export default class User extends React.Component{
                 })
             }
         })
-
+        
         $.ajax({
             url: '/api/users/get_date.json',
             method: 'GET',
@@ -74,6 +75,7 @@ export default class User extends React.Component{
                     userData: data,
                     fetching: false
                 })
+                $.notify("User information successfully updated", { className: 'success', position: 'top center' } ); 
             }
         })
     }
@@ -112,14 +114,14 @@ export default class User extends React.Component{
                         <div className="col-lg-8">
                             <p className='user-name'>{this.state.fullName}</p> 
                             <ul className='user-credentials'>
-                                <li className='user-location'><i className="fa fa-map-marker fa-lg color-green stay-left" aria-hidden="true"></i><span className='gap1'>{this.state.city}, {this.state.state}, {this.state.country}</span></li>
+                                <li className='user-location'><i className="fa fa-map-marker fa-lg color-green stay-left" aria-hidden="true"></i><span className='gap1'>{this.renderLocation(this.state.country, this.state.state, this.state.city)}</span></li>
                                 <li className='user-email'><i className="fa fa-address-card-o fa-lg with-color stay-left" aria-hidden="true"></i><span className='gap1'>{this.state.email}</span></li>
                                 <li className='user-contact'><i className="fa fa-envelope-o fa-lg with-color stay-left" aria-hidden="true"></i><span className='gap1'>{this.renderContact(this.state.contact)}</span></li>
                             </ul>                              
                         </div>
                     </div>
                 </div>
-                <button type='button' onClick={this.handleEdit.bind(this)} className='btn btn-primary full-width'>Edit Information</button>
+                <button type='button' onClick={this.handleEdit.bind(this)} className='btn btn-primary table-btn full-width'>Edit Information</button>
             </div>
         )
     }
@@ -134,4 +136,15 @@ export default class User extends React.Component{
             <i className='null'>No contact yet</i> 
         )
     }
+
+    renderLocation(country, state, city){
+        if(country && state && city){
+            return `${country}, ${state}, ${city}`
+        }
+
+        return(
+            <i className='null'>No address yet</i> 
+        )
+    }
+    
 }
