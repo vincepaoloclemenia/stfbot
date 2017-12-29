@@ -13,13 +13,18 @@ class Api::UsersController < Api::BaseController
         respond_with User.destroy(params[:id])
     end
 
-    def update        
+    def update
+        #current_user.update(avatar: params[:avatar])
         current_user.update(user_params)
         if current_user.address.present? 
             current_user.address.update(address_params)            
         else
             current_user.create_address(address_params)            
         end
+    end
+
+    def upload_avatar
+        current_user.update(avatar: params[:user_avatar])
     end
 
     def delete_avatar
@@ -87,7 +92,7 @@ class Api::UsersController < Api::BaseController
     private
 
     def user_params
-        params.require(:user).permit(:first_name, :last_name, :contact, :address, :gender, :birthdate)
+        params.require(:user).permit( :avatar, :first_name, :last_name, :contact, :address, :gender, :birthdate)
     end
 
     def address_params

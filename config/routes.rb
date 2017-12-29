@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get :get_date, on: :collection
       get :get_resume, on: :collection
       put :upload_resume, on: :collection
+      put :upload_avatar, on: :collection
       delete :delete_picture, on: :collection
       delete :delete_resume, on: :collection
     end

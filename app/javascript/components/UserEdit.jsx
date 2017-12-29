@@ -5,12 +5,12 @@ import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
 import Select from 'react-select'
 import VirtualizedSelect from 'react-virtualized-select'
-//import ImagesUploader from 'react-images-uploader';
 
 export default class UserEdit extends React.Component{
     constructor(props){
         super(props)
         this.state = { 
+            imageChanged: false,
             countries: [], 
             userData: this.props.user,
             userAvatar: this.props.user.avatar, 
@@ -29,6 +29,7 @@ export default class UserEdit extends React.Component{
             genders: this.props.genders,
             userGender: this.props.genders.find( x => x.label === this.props.user.gender ),
             countryStates: [],
+            label: this.props.user.avatar === '/img/no-user-image.jpg' ? 'Upload a file' : 'Change Photo'
         }
     }
 
@@ -72,37 +73,6 @@ export default class UserEdit extends React.Component{
         })
     }
 
-    readURL(input) {
-	    if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-
-	      reader.onload = function (e) {
-	      	$('#upload_preview').attr('src', e.target.result);
-	      }
-
-	      reader.readAsDataURL(input.files[0]);
-	    }
-		
-
-		$("#avatar_file_field").change(function(){
-			readURL(this);
-		});
-
-		$("#remove-avatar").on('click', function (e) {
-			e.preventDefault();
-			$.ajax({
-				url: '#{api_delete_avatar_path}',
-				method: 'DELETE',
-				success: () => {
-					var new_avatar = $("#avatar_file_field");
-					new_avatar.replaceWith( new_avatar.val('').clone( true ) );
-					$("#upload_preview").replaceWith('#{image_tag @user.avatar.url, class: "image-size", id: "upload_preview"}');
-				}
-			})
-			
-        });
-    }
-
     changeState(value){
         this.setState({ userState: value })
         $.ajax({
@@ -115,29 +85,42 @@ export default class UserEdit extends React.Component{
         })
     }
 
-    handleSave(){
+    handleSave(event){     
+        event.preventDefault()    
+        var dataForm = new FormData()
+        dataForm.append(`${this.state.imageChanged ? 'user[avatar]' : ''}`, this.state.userAvatar)
+        dataForm.append('user[first_name]', this.state.firstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }))
+        dataForm.append('user[last_name]', this.state.lastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }))
+        dataForm.append('user[gender]', this.state.userGender.label)
+        dataForm.append('user[birthdate]', moment(`${this.state.birthMonth.label} ${this.state.birthDay.label}, ${this.state.birthYear.label}`, 'MMMM DD, YYYY').format('MMMM DD, YYYY'))
+        dataForm.append('user[contact]', this.state.contact)
+        dataForm.append('address[country]', this.state.country.label)
+        dataForm.append('address[state]', this.state.userState.label)
+        dataForm.append('address[city]', this.state.userCity.label)
+        dataForm.append('address[street]', this.state.userStreet)
         $.ajax({
             url: `/api/users/${this.props.user.id}`,
             method: 'PUT',
-            data: { user:{ 
-                first_name: this.state.firstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
-                last_name: this.state.lastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
-                gender: this.state.userGender.label,
-                contact: this.state.contact,
-                birthdate: moment(`${this.state.birthMonth.label} ${this.state.birthDay.label}, ${this.state.birthYear.label}`, 'MMMM DD, YYYY').format('MMMM DD, YYYY') 
-                },
-                address: {
-                    country: this.state.country.label,
-                    state: this.state.userState.label,
-                    city: this.state.userCity.label,
-                    street: this.state.userStreet
-                }
-            },
-            success: ()=>{
-                this.props.onSave()
+            processData: false,
+            contentType: false,
+            cache: false,
+            data:                                                
+                dataForm
+            ,          
+            success: ()=>{                  
+                this.props.onSave()                        
             }
         })
     }
+
+    handleImageUpload(event){
+        var reader = new FileReader()
+        this.setState({ userAvatar: event.target.files[0], imageChanged: true })         
+        reader.onload = (e)=>{
+            $('#image').attr('src', e.target.result)
+        }        
+        reader.readAsDataURL(event.target.files[0]) 
+    }     
 
     render(){
         return(
@@ -145,12 +128,15 @@ export default class UserEdit extends React.Component{
                 <div className="row ml20 pb20">
                     <div className="col-lg-12 col-md-12 col-sm-12">
                         <div className='col-lg-4 col-md-4 col-sm-4'>
-                            <span dangerouslySetInnerHTML={{ __html: this.state.userAvatar}} />
+                            <img id='image' style={{ width: 130, height: 130 }} alt="avatar image" className="avatar-image" src={this.state.userAvatar}/>
                         </div>
                         <div className='col-lg-8 col-md-8 col-sm-8'>
                             <div className='row pt35'>
                                 <div className='col-md-6 col-sm-6'>
-                                    <input type='file' />
+                                    <form id='user-avatar' action='' method='put' name='user-avatar' encType='multipart/form-data'>                                      
+                                        <input id="avatar" type="file" name="avatar" className="image-input" accept='image/jpeg, image/png' onChange={this.handleImageUpload.bind(this)} />                              
+                                        <label htmlFor='avatar'>{this.state.label}</label>
+                                    </form>
                                 </div>
                                 <div className='col-md-3 col-sm-3'>
                                     <button className='btn btn-primary modal-cancel' >Remove Photo</button>

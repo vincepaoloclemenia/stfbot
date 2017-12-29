@@ -60,7 +60,6 @@ export default class User extends React.Component{
         $.ajax({
             url: '/api/users/user_profile.json',
             method: 'GET',
-            dataType: 'JSON',
             success: (data) => {                
                 this.setState({ 
                     id: data.id,
@@ -109,7 +108,7 @@ export default class User extends React.Component{
                 <div className="panel-body mr20 mb25 mt25">
                     <div className="row ml20">
                         <div className="col-lg-4">
-                            <span dangerouslySetInnerHTML={{ __html: this.state.avatar}} />
+                            <img style={{ width: 130, height: 130 }} alt="avatar image" className="avatar-image" src={this.state.avatar}/>
                         </div>
                         <div className="col-lg-8">
                             <p className='user-name'>{this.state.fullName}</p> 

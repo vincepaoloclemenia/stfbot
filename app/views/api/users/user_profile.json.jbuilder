@@ -3,7 +3,7 @@ json.first_name current_user.first_name
 json.last_name current_user.last_name
 json.full_name current_user.full_name
 json.email current_user.email
-json.avatar avatar_for(current_user, size: 100)
+json.avatar current_user.avatar
 json.contact current_user.contact
 json.country current_user.address.present? ? current_user.address.country : nil
 json.state current_user.address.present? ? current_user.address.state : nil
