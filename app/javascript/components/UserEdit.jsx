@@ -29,7 +29,7 @@ export default class UserEdit extends React.Component{
             genders: this.props.genders,
             userGender: this.props.genders.find( x => x.label === this.props.user.gender ),
             countryStates: [],
-            label: this.props.user.avatar === '/img/no-user-image.jpg' ? 'Upload a file' : 'Change Photo'
+            label: this.props.user.avatar === '/img/no-user-image.jpg' ? 'Upload photo' : 'Change Photo'
         }
     }
 
@@ -115,12 +115,12 @@ export default class UserEdit extends React.Component{
 
     handleImageUpload(event){
         var reader = new FileReader()
-        this.setState({ userAvatar: event.target.files[0], imageChanged: true })         
+        this.setState({ userAvatar: event.target.files[0], imageChanged: true, label: 'Change photo' })         
         reader.onload = (e)=>{
             $('#image').attr('src', e.target.result)
         }        
         reader.readAsDataURL(event.target.files[0]) 
-    }     
+    } 
 
     render(){
         return(
@@ -137,9 +137,6 @@ export default class UserEdit extends React.Component{
                                         <input id="avatar" type="file" name="avatar" className="image-input" accept='image/jpeg, image/png' onChange={this.handleImageUpload.bind(this)} />                              
                                         <label htmlFor='avatar'>{this.state.label}</label>
                                     </form>
-                                </div>
-                                <div className='col-md-3 col-sm-3'>
-                                    <button className='btn btn-primary modal-cancel' >Remove Photo</button>
                                 </div>
                             </div>
                         </div>
