@@ -1,13 +1,12 @@
 .panel{
     border-radius: 0px;
     width: 100%;
+    position: relative;
     &.pdr25{
         margin-right: 25px;
         padding-right: 25px;
-    }
-    position: relative;
+    }    
     //box-shadow: 3px 3px 3px 3px rgba(0, 82, 97, 0.48);
-
     .panel-heading{
         padding: 20px;
         border-bottom: 1px $font-grey;
@@ -16,6 +15,16 @@
         &.with-border{
             border-bottom: 1px solid gray;
         }
+    }
+    li.user-profile{
+        cursor: pointer;
+        color: grey;
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 500px;
+        list-style: none;
+        padding: 20px 0 20px 20px;
+        border-bottom: 1px solid lighten(grey, 30%);
+        &:hover{ background-color: lighten($twitter-blue, 50%)}
     }
 
     label.panel-label{

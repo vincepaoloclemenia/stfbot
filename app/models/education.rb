@@ -11,5 +11,5 @@ class Education < ApplicationRecord
     #t.string "course"
     #t.index ["user_id"], name: "index_educations_on_user_id"
     belongs_to :user
-    validates_presence_of :education_attainment, :attend_from, :attend_to, :status, :course, school_name
+    validates :education_attainment, :attend_from, :attend_to, :school_name, presence: true
 end

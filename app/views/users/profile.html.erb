@@ -42,42 +42,15 @@
         <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
             <div class='row pb15'>
                 <div class='panel'>
+                    <div class='panel-body'>                        
+                        <li class='user-profile'>Preview of your profile</li>
+                        <li class='user-profile'>Who viewed my profile?</li>
+                        <li class='user-profile'>Download Profile</li>
+                        <li class='user-profile'>Job Preferences</li>                                                
+                    </div>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
-
-<script>
-    $(document).ready(function(){
-		function readURL(input) {
-	    if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-
-	      reader.onload = function (e) {
-	      	$('#upload_preview').attr('src', e.target.result);
-	      }
-
-	      reader.readAsDataURL(input.files[0]);
-	    }
-		}
-
-		$("#avatar_file_field").change(function(){
-			readURL(this);
-		});
-
-		$("#remove-avatar").on('click', function (e) {
-			e.preventDefault();
-			$.ajax({
-				url: '#{api_delete_avatar_path}',
-				method: 'DELETE',
-				success: () => {
-					var new_avatar = $("#avatar_file_field");
-					new_avatar.replaceWith( new_avatar.val('').clone( true ) );
-					$("#upload_preview").replaceWith('#{image_tag @user.avatar.url, class: "image-size", id: "upload_preview"}');
-				}
-			})
-			
-		});
-	});
-</script>

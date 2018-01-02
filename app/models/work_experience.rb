@@ -12,5 +12,5 @@ class WorkExperience < ApplicationRecord
     #t.boolean "employment_status", default: false
     #t.index ["user_id"], name: "index_work_experiences_on_user_id"
     belongs_to :user
-    validates_presence_of :company_name, job_title, employment_from, job_level, job_functions
+    validates_presence_of :company_name, :job_title, :employment_from, :job_level, :job_functions
 end

@@ -16,7 +16,7 @@ export default class EducationEdit extends React.Component{
             years: [],
             courses: [],
             schoolName: this.props.education.school_name,
-            course: null,
+            course: this.props.education.course,
             attainment: null, 
             monthFrom: null,
             yearFrom: null,
@@ -35,12 +35,12 @@ export default class EducationEdit extends React.Component{
                                     education_attainment: this.state.attainment.label,
                                     attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
                                     attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
-                                    course: this.state.course === null ? '' : this.state.course.label,
+                                    course: this.state.course === '' ? '' : this.state.course.label,
                                     status: this.state.wasGraduated                    
                                 }
             },
             success: (response ) => {
-                this.props.onUpdate(response)
+                this.props.onUpdate()
                 console.log ('It Worked!', response)
             },
             error: (response) => {
@@ -49,7 +49,7 @@ export default class EducationEdit extends React.Component{
         })
     }
 
-    componentWillMount(){
+    componentDidMount(){
         $.ajax({
             url: '/api/educations/get_options.json',
             method: 'GET',
@@ -63,7 +63,7 @@ export default class EducationEdit extends React.Component{
                     years: data.years,
                     courses: data.courses, 
                     attainment: data.attainments.find(x => x.label === this.props.education.education_attainment),
-                    course: data.courses.find(x => x.label === this.props.education.course),
+                    course: this.props.education.course === '' ? '' : data.courses.find(x => x.label === this.props.education.course),
                     schoolName: data.universities.find( x => x.label === this.props.education.school_name ),
                     monthFrom: data.months.find( x => x.label === moment(`${this.props.education.attend_from}`, "MMM-YYYY").format('MMM')),
                     yearFrom: data.years.find( x => x.label === moment(`${this.props.education.attend_from}`, "MMM-YYYY").year()),

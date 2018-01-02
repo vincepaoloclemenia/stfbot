@@ -20,7 +20,7 @@ class Api::EducationsController < Api::BaseController
         if @education.save
             render json: { status: 200, message: 'Education Saved' }.to_json
         else
-            render json: { errors: @education.errors.full_messages }
+            render json: { errors: @education.errors.full_messages }.to_json
         end
     end
 
@@ -31,7 +31,11 @@ class Api::EducationsController < Api::BaseController
     def update 
         education = current_user.educations.find(params[:id])
         education.update_attributes(education_params)
-        render json: education
+        if education.save
+            render json: { status: 200, message: 'Education Saved' }.to_json
+        else
+            render json: { errors: education.errors.full_messages}.to_json
+        end
     end
 
     def get_options

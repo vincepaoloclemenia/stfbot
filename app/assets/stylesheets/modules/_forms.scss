@@ -30,10 +30,15 @@
 .form-control{
     //position: relative;
     &.pull-right{ display: inline-block }
+    &.with-border{ border: 1px solid $main-color }
 }
 
 .input-group{
     &.pull-right{ float: right }
     &.mr20{ margin-right: 20px }
     &.pt30{ padding-top: 30px }
+}
+
+input.with-border{
+    border: 1px solid $main-color 
 }

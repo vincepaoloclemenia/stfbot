@@ -4,4 +4,6 @@
     <%= render 'layouts/sidebar_jobseeker' %>
 <% elsif user_signed_in? && current_user.role == 'employer' && !admin_signed_in? %>
     <%= render 'layouts/sidebar_employer' %>
+<% elsif user_signed_in? && current_user.role == 'company_admin' && !admin_signed_in? %>
+    <%= render 'layouts/sidebar_company_admin' %>
 <% end %>

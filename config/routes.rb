@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   end
   resources :admins, except: [:create, :destroy, :new]
   resources :companies
-
+  resources :employees, only: :index
+  
   namespace :api do
     resources :companies, only: :index
     resources :users, only: [:index, :create, :destroy, :update] do
@@ -25,6 +26,8 @@ Rails.application.routes.draw do
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection
     end
+
+    resources :employees, only: [:index, :create, :update, :destroy]
     resources :skills, only: [:index, :create, :destroy, :update]
     resources :work_experiences
   end

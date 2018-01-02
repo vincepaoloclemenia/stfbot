@@ -36,7 +36,7 @@ export default class EducationNew extends React.Component{
                                     education_attainment: this.state.attainment.label,
                                     attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
                                     attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
-                                    course: this.state.course === null ? '' : this.state.course.label,
+                                    course: this.state.course === null ? null : this.state.course.label,
                                     status: this.state.wasGraduated                    
                                 }
             },
@@ -44,7 +44,7 @@ export default class EducationNew extends React.Component{
                 this.props.onAdd(response)
             },
             error: (response) => {
-                this.props.onCloseForm()
+                $.notify(`${response.errors}`, { className: 'error', position: 'top center' } );                
             }
         })
     }

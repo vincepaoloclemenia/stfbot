@@ -26,6 +26,7 @@ class User < ApplicationRecord
 
   before_save :capitalize_names 
   validate :validate_role
+  after_destroy :destroy_employees { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
 
   attr_accessor :login
 

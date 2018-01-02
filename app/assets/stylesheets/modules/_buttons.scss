@@ -72,6 +72,10 @@
         bottom: -5px; 
         height: 40px;
     }
+    &.rel-width{
+        font-size: 13px;
+        padding: 10px 30px;
+    }
     &.hide { visibility: hidden }
 }
 span.action-gap{

@@ -151,9 +151,15 @@ export default class EducationsContainer extends React.Component{
                 <p>Finished Vocational course of <b>{course}</b></p>
             )
         }
-        return(
-            <p>{attainment}</p>
-        )
-        
+        if (status && attainment === 'High School'){
+            return(
+                <p>{attainment} Graduate</p>
+            )
+        }
+        if(!status){
+            return(
+                <p>{attainment} Undergraduate</p>
+            )
+        }        
     }
 }

@@ -797,7 +797,7 @@ class Api::CountriesStateCity
                 "TERESA"
         ]
     
-        @@reg17 = [
+        reg17 = [
                 "BOAC (Capital)",    
                 "BUENAVISTA",    
                 "GASAN",    
