@@ -27,7 +27,10 @@ Rails.application.routes.draw do
       get :get_options, on: :collection
     end
 
-    resources :employees, only: [:index, :create, :update, :destroy]
+    resources :employees, only: [:index, :create, :update, :destroy] do
+      get :employers, on: :collection
+      get :finance_admins, on: :collection
+    end
     resources :skills, only: [:index, :create, :destroy, :update]
     resources :work_experiences
   end

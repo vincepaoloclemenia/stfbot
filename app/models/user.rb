@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   before_save :capitalize_names 
   validate :validate_role
-  after_destroy :destroy_employees { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
+  after_destroy { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
 
   attr_accessor :login
 
@@ -41,7 +41,7 @@ class User < ApplicationRecord
 
   def validate_role
     if new_record?
-      roles = ['applicant', 'employer', 'company_admin']
+      roles = ['applicant', 'employer', 'company_admin', 'finance admin']
       if roles.exclude?(self.role)
         errors.add(:role, :invalid)
       end

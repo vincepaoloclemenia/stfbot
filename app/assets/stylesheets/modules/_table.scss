@@ -28,6 +28,14 @@ table {
         text-align: center; 
         font-size: 13px;
     }
+    tr.tall-height{
+        padding: 50px 5px;
+    }
+    td.larger-fonts{
+        vertical-align: center;
+        font-size: 12px;
+        font-family: 'Noto Sans', sans-serif;
+    }
 }
 ul li{
     list-style: none;
