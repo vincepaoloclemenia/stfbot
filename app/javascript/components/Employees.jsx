@@ -206,7 +206,7 @@ export default class Employees extends React.Component{
                 <tbody>
                     {this.state.employers.map((emp) =>
                         <tr className='tall-height' key={emp.id}>
-                            <td className='larger-fonts'>
+                            <td id='stay-left' className='larger-fonts'>
                                 <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar} />
                                 <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
                             </td>
@@ -263,7 +263,7 @@ export default class Employees extends React.Component{
                 <tbody>
                     {this.state.financeAdmins.map((emp) =>
                         <tr className='tall-height' key={emp.id}>
-                            <td className='larger-fonts'>
+                            <td id='stay-left' className='larger-fonts'>
                                 <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar}/>
                                 <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
                             </td>

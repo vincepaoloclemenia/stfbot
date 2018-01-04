@@ -51,7 +51,7 @@ class CompanyTable extends React.Component{
             this.state.companies.map ((company) => 
                 <tbody key={company.id}>
                     <tr className="company-row">
-                        <td><a href={`/companies/${company.id}`}>{company.name}</a></td>
+                        <td id='stay-left'><a href={`/companies/${company.id}`}><img src={company.avatar} style={{height: '35px', width: '35px'}} className='avatar-image' alt="avatar image" /><span className='gap1'>{company.name}</span></a></td>
                         <td>{company.address}</td>
                         <td>{company.contact}</td>
                         <td>{company.total_of_employees}</td>

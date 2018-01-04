@@ -27,14 +27,21 @@ table {
         color: $main-color;
         text-align: center; 
         font-size: 13px;
+        
+        .larger-fonts:not(#stay-left){
+            vertical-align: center;
+            font-size: 12px;
+            font-family: 'Noto Sans', sans-serif;
+        }
     }
+
+    td#stay-left{
+        text-align: left;
+        padding-left: 20px
+    }
+
     tr.tall-height{
         padding: 50px 5px;
-    }
-    td.larger-fonts{
-        vertical-align: center;
-        font-size: 12px;
-        font-family: 'Noto Sans', sans-serif;
     }
 }
 ul li{

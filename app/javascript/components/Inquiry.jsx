@@ -22,7 +22,7 @@ export default class Inquiry extends React.Component{
 
     componentDidMount(){
         $.ajax({
-            url: '/api/inquiries.json',
+            url: '/api/inquiries/new.json',
             method: 'GET',
             success: (data) => {
                 this.setState({ industries: data.industries, information: data.information, numbers: data.size })
@@ -74,6 +74,7 @@ export default class Inquiry extends React.Component{
                 last_name: this.state.lastName,
                 industry: this.state.companyIndustry.label,
                 contact: this.state.contact,
+                email: this.state.email,
                 info_from: this.state.infoFrom.label,
                 address: `${this.state.street} ${this.state.city.label}, ${this.state.countryState.label} ${this.state.country.label}`
             }},
@@ -137,20 +138,27 @@ export default class Inquiry extends React.Component{
 
                     <div className='row mb20'> 
                         <div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                            <label className='panel-label'>Email</label>
+                            <input className='form-control' type='email' onChange={ e => this.setState({ email: e.target.value })} />                          
+                        </div>
+                        <div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
                             <label className='panel-label'>Company Size</label>
                             <Select.Creatable
                                 options={this.state.numbers}
                                 onChange={value => this.setState({ companySize: value })}
                                 value={this.state.companySize}                        
                             />                            
-                        </div>
-                        <div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                        </div>                        
+                    </div>
+
+                    <div className='row mb20'>
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label className='panel-label'>Country</label>
                             <Select.Creatable
                                 options={this.state.countries}
                                 onChange={this.countryChange.bind(this)}
                                 value={this.state.country}                        
-                            />                            
+                            /> 
                         </div>
                     </div>
 

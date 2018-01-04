@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :admins, except: [:create, :destroy, :new]
   resources :companies
   resources :employees, only: :index
-  
+  resources :inquiries, only: :index
   namespace :api do
     resources :companies, only: :index
     resources :users, only: [:index, :create, :destroy, :update] do
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       get :get_options, on: :collection
     end
 
-    resources :inquiries, only: [:index, :create, :destroy]
+    resources :inquiries, only: [:index, :create, :destroy, :new]
 
     resources :employees, only: [:index, :create, :update, :destroy] do
       get :employers, on: :collection
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     resources :work_experiences
   end
   
-  get 'inquire' => 'inquiries#index', as: :inquire
+  get 'inquire' => 'pages#inquire', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  
   get 'users/:username' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard

@@ -7,4 +7,7 @@ class PagesController < ApplicationController
         @employer = "employer"
     end
 
+    def inquire
+    end
+
 end

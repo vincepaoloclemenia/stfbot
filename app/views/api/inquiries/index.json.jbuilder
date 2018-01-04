@@ -1,20 +1,15 @@
-json.industries do |json|
-    json.array! @industries.each_with_index.to_a do |(ind, index)|
-        json.label ind
-        json.value index
-    end
-end
-
-json.size do |json|
-    json.array! @size.each_with_index.to_a do |(size, index)|
-        json.label size
-        json.value index
-    end
-end
-
-json.information do |json|
-    json.array! @information.each_with_index.to_a do |(info, index)|
-        json.label info
-        json.value index
+json.inquiries do |json|
+    json.array! @inquiries do |inq|
+        json.id inq.id
+        json.first_name inq.first_name
+        json.last_name inq.last_name
+        json.address inq.address
+        json.contact inq.contact
+        json.company_name inq.company_name
+        json.company_size inq.company_size
+        json.industry inq.industry
+        json.info_from inq.info_from
+        json.position inq.position
+        json.email inq.email
     end
 end
