@@ -1,5 +1,5 @@
 class Api::UsersController < Api::BaseController
-    before_action :authenticate_user!
+    before_action :authenticate_user!, except: [:get_countries, :get_states, :get_cities]
     #before_action :authenticate_role, only: :update
     def index
         respond_with User.all
@@ -66,8 +66,9 @@ class Api::UsersController < Api::BaseController
     end
 
     def get_states
-        @states = if params[:country].present? && params[:country] == 'Philippines'
-            Api::CountriesStateCity::PhilippineRegions
+        @states = if params[:country].present? 
+            @country = Api::FindState.new(params[:country])
+            @country.find_state
         else
             Array.new()
         end

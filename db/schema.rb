@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180101041408) do
+ActiveRecord::Schema.define(version: 20180104022515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,10 @@ ActiveRecord::Schema.define(version: 20180101041408) do
     t.string "telefax"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.integer "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   create_table "company_employees", force: :cascade do |t|
@@ -92,14 +96,24 @@ ActiveRecord::Schema.define(version: 20180101041408) do
     t.string "company_name"
     t.string "address"
     t.string "industry"
-    t.string "company_function"
+    t.string "first_name"
     t.string "email"
     t.string "contact"
     t.string "position"
-    t.integer "company_size"
-    t.text "info_from"
+    t.string "company_size"
+    t.string "info_from"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "last_name"
+  end
+
+  create_table "location", force: :cascade do |t|
+    t.bigint "company_id"
+    t.string "country"
+    t.string "street"
+    t.string "state"
+    t.string "city"
+    t.index ["company_id"], name: "index_location_on_company_id"
   end
 
   create_table "skills", force: :cascade do |t|

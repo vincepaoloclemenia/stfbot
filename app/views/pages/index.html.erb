@@ -2,6 +2,8 @@
     <%= render 'employee' %>
 <% elsif user_signed_in? && current_user.role == 'employer' && !admin_signed_in? %>
     <%= render 'employer' %>
+<% elsif user_signed_in? && current_user.role == 'company_admin' && !admin_signed_in? %>
+    <%= render 'company_admin' %>
 <% elsif admin_signed_in? && !user_signed_in? %>
     <%= render 'admin' %>    
 <% end %>

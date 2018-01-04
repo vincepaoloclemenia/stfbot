@@ -48,4 +48,8 @@ class User < ApplicationRecord
     end
   end
 
+  def employed?  
+    !company.nil?   
+  end
+
 end

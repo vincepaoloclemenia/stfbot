@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       get :get_options, on: :collection
     end
 
+    resources :inquiries, only: [:index, :create, :destroy]
+
     resources :employees, only: [:index, :create, :update, :destroy] do
       get :employers, on: :collection
       get :finance_admins, on: :collection
@@ -35,6 +37,7 @@ Rails.application.routes.draw do
     resources :work_experiences
   end
   
+  get 'inquire' => 'inquiries#index', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  
   get 'users/:username' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard

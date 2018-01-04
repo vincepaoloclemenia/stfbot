@@ -290,10 +290,6 @@ class Api::CountriesStateCity
          "Caraga" 
     ]
 
-    
-
-    
-
     def find_city
         reg1 = [           
                 "ADAMS",            

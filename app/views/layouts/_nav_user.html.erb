@@ -1,6 +1,10 @@
 <nav class="navbar navbar-default">
   <div class='user-nav-container'>
-    <%= link_to "STAFFING BOT", root_path, class: "navbar-brand" %>
+    <% if current_user.employed? %>
+      <%= link_to "#{current_user.company.name.upcase} <span class='gap1'>#{avatar_for(current_user.company, size: 37 )}</span>".html_safe, root_path, class: "navbar-brand" %>
+    <% else %>
+      <%= link_to "STAFFING BOT", root_path, class: "navbar-brand" %>
+    <% end %>
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       
