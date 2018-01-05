@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180104065515) do
+ActiveRecord::Schema.define(version: 20180105072826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,9 @@ ActiveRecord::Schema.define(version: 20180104065515) do
     t.string "avatar_content_type"
     t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string "slug"
+    t.text "overview"
+    t.text "why_join_us"
   end
 
   create_table "company_employees", force: :cascade do |t|
@@ -92,6 +95,18 @@ ActiveRecord::Schema.define(version: 20180104065515) do
     t.index ["user_id"], name: "index_educations_on_user_id"
   end
 
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
   create_table "inquiries", force: :cascade do |t|
     t.string "company_name"
     t.string "address"
@@ -107,6 +122,21 @@ ActiveRecord::Schema.define(version: 20180104065515) do
     t.string "last_name"
   end
 
+  create_table "jobs", force: :cascade do |t|
+    t.bigint "company_id"
+    t.string "title"
+    t.string "description"
+    t.string "location"
+    t.string "industry"
+    t.string "gender"
+    t.integer "exp_min"
+    t.integer "exp_max"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["company_id"], name: "index_jobs_on_company_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.bigint "company_id"
     t.string "state"
@@ -116,6 +146,16 @@ ActiveRecord::Schema.define(version: 20180104065515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_locations_on_company_id"
+  end
+
+  create_table "qualifications", force: :cascade do |t|
+    t.bigint "job_id"
+    t.string "skill"
+    t.string "type"
+    t.string "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_qualifications_on_job_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -163,6 +203,7 @@ ActiveRecord::Schema.define(version: 20180104065515) do
     t.string "resume_content_type"
     t.datetime "resume_updated_at"
     t.integer "resume_file_size"
+    t.string "slug"
     t.index ["company_employee_id"], name: "index_users_on_company_employee_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

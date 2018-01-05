@@ -1,4 +1,4 @@
-class Api::InquiriesController < ApplicationController
+class Api::InquiriesController < Api::BaseController
     before_action :authenticate_admin!, only: :destroy
 
     def index

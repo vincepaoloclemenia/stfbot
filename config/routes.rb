@@ -9,8 +9,14 @@ Rails.application.routes.draw do
   resources :companies
   resources :employees, only: :index
   resources :inquiries, only: :index
+  resources :applicants, only: :index
+  resources :jobs, only: :index
+  
   namespace :api do
     resources :companies, only: :index
+    resources :dashboard, only: [] do
+      get :check_company_profile, on: :collection
+    end
     resources :users, only: [:index, :create, :destroy, :update] do
       get :user_profile, on: :collection
       get :get_countries, on: :collection
@@ -26,7 +32,6 @@ Rails.application.routes.draw do
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection
     end
-
     resources :inquiries, only: [:index, :create, :destroy, :new]
 
     resources :employees, only: [:index, :create, :update, :destroy] do

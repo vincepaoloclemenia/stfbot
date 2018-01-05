@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
     before_action :authenticate_admin!
-    before_action :find_company, except: [:new, :index, :create]
+    before_action :find_company, except: [:show, :update, :destroy]
     #after_action :create_group, only: :create
     def index
     end
@@ -27,6 +27,7 @@ class CompaniesController < ApplicationController
     end
 
     def show
+        @company = Company.friendly.find(params[:id])
     end
 
     def edit
@@ -57,7 +58,7 @@ class CompaniesController < ApplicationController
     private
 
         def find_company
-            @company = Company.find(params[:id])
+            
         end
 
         def company_params

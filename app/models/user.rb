@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  extend FriendlyId
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -23,6 +24,8 @@ class User < ApplicationRecord
 
   validates_presence_of :first_name, :last_name, :role
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }
+
+  friendly_id :username, use: [:slugged, :finders]
 
   before_save :capitalize_names 
   validate :validate_role

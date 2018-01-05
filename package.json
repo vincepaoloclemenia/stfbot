@@ -8,6 +8,7 @@
     "moment": "^2.20.0",
     "notifyjs": "^3.0.0",
     "prop-types": "^15.6.0",
+    "rc-progress": "^2.2.5",
     "react": "^16.2.0",
     "react-datepicker": "^0.61.0",
     "react-dom": "^16.2.0",

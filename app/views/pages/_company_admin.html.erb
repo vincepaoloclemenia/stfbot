@@ -17,8 +17,13 @@
             </div>
             <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>                
                 <div class='panel'>
-                <div class='panel-heading ml15 mr15 with-border'>ToDos</div>
+                <div class='panel-heading ml15 mr15 with-border'>To-do List</div>
                     <div class='panel-body'>
+                        <li class='user-profile'>Company Profile
+                            <p>
+                                <%= react_component 'CompanyProfile', props: { company: current_user.company } %>
+                            </p>
+                        </li>  
                     </div>
                 </div>
             </div>

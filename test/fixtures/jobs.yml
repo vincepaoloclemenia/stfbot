@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyString
+  location: MyString
+  industry: MyString
+  gender: MyString
+  exp_min: 1
+  exp_max: 1
+
+two:
+  title: MyString
+  description: MyString
+  location: MyString
+  industry: MyString
+  gender: MyString
+  exp_min: 1
+  exp_max: 1
