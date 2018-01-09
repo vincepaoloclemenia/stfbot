@@ -7,13 +7,16 @@ class Api::DashboardController < Api::BaseController
         @has_why_join_us = current_user.company.why_join_us.present?
         @has_employers = current_user.company.users.where(role: 'employer').size != 0
         @has_finace_admins = current_user.company.users.where(role: 'finance admin').size != 0
+        @company = Company.find(current_user.company.id)
+        @user = User.find(current_user.id)
         render json: { 
             progress: @progress, 
             hasPicture: @has_picture,
             hasOverview: @has_overview,
             hasWhyJoinUs: @has_why_join_us,
             hasEmployers: @has_employers,
-            hasFinanceAdmins: @has_finace_admins
+            hasFinanceAdmins: @has_finace_admins,
+            url: company_path(current_user.company.slug)
         }
     end
 

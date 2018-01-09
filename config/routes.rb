@@ -6,16 +6,27 @@ Rails.application.routes.draw do
     get :profile, on: :collection, as: :user_profile
   end
   resources :admins, except: [:create, :destroy, :new]
-  resources :companies
+  resources :clients, only: [:index, :show]
+  resources :companies, only: [:index, :show]
   resources :employees, only: :index
   resources :inquiries, only: :index
   resources :applicants, only: :index
   resources :jobs, only: :index
   
   namespace :api do
-    resources :companies, only: :index
+    resources :companies, only: [:update] do
+      get :get_company_profile, on: :collection
+      get :get_countries, on: :collection
+      get :get_states, on: :collection
+      get :get_cities, on: :collection
+    end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
+    end
+    resources :clients, except: :show do 
+      get :get_countries, on: :collection
+      get :get_states, on: :collection
+      get :get_cities, on: :collection
     end
     resources :users, only: [:index, :create, :destroy, :update] do
       get :user_profile, on: :collection

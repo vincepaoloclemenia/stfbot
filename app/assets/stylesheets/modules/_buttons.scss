@@ -25,6 +25,20 @@
         position: normal;       
     }
 
+    &.company-edit{
+        font-size: 14px;
+        background-color: transparent; 
+        width: 100%;
+        color: $main-color;
+        &:hover{
+            background-color: lighten($main-color, 10%);
+            color: $white;
+            transition: 0.5s;
+        }
+        height: 40px;
+        margin-right: 20px;
+    }
+
     &.btn35{ height: 35px }
     &.table-btn, &.modal-btn, &.add_fields {
         font-size: 11px;

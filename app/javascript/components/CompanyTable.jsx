@@ -1,40 +1,70 @@
 var React = require("react")
 var PropTypes = require("prop-types")
+import ReactDOM from 'react-dom';
+import Modal from 'react-responsive-modal';
+import VirtualizedSelect from 'react-virtualized-select'
+import AddNew from 'components/CompanyAdd.jsx'
+import Edit from 'components/CompanyEdit.jsx'
+import Delete from 'components/CompanyDelete.jsx'
 
-class CompanyTable extends React.Component{
+export default class CompanyTable extends React.Component{
     constructor(props){
         super(props)
-        this.state = { companies: [], nextPage: null }
+        this.state = { companies: [], nextPage: null, fetching: false }
     }
 
-    componentWillMount(){
+    handleDelete(data){
+        this.fetchCompanies()
+        $.notify(data.message, { className: 'warning', position: 'top center' } ); 
+    }
+
+    handleAdd(data){
+        this.setState({ fetching: true })
+        this.fetchCompanies()
+        $.notify(data.message, { className: 'success', position: 'top center' } ); 
+    }
+
+    handleUpdate(data){
+        this.setState({ fetching: true })
+        this.fetchCompanies()
+        $.notify(data.message, { className: 'success', position: 'top center' } ); 
+    }
+
+    componentDidMount(){
         this.fetchCompanies()
     }
 
     render(){
         return(
-            <div className="panel-body">    
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Contact</th>
-                            <th>Total Hired Employees</th> 
-                            <th>Edit / Delete</th>                            
-                        </tr>                   
-                    </thead>
-                    {this.renderTableData()}
-                </table>
-                {this.loadMoreButton()}
-                {this.indicator()}
+            <div className='row m70'>
+                <div className='col-lg-10 col-lg-offset-1'>
+                    <div className='panel'>
+                        <AddNew onAdd={this.handleAdd.bind(this)} />
+                        <div className="panel-body">    
+                            <table className="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Contact</th>
+                                        <th>Total Hired Employees</th> 
+                                        <th>Edit / Delete</th>                            
+                                    </tr>                   
+                                </thead>
+                                {this.renderTableData()}
+                            </table>
+                            {this.loadMoreButton()}
+                            {this.indicator()}
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
 
     fetchCompanies(){
         $.ajax({
-            url: `/api/companies.json`,
+            url: `/api/clients.json`,
             method: "GET",
             dataType: "JSON",
             success: (data) => {
@@ -46,25 +76,25 @@ class CompanyTable extends React.Component{
         })
     }
 
+    styles = {
+        display: 'inline-block',
+        verticalAlign: 'middle'
+    }
+
     renderTableData(){
         return(
             this.state.companies.map ((company) => 
                 <tbody key={company.id}>
                     <tr className="company-row">
-                        <td id='stay-left'><a href={`/companies/${company.slug}`}><img src={company.avatar} style={{height: '35px', width: '35px'}} className='avatar-image' alt="avatar image" /><span className='gap1'>{company.name}</span></a></td>
-                        <td>{company.address}</td>
+                        <td id='stay-left'><a href={`/clients/${company.slug}`}><img src={company.avatar} style={{height: '35px', width: '35px'}} className='avatar-image' alt="avatar image" /><span className='gap1'>{company.name}</span></a></td>
+                        <td>{company.street} {company.state} {company.country}</td>
                         <td>{company.contact}</td>
                         <td>{company.total_of_employees}</td>
-                        <td><a className="glyphicon glyphicon-edit" href={`/companies/${company.id}/edit`} data-remote='true'></a>                            
-                            <span className='action-gap'></span>
-                            <a 
-                            className="glyphicon glyphicon-trash red" 
-                            data-original-title="Delete" 
-                            data-confirm="Are you sure?" 
-                            rel="nofollow" 
-                            data-method="delete"
-                            href={`/companies/${company.id}`} 
-                            ></a>
+                        <td>
+                            <div style={this.styles}>
+                                <Edit company={company} onUpdate={this.handleUpdate.bind(this)} />                        
+                                <Delete company={company} onDelete={this.handleDelete.bind(this)} />
+                            </div>
                         </td>
                     </tr>    
                 </tbody>            
@@ -95,15 +125,16 @@ class CompanyTable extends React.Component{
     }
 
     handleLoadMore() {
-        if (this.fetching || this.state.nextPage === null) { return; }
-        this.fetching = true;
+        this.setState({ fetching: true })
+        if (this.state.nextPage === null) { return; }
         $.ajax({
-            url: `/api/companies.json/?page=${this.state.nextPage}`,
+            url: `/api/clients.json/?page=${this.state.nextPage}`,
             method: 'GET',
             dataType: 'json',
             success: (data) => {
                 this.fetching = false;
                 this.setState({
+                    fetching: false,
                     nextPage: data.next_page,
                     companies: [ ...this.state.companies, ...data.companies ]
                 });
@@ -112,5 +143,3 @@ class CompanyTable extends React.Component{
     }
 
 }
-
-module.exports = CompanyTable

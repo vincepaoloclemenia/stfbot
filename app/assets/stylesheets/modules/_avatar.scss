@@ -1,3 +1,9 @@
 img.avatar-image {
     @include border-radius($round);
 }
+
+img.company-avatar{
+    border: 2px solid $blue;
+    height: 100px;
+    width: 100px;
+}

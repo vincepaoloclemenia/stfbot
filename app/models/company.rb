@@ -1,15 +1,16 @@
 class Company < ApplicationRecord
     extend FriendlyId
     has_many :employees, class_name: 'CompanyEmployee', dependent: :destroy
-    has_many :users, class_name: 'User', through: :employees, dependent: :destroy
+    has_many :users, through: :employees, dependent: :destroy
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy
-    accepts_nested_attributes_for :users, allow_destroy: true
-
+    
     has_attached_file :avatar, styles: { medium: "300x300>", thumb: "35x35>" }, default_url: "/img/company-no-image-avatar.png"
     validates_attachment :avatar, content_type: { content_type: /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" }, size: { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
     
     friendly_id :name, use: [:slugged, :finders]
+
+    before_save :regulate_admins
     
     def hire(applicant)
         employees.create(user_id: applicant.id, hiring_date: Date.today.to_date)
@@ -37,6 +38,12 @@ class Company < ApplicationRecord
             total -= 1 unless p
         end
         return ((total.to_f / percentage.to_f) * 100).to_i
+    end
+
+    def regulate_admins
+        if users.where(role: 'company_admin').size > 1 
+            errors.add(:users, 'Oops! Company has reached the maximum number of admins: 2')
+        end
     end
 
 end

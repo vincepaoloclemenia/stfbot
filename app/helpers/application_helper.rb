@@ -12,5 +12,8 @@ module ApplicationHelper
         end
         link_to(name, '#', class: "btn btn-primary add_fields", data: {id: id, fields: fields.gsub("\n", "")} )
     end
-
+    
+    def current_company? (company)
+        current_user.company.id == company.id
+    end
 end

@@ -1,0 +1,10 @@
+img.img-responsive{
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
+    &.full{
+        height: 250px;
+        width: 100%;
+        background: lighten(grey, 30%);
+    }
+}

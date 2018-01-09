@@ -1,0 +1,15 @@
+json.id @company.id
+json.name @company.name
+json.number_of_employees @company.number_of_employees
+json.telefax @company.telefax
+json.country @company.location.country
+json.state @company.location.state
+json.city @company.location.city
+json.street @company.location.street
+json.industry @company.industry
+json.avatar @company.avatar
+json.overview @company.overview
+json.why_join_us @company.why_join_us
+json.language_spoken @company.language_spoken
+json.benefits @company.benefits
+json.website @company.website

@@ -1,8 +1,5 @@
 var moment = require('moment')
 import React, { Component } from 'react'
-import 'react-select/dist/react-select.css'
-import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
 import Select from 'react-select'
 import VirtualizedSelect from 'react-virtualized-select'
 

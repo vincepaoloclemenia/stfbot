@@ -12,4 +12,5 @@ module UsersHelper
             image_tag user.avatar.url, width: size, height: size, alt: 'avatar image', class: 'avatar-image', style: style
         end
     end
+
 end

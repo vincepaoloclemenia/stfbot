@@ -30,6 +30,17 @@
         &:hover{ background-color: lighten($twitter-blue, 50%)}
     }
 
+    li.polished{
+        color: grey;
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 500px;
+        list-style: none;
+        padding: 20px 0 20px 20px;
+        border-bottom: 1px solid lighten(grey, 30%);
+        ul li { list-style: disc; margin-bottom: 10px; }
+        a { font-size: 13px; color: grey }
+    }
+
     label.panel-label{
         font-family: 'Noto Sans', sans-serif;
         color: $font-grey;
@@ -41,12 +52,10 @@
         &.pull-left{ float: left; }
     }
 
-    .Select-input.stay-right{ display: inline-block }
-
     div.form.pull-right{
         float: right
     }
-
+    div.padded-to-right { padding-left: 65px }
     .panel-body{
         &.mt25{ margin-top: 25px }
         &.mb25{ margin-bottom: 25px }
@@ -57,6 +66,45 @@
         height: 50px;
         &.hide { visibility: hidden }
         &.show { visibility: visible }
+    }
+    
+    h3.company-profile, h4.company-profile, h5.company-profile, h2.company-profile { 
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20px;   
+    }
+
+    h6.company-header, h5.company-header, h4.company-header, h3.company-header, h2.company-header, h1.company-header {
+        font-family: 'Patua One', sans-serif;
+        padding-bottom: 20px;
+        color: $main-color;
+        font-size: 25px;
+    }
+
+    div.company-cover-pad{
+        z-index: 999;
+        max-height: 300px;
+        min-width: 20%;
+        width: 100%;
+        background-color: transparent;
+        padding: 55px 60px 50px 60px;
+        word-wrap: break-word;
+        margin-bottom: 10px;
+    }
+
+    img.company-display-picture{
+        position: absolute;
+        height: 130px;
+        width: 130px;
+        border: 3px solid $blue;
+        top: 170px;
+        left: 60px;
+        background: white;
+    }
+    p.company-prof{
+        font-size: 13px;
+        padding-bottom: 20px;
+        font-weight: 500;
+        word-wrap: break-word;
     }
 
     input{
@@ -95,32 +143,6 @@
         }
     }
 
-    .post-form-panel {
-        margin-bottom: -21px;
-    }
-    .panel-image img.panel-image-preview {
-        width: 100%;
-        border-radius: 4px 4px 0px 0px;
-    }
-    
-    .panel-image ~ .panel-body, .panel-image.hide-panel-body ~ .panel-body {
-        overflow: hidden;
-    }
-    .panel-image ~ .panel-footer a {
-        padding: 0px 10px;
-        font-size: 1.3em;
-        color: rgb(100, 100, 100);
-    }
-    .panel-image.hide-panel-body ~ .panel-body {
-        height: 0px;
-        padding: 0px;
-    }
-    .panel-footer {
-        background-color: white;
-    }
-    .post-panel {
-        margin-top: -21px;
-    }
     li.skill-item{
         font-weight: 20px;
         font-size: 15px;

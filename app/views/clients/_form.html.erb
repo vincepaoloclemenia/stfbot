@@ -1,0 +1,62 @@
+<div class='row'>
+    <div class='col-lg-12'>
+        <%= form_for @company, url: , method: :post do |f| %>
+            <div class='row pb20'>
+                <div class='col-lg-3'>
+                    <%= f.label 'Company Name'.html_safe, class: 'form-label' %>
+                </div>
+                <div class='col-lg-9'>
+                    <%= f.text_field :name, class: 'form-control company-input'%>
+                </div>
+            </div>
+            <div class='row pb20'>
+                <div class='col-lg-3'>
+                    <%= f.label 'Address', class: 'form-label' %>
+                </div>
+                <div class='col-lg-9'>
+                    <%= f.text_field :address, class: 'form-control company-input'%>
+                </div>
+            </div>
+            <div class='row pb20'>
+                <div class='col-lg-3'>
+                    <%= f.label 'Contact', class: 'form-label' %>
+                </div>
+                <div class='col-lg-9'>
+                    <%= f.text_field :telefax, class: 'form-control company-input'%>
+                </div>
+            </div>
+
+            <div class='row pb20'>
+                <div class='col-lg-12'>
+                <%= f.fields_for :users do |builder| %>
+                    <%= render 'user_fields', f: builder %>
+                <% end %>
+                <br/>
+                <%= link_to_add_fields "Add Admin", f, :users %>
+                </div>
+            </div>
+
+            <div class="modal-footer no-border">
+                <button type="submit" class="btn btn-primary modal-btn"><%= @company.new_record? ? 'Add Company' : 'Save Changes' %></button>
+                <button type="button" class="btn btn-primary modal-cancel" data-dismiss="modal">Cancel</button>
+            </div>   
+        <% end %> 
+    </div>
+</div>
+
+
+<script>
+    $('form').on('click', '.remove_fields', function(event){
+        event.preventDefault()
+        $(this).prev('input[type=hidden]').val('1')
+        $(this).closest('fieldset').hide()
+    })
+
+    $('form').on('click', '.add_fields', function(event){
+        event.preventDefault()
+        time = new Date().getTime()
+        regexp = new RegExp($(this).data('id'), 'g')
+        $(this).before($(this).data('fields').replace(regexp, time))
+        event.preventDefault()
+    })
+</script>
