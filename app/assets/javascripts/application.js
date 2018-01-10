@@ -16,3 +16,4 @@
 //= require bootstrap-sprockets
 //= require initialization
 //= require notify
+//= require froala_editor

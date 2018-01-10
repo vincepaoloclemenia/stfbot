@@ -20,8 +20,8 @@ export default class CompanyMissing extends React.Component{
                 this.setState({ 
                     percentage: data.progress,
                     hasPicture: data.hasPicture,
-                    hasOverView: data.hasOverView,
-                    hasWhyJoinus: data.hasWhyJoinus,
+                    hasOverView: data.hasOverview,
+                    hasWhyJoinus: data.hasWhyJoinUs,
                     hasEmployers: data.hasEmployers,
                     hasFinanceAdmins: data.hasFinanceAdmins,
                     url: data.url

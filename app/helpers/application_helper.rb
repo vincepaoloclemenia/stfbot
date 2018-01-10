@@ -4,6 +4,14 @@ module ApplicationHelper
         controller.controller_name == controller_name ? 'active-link' : ''
     end
 
+    def is_your_company?(id)
+        if id.present?
+            current_user.company == Company.friendly.find(params[:id]) ? 'active-link' : ''
+        else
+            return ''
+        end
+    end
+
     def link_to_add_fields(name, f, association)
         new_object = f.object.send(association).klass.new
         id = new_object.object_id

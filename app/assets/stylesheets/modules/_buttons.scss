@@ -26,6 +26,7 @@
     }
 
     &.company-edit{
+        position: relative;
         font-size: 14px;
         background-color: transparent; 
         width: 100%;
@@ -37,6 +38,19 @@
         }
         height: 40px;
         margin-right: 20px;
+    }
+    &.company-overview{
+        position: relative;
+        font-size: 11px;
+        background-color: transparent; 
+        width: 150px;
+        color: $main-color;
+        &:hover{
+            background-color: lighten($main-color, 10%);
+            color: $white;
+            transition: 0.5s;
+        }
+        height: 40px;
     }
 
     &.btn35{ height: 35px }

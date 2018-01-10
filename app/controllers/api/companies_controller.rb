@@ -1,5 +1,5 @@
 class Api::CompaniesController < Api::BaseController
-    before_action :find_company, only: :update
+    before_action :find_company, only: [:update, :update_overview]
     def index
     end
 
@@ -7,7 +7,16 @@ class Api::CompaniesController < Api::BaseController
         @company.update(profile_params)
         @company.location.update(location_params)
         if @company.save
-            render json: { message: 'Company #{@company.name} was successfully updated!', company: @company }
+            render json: { message: "Company #{@company.name} was successfully updated!", company: @company }
+        else
+            render json: { message: @company.errors.full_messages }
+        end
+    end
+
+    def update_overview
+        @company.update(overview_params)
+        if @company.save
+            render json: { message: "Profile for #{@company.name} was successfully updated!", company: @company }
         else
             render json: { message: @company.errors.full_messages }
         end
@@ -68,7 +77,8 @@ class Api::CompaniesController < Api::BaseController
                 :avatar,
                 :language_spoken,
                 :telefax,
-                :website
+                :website,
+                :industry
             )
         end
 

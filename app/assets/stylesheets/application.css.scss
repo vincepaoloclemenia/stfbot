@@ -13,6 +13,8 @@
  */
  @import url(http://fonts.googleapis.com/css?family=Lora|Ubuntu|Noto+Sans|Ubuntu|Vollkorn+SC|Work+Sans|Open+Sans|Patua+One|Francois+One);
  @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+ @import 'froala-editor/css/froala_style.min.css';
+ @import 'froala-editor/css/froala_editor.pkgd.min.css';
  @import 'react-responsive-modal/lib/react-responsive-modal.css';
  @import 'react-images-uploader/styles.css';
  @import 'react-images-uploader/font.css';
@@ -38,3 +40,4 @@
  @import "modules/fontawesome";
  @import "modules/profile";
  @import "modules/image";
+ @import "modules/searchbar";

@@ -55,11 +55,12 @@
     div.form.pull-right{
         float: right
     }
-    div.padded-to-right { padding-left: 65px }
+    div.padded-to-right { padding-left: 25px }
     .panel-body{
         &.mt25{ margin-top: 25px }
         &.mb25{ margin-bottom: 25px }
         &.mr20{ margin-right: 20px }
+        &.mt15{ margin-top: 15px }
     }
 
     div.display{
@@ -76,8 +77,11 @@
     h6.company-header, h5.company-header, h4.company-header, h3.company-header, h2.company-header, h1.company-header {
         font-family: 'Patua One', sans-serif;
         padding-bottom: 20px;
-        color: $main-color;
-        font-size: 25px;
+        color: $main-color;        
+        &.pl20 { padding-left: 20px }
+        &.fs25 { font-size: 25px }
+        &.fs18 { font-size: 18px }
+        &.fs16 { font-size: 16px }
     }
 
     div.company-cover-pad{
@@ -86,9 +90,17 @@
         min-width: 20%;
         width: 100%;
         background-color: transparent;
-        padding: 55px 60px 50px 60px;
+        padding: 55px 0px 50px 60px;
         word-wrap: break-word;
         margin-bottom: 10px;
+    }
+    div.company-content{
+        font-family: 'Open Sans', sans-serif;
+        text-align: justify;
+        text-justify: inter-word;
+        font-size: 14px;
+        font-weight: 500;
+        color: grey;
     }
 
     img.company-display-picture{

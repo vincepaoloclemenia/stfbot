@@ -14,11 +14,13 @@ Rails.application.routes.draw do
   resources :jobs, only: :index
   
   namespace :api do
+    resources :autocomplete, only: :index
     resources :companies, only: [:update] do
       get :get_company_profile, on: :collection
       get :get_countries, on: :collection
       get :get_states, on: :collection
       get :get_cities, on: :collection
+      patch :update_overview, on: :collection
     end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
@@ -51,6 +53,7 @@ Rails.application.routes.draw do
     end
     resources :skills, only: [:index, :create, :destroy, :update]
     resources :work_experiences
+
   end
   
   get 'inquire' => 'pages#inquire', as: :inquire

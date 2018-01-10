@@ -1,9 +1,16 @@
 img.avatar-image {
     @include border-radius($round);
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
 }
 
 img.company-avatar{
+    @include border-radius($round);
     border: 2px solid $blue;
     height: 100px;
     width: 100px;
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
 }
