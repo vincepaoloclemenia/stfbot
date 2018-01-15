@@ -7,11 +7,12 @@ Rails.application.routes.draw do
   end
   resources :admins, except: [:create, :destroy, :new]
   resources :clients, only: [:index, :show]
-  resources :companies, only: [:index, :show]
+  resources :companies, only: [:index, :show] do
+    resources :jobs, only: [:index, :show]
+  end
   resources :employees, only: :index
   resources :inquiries, only: :index
   resources :applicants, only: :index
-  resources :jobs, only: :index
   
   namespace :api do
     resources :autocomplete, only: :index
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       get :get_cities, on: :collection
       patch :update_overview, on: :collection
     end
+    resources :jobs
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
     end
@@ -56,6 +58,7 @@ Rails.application.routes.draw do
 
   end
   
+  get '/:slug/jobs' => 'jobs#jobs', as: :jobs
   get 'inquire' => 'pages#inquire', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  
   get 'users/:username' => 'users#show', as: :profile

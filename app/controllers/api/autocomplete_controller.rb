@@ -2,8 +2,8 @@ class Api::AutocompleteController < Api::BaseController
     before_action :authenticate_user!, :restrict_user, only: :index
 
     def index      
-        @companies = Company.all.where(name: 'talentium')
-        @jobs = Company.all.where(name: 'Talentium')
+        @companies = Company.all.where('name LIKE ?', "%#{params[:term]}%")
+        @jobs = Company.all.where('name LIKE ?', "%#{params[:term]}%")
     end
 
     private

@@ -1,7 +1,7 @@
 class Company < ApplicationRecord
     extend FriendlyId
     has_many :employees, class_name: 'CompanyEmployee', dependent: :destroy
-    has_many :users, through: :employees, dependent: :destroy
+    has_many :users, through: :employees
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy
     
@@ -9,6 +9,8 @@ class Company < ApplicationRecord
     validates_attachment :avatar, content_type: { content_type: /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" }, size: { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
     
     friendly_id :name, use: [:slugged, :finders]
+
+    after_destroy :destroy_users
 
     before_save :regulate_admins
     
@@ -44,6 +46,10 @@ class Company < ApplicationRecord
         if users.where(role: 'company_admin').size > 1 
             errors.add(:users, 'Oops! Company has reached the maximum number of admins: 2')
         end
+    end
+
+    def destroy_users
+        self.users.all.where.not(role: 'applicant').destroy_all
     end
 
 end

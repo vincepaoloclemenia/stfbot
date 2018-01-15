@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108023654) do
+ActiveRecord::Schema.define(version: 20180115085624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,19 +127,37 @@ ActiveRecord::Schema.define(version: 20180108023654) do
     t.string "last_name"
   end
 
+  create_table "job_applications", force: :cascade do |t|
+    t.bigint "job_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_job_applications_on_job_id"
+    t.index ["user_id"], name: "index_job_applications_on_user_id"
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.bigint "company_id"
     t.string "title"
-    t.string "description"
+    t.text "description"
     t.string "location"
     t.string "industry"
     t.string "gender"
-    t.integer "exp_min"
-    t.integer "exp_max"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.bigint "user_id"
+    t.bigint "applicant_id"
+    t.string "type_of_employee"
+    t.string "level_of_expertise"
+    t.string "salary_offered"
+    t.string "requisition_number"
+    t.string "education_attainment"
+    t.string "min_exp"
+    t.string "max_exp"
+    t.string "qualifications"
     t.index ["company_id"], name: "index_jobs_on_company_id"
+    t.index ["user_id", "applicant_id"], name: "index_jobs_on_user_id_and_applicant_id", unique: true
   end
 
   create_table "locations", force: :cascade do |t|
@@ -151,16 +169,6 @@ ActiveRecord::Schema.define(version: 20180108023654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_locations_on_company_id"
-  end
-
-  create_table "qualifications", force: :cascade do |t|
-    t.bigint "job_id"
-    t.string "skill"
-    t.string "type"
-    t.string "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["job_id"], name: "index_qualifications_on_job_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -209,10 +217,12 @@ ActiveRecord::Schema.define(version: 20180108023654) do
     t.datetime "resume_updated_at"
     t.integer "resume_file_size"
     t.string "slug"
+    t.bigint "job_id"
     t.index ["company_employee_id"], name: "index_users_on_company_employee_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["job_id"], name: "index_users_on_job_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

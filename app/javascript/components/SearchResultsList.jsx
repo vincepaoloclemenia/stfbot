@@ -30,7 +30,7 @@ export default class SearchResultsList extends React.Component{
     renderJobsHeading(){
         if (this.props.jobs.length === 0) { return; }
         
-        return <li className="autocomplete-heading"><h4>companys</h4></li>
+        return <li className="autocomplete-heading"><h4>Jobs</h4></li>
     }
 
     renderCompanies(){

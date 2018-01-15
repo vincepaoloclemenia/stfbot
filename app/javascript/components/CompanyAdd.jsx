@@ -97,7 +97,7 @@ export default class CompanyAdd extends React.Component{
         return(
             <div className='panel-heading'>Subscribed Companies 
                 <button onClick={()=>this.setState({ open: true })} className='btn btn-primary pull-right table-btn'>Add New Company</button>
-                <Modal open={this.state.open} onClose={() => this.setState({ open: false })} little>
+                <Modal open={this.state.open} onClose={() => this.setState({ open: false })}>
                     <h5 className='modal-title-caption'>Add New Company</h5>
                     <div className='modal-form-container'>
                         <div className='row pb20'>

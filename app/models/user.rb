@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :skills, dependent: :destroy
   has_many :work_experiences, dependent: :destroy
   has_one :address, dependent: :destroy
+  has_many :created_jobs, class_name: 'Job', source: :user_id, dependent: :destroy
+  has_many :job_applications, dependent: :destroy
+  has_many :applied_jobs, class_name: 'Job', through: :job_applications, source: :job, dependent: :destroy
   
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable
@@ -29,6 +32,7 @@ class User < ApplicationRecord
 
   before_save :capitalize_names 
   validate :validate_role
+  
   after_destroy { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
 
   attr_accessor :login

@@ -6,6 +6,7 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application' %>
+    <script scr='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
   </head>
 
   <% if notice %>
@@ -29,6 +30,5 @@
           <%= yield %>
       </div>
     <% end %>       
-    
   </body>
 </html>
