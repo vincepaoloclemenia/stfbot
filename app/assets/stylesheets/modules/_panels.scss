@@ -47,7 +47,7 @@
         font-family: 'Noto Sans', sans-serif;
         color: $font-grey;
         font-size: 13px;
-        font-weight: 100px;
+        font-weight: 900;
         padding-bottom: 5px;
         padding-top: 5px;
         &.pull-right{ float: right }
@@ -148,6 +148,15 @@
         }
     }
 
+    .label-for-preference{
+        font-family: 'Noto Sans', sans-serif;
+        color: lighten($font-grey, 10%);
+        font-weight: 900;
+        padding: 5px 15px;  
+        width: 100%;  
+        margin-bottom: 25px;
+    }
+
     p{
         &.job-title{ font-weight: bold }
 
@@ -157,8 +166,16 @@
         }
     }
 
+    li.list-item, div.preference{
+        margin-left: 20px;
+        font-weight: 200;
+        font-size: 13px;
+        font-family: 'Noto Sans', sans-serif;
+        color: grey;        
+    }
+    div.preference{ margin-left: 40px }
+    
     li.skill-item{
-        font-weight: 20px;
         font-size: 15px;
     }
 

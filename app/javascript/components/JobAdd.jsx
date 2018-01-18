@@ -106,7 +106,7 @@ export default class JobAdd extends React.Component{
     render(){
         return(
             <div className='panel'>
-                <div className="panel-heading ml15 mr15 with-border"><h5>Add New Job</h5></div>
+                <div className="panel-heading ml15 mr15 with-border">Add New Job</div>
                 <div className='panel-body mb25 mt25'>
                     <div className='row'>
                         <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
@@ -170,7 +170,7 @@ export default class JobAdd extends React.Component{
                                     />
                                 </div>
                             </div>
-                            <div className='row m70'>
+                            <div className='row pb20'>
                                 <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
                                     <label className='panel-label'>Minimum Years Experience</label>
                                     <Select.Creatable 
@@ -194,7 +194,7 @@ export default class JobAdd extends React.Component{
                                     <input className='form-control' type='text' onChange={ e => this.setState({ requisition: e.target.value })} />
                                 </div>
                             </div>
-                            <div className='row pb20'>
+                            <div className='row m70'>
                                 <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
                                     <label className='panel-label'>Job Description</label>
                                     <Froala
@@ -208,8 +208,15 @@ export default class JobAdd extends React.Component{
                             </div>
                             <div className='row mb20'>
                                 <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-                                    <div className='actions'>
-                                        <button type='button' disabled={this.state.disable} className='btn btn-primary btn-signup' onClick={this.handleSubmit.bind(this)} >{this.state.label}</button>
+                                    <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>    
+                                        <div className='actions'>
+                                            <button type='button' disabled={this.state.disable} className='btn btn-primary btn-signup' onClick={this.handleSubmit.bind(this)} >{this.state.label}</button>
+                                        </div>
+                                    </div>
+                                    <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                        <div className='actions'>
+                                            <button type='button' onClick={() => this.props.onCloseForm()} className='btn btn-primary cancel'>Cancel</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -7,6 +7,12 @@ class ApiController < ActionController::Base
 
     after_action :flash_to_http_header
 
+    helper_method :current_company
+
+    def current_company
+        current_user.company
+    end
+
     private
         def flash_to_http_header
             return unless request.xhr?

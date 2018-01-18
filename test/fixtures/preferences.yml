@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  position: MyString
+  shift: MyString
+  location: MyString
+  level: MyString
+  keywords: MyString
+  function: MyString
+  salary: MyString
+
+two:
+  position: MyString
+  shift: MyString
+  location: MyString
+  level: MyString
+  keywords: MyString
+  function: MyString
+  salary: MyString

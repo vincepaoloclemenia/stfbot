@@ -7,7 +7,7 @@ class NoticeWrapper extends React.Component {
 
     this.state = { slideUp: false };
   }
-  componentWillMount() {
+  componentDidMount() {
     setTimeout(() => {
       this.setState({ slideUp: true });
     }, 3500);

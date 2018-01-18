@@ -1,7 +1,7 @@
 class Api::JobsController < Api::BaseController
 
     def index
-        render json: { jobs: current_user.company.jobs }
+        @jobs = current_company.jobs.where(user_id: current_user.id)
     end
 
     def new
@@ -14,7 +14,7 @@ class Api::JobsController < Api::BaseController
             street: current_user.company.location.street
         }
         @genders = ['Male', 'Female']
-        @types = ['Regular', 'Contractor', 'Regular/Contractor']
+        @types = ['Regular', 'Contractor', 'Regular / Contractor']
         @industries = ['Accounting and Finance', 'General Services', 'Management and Consultancy', 'Human and Resources', 'Legal', 'Sciences', 'Arts and Sports', 'IT and Software', 'Architecture and Engineering'].sort      
     end
 
@@ -36,6 +36,10 @@ class Api::JobsController < Api::BaseController
     end
 
     def destroy
+    end
+
+    def suggestions
+        @suggestions = []
     end
 
     private

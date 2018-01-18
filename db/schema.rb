@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180115085624) do
+ActiveRecord::Schema.define(version: 20180118010815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,12 @@ ActiveRecord::Schema.define(version: 20180115085624) do
     t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
 
+  create_table "job_titles", force: :cascade do |t|
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.bigint "company_id"
     t.string "title"
@@ -169,6 +175,20 @@ ActiveRecord::Schema.define(version: 20180115085624) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_locations_on_company_id"
+  end
+
+  create_table "preferences", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "shift"
+    t.string "location"
+    t.string "salary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "titles", default: [], array: true
+    t.string "positions", default: [], array: true
+    t.string "levels", default: [], array: true
+    t.string "functions", default: [], array: true
+    t.index ["user_id"], name: "index_preferences_on_user_id"
   end
 
   create_table "skills", force: :cascade do |t|

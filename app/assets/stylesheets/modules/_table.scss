@@ -9,6 +9,9 @@ table {
         font-size: 12px;
         text-align: center;
     }
+    tr.table-header{
+        height: 40px;
+    }
     a {
         cursor: pointer;
         &:hover{
@@ -23,6 +26,27 @@ table {
         color: $main-color;       
         }
     }
+
+    tr.table-row{
+        height: 80px;
+        &:hover{
+            background-color: lighten($main-color, 40%);
+            td, a { color: white }      
+        }
+        td.table-data{
+            vertical-align: middle;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 600;
+        }
+    }
+
+    th.table-head{
+        vertical-align: middle;
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 800;
+        font-size: 14px;
+    }
+
     td { 
         color: $main-color;
         text-align: center; 

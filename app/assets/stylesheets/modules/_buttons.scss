@@ -64,6 +64,20 @@
         }
     }
 
+    &.cancel{
+        background-color: transparent; 
+        width: 100%;
+        color: tomato;
+        border: 1px solid tomato;
+        &:hover{
+            background-color: lighten(tomato, 10%);
+            transition: 0.5s;
+            color: white;
+        }
+
+        height: 50px;
+    }
+
     &.remove-resume{
         padding: 10px 10px;
         font-size: 15px;

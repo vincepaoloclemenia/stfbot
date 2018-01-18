@@ -21,6 +21,7 @@
     &.ml25{
         margin-left: 25px;
     }
+    &.h90{ height: 90px }
     &.ml20 { margin-left: 20px }
     &.mr20{ margin-right: 20px }
     &.pt35 { padding-top: 35px }
@@ -28,6 +29,8 @@
     &.pt20 { padding-top: 20px }
     &.with-bottom-border{ border-bottom: 1px solid lighten(gray, 25%) }
     &.with-top-border{ border-top: 1px solid lighten(gray, 25%) }
+    &.bordered{ border-top: 1px solid lighten(gray, 25%); border-bottom: 1px solid lighten(gray, 25%); }
+    &.bordered-bottom { border-bottom: 1px solid lighten(gray, 25%) }
 }
 
 .col{

@@ -23,7 +23,9 @@ Rails.application.routes.draw do
       get :get_cities, on: :collection
       patch :update_overview, on: :collection
     end
-    resources :jobs
+    resources :jobs, except: :show do 
+      get :suggestions, on: :collection
+    end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
     end
@@ -32,6 +34,13 @@ Rails.application.routes.draw do
       get :get_states, on: :collection
       get :get_cities, on: :collection
     end
+
+    resources :preferences, only: [:index, :create, :update] do
+      get :get_information, on: :collection
+      get :get_states, on: :collection
+      get :get_cities, on: :collection
+    end
+
     resources :users, only: [:index, :create, :destroy, :update] do
       get :user_profile, on: :collection
       get :get_countries, on: :collection
@@ -58,6 +67,7 @@ Rails.application.routes.draw do
 
   end
   
+  get '/candidate/recommended-jobs' => 'users#recommended_jobs', as: :recommendations
   get '/:slug/jobs' => 'jobs#jobs', as: :jobs
   get 'inquire' => 'pages#inquire', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  

@@ -22,6 +22,10 @@ class UsersController < ApplicationController
         @user = current_user
     end
 
+    def recommended_jobs
+        
+    end
+
     private
         def find_user
             @user = User.find_by_id(params[:id])
