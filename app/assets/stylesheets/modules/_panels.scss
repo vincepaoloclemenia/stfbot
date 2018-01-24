@@ -35,14 +35,14 @@
     li.polished{
         color: grey;
         font-family: 'Noto Sans', sans-serif;
-        font-weight: 500px;
+        font-weight: 500;
         list-style: none;
         padding: 20px 0 20px 20px;
         border-bottom: 1px solid lighten(grey, 30%);
         ul li { list-style: disc; margin-bottom: 10px; }
         a { font-size: 13px; color: grey }
     }
-
+    label.form-label{ font-size: 12px }
     label.panel-label{
         font-family: 'Noto Sans', sans-serif;
         color: $font-grey;

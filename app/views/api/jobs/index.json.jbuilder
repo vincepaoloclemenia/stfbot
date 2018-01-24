@@ -11,7 +11,21 @@ json.jobs do |json|
         json.education_attainment job.education_attainment
         json.min_exp job.min_exp
         json.max_exp job.max_exp
-        json.date job.created_at.strftime('%b %d, %Y')
+        json.date case (Date.today - job.created_at.to_date).to_i
+                    when 1 then "Yesterday at #{job.created_at.to_time.strftime('%l:%M %P')}"
+                    else time_ago_in_words(job.created_at) + " ago"
+                    end
+        json.description job.description
+        json.requirements job.requirements
+        json.preferred_courses job.preferred_courses
+        json.company do |c|
+            c.name job.company.name
+            c.avatar job.company.avatar
+            c.overview job.company.overview
+            c.why_join_us job.company.why_join_us
+            c.benefits job.company.benefits
+            c.website job.company.website
+        end
         json.creator do |c|
             c.id job.creator.id
             c.email job.creator.email

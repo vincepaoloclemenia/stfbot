@@ -24,7 +24,8 @@
         float: right !important;
         position: normal;       
     }
-
+    &.mr2{ margin-right: 2em }
+    &.mb2{ margin-bottom: 2em }
     &.company-edit{
         position: relative;
         font-size: 14px;
@@ -78,9 +79,22 @@
         height: 50px;
     }
 
+    &.close{
+        background-color: transparent;
+        color: grey;
+        border: none;
+        &:hover{ color: black }
+    }
+
     &.remove-resume{
         padding: 10px 10px;
         font-size: 15px;
+    }
+    &.rounded{
+        border-radius: 50%;
+        border: none;
+        color: $main-color;
+        background-color: transparent;
     }
     &.transparent{
         border: none;

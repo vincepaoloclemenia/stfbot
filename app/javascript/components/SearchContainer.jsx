@@ -58,7 +58,7 @@ export default class SearchContainer extends React.Component{
     }
 
     renderSearchResults() {
-        if(!this.state.showDropdown || (this.state.companies.length === 0 && this.state.jobs.length)) {
+        if(!this.state.showDropdown || (this.state.companies.length === 0 && this.state.jobs.length === 0)) {
             return;
         }
     

@@ -3,6 +3,7 @@ import VirtualizedSelect from 'react-virtualized-select'
 import Select from 'react-select'
 import 'froala-editor/js/froala_editor.pkgd.min.js'
 import Froala from 'react-froala-wysiwyg'
+import Skills from 'components/JobSkills.jsx'
 
 export default class JobAdd extends React.Component{
     constructor(props){
@@ -33,7 +34,11 @@ export default class JobAdd extends React.Component{
             minimum: '',
             maximum: '',
             label: 'Create Job Post',
-            disable: false
+            disable: false,
+            requirements: [],
+            skill: '',
+            courses: [],
+            jobCourses: []
         }
     }
 
@@ -66,6 +71,8 @@ export default class JobAdd extends React.Component{
 
     handleSubmit(){
         this.setState({ disable: true, label: 'Saving Job Post...'})
+        var preferences = []
+        this.state.courses.map((course) => preferences.push(course.label) )
         $.ajax({
             url: '/api/jobs/',
             method: 'POST',
@@ -73,19 +80,65 @@ export default class JobAdd extends React.Component{
                 job: {
                     title: this.state.title,
                     description: this.state.description,
-                    site: this.state.location.label,
+                    location: `${this.state.city.label} | ${this.state.state.label} | ${this.state.country.label}`,
                     industry: this.state.industry.label,
-                    gender: this.state.genders.label,
+                    gender: this.state.gender.label,
                     level_of_expertise: this.state.position.label,
                     type_of_employee: this.state.employeeType.label,
                     min_exp: this.state.minimum.label.toString(),
                     max_exp: this.state.maximum.label.toString(),
                     requisition_number: this.state.requisition,
-                    education_attainment: this.state.attainment.label
+                    education_attainment: this.state.attainment.label,
+                    requirements: this.state.requirements,
+                    preferred_courses: preferences
                 }
             },
             success: (data) => {
-                this.props.onAdd(data)
+                if(data){
+                    $.notify(data.error, { className: 'error', position: 'top center' })
+                    this.setState({ label: 'Save', disable: false })
+                }else{
+                this.props.onAdd()
+                }
+            }
+        })
+    }
+
+    handleDelete(skill){
+        var skills = this.state.requirements
+        var index = skills.indexOf(skill)
+        skills.splice(index, 1)
+        this.setState({ requirements: skills })
+    }
+
+    handleAdd(){
+        if (this.state.skill === ''){
+            $('#skill').notify('Unable to add', { className: 'error', position: 'top center'})
+        }else{
+            var req = this.state.requirements
+            req.push(this.state.skill)
+            this.setState({ requirements: req, skill: '' })
+        }
+    }
+
+    changeCountry(country){
+        this.setState({ country })
+        $.ajax({
+            url: `/api/jobs/get_states.json?country=${country.label}`,
+            method: 'GET',
+            success: (data) => {
+                this.setState({ states: data.states })
+            }
+        })
+    }
+
+    changeState(state){
+        this.setState({ state })
+        $.ajax({
+            url: `/api/jobs/get_cities.json?state=${state.label}`,
+            method: 'GET',
+            success: (data) => {
+                this.setState({ cities: data.cities })
             }
         })
     }
@@ -110,13 +163,18 @@ export default class JobAdd extends React.Component{
                 <div className='panel-body mb25 mt25'>
                     <div className='row'>
                         <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
+                            
+                            <div className='row pb20'>
+                                <label className='form-label'><h5 className='form-header'>Job Information</h5></label>
+                            </div>
+                            
                             <div className='row pb20'>
                                 <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <label className='panel-label'>Title</label>
+                                    <label className='form-label'>Title</label>
                                     <input className='form-control' type='text' onChange={ e => this.setState({ title: e.target.value })} />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <label className='panel-label'>Type of Employee</label>
+                                    <label className='form-label'>Type of Employee</label>
                                     <Select.Creatable
                                         options={this.state.types}
                                         onChange={ value => this.setState({ employeeType: value })}
@@ -127,7 +185,7 @@ export default class JobAdd extends React.Component{
 
                             <div className='row pb20'>
                                 <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <label className='panel-label'>Position</label>
+                                    <label className='form-label'>Position</label>
                                     <Select.Creatable 
                                         options={this.state.positions}
                                         onChange={ value => this.setState({ position: value })}
@@ -135,44 +193,69 @@ export default class JobAdd extends React.Component{
                                     />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                    <label className='panel-label'>Qualification for Education Attainment</label>
-                                    <Select.Creatable 
-                                        options={this.state.attainments}
-                                        onChange={ value => this.setState({ attainment: value })}
-                                        value={this.state.attainment}
-                                    />
-                                </div>
-                            </div>
-                                    
-                            <div className='row pb20'>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Industry</label>
-                                    <Select.Creatable
-                                        options={this.state.industries}
-                                        onChange={ value => this.setState({ industry: value })}
-                                        value={this.state.industry}
-                                    />
-                                </div>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Gender Preference</label>
+                                    <label className='form-label'>Gender Preference</label>
                                     <Select.Creatable 
                                         options={this.state.genders}
                                         onChange={ value => this.setState({ gender: value })}
                                         value={this.state.gender}
                                     />
                                 </div>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Location</label>
+                            </div>
+                                    
+                            <div className='row pb20'>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Industry</label>
+                                    <Select.Creatable
+                                        options={this.state.industries}
+                                        onChange={ value => this.setState({ industry: value })}
+                                        value={this.state.industry}
+                                    />
+                                </div>
+                            
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Requisition Number</label>
+                                    <input className='form-control' type='text' onChange={ e => this.setState({ requisition: e.target.value })} />
+                                </div>
+                            </div>
+
+                            <div className='row pb20'>
+                                <div className='col-lg-12 col-md-12 col-sm-12'>
+                                    <label className='form-label'>Country</label>
                                     <Select.Creatable 
-                                        options={[{value: '1', label: this.state.location}]}
-                                        onChange={ value => this.setState({ site: value })}
-                                        value={this.state.site}
+                                        options={this.state.countries}
+                                        onChange={this.changeCountry.bind(this)}
+                                        value={this.state.country}
                                     />
                                 </div>
                             </div>
+
                             <div className='row pb20'>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Minimum Years Experience</label>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>State</label>
+                                    <Select.Creatable
+                                        options={this.state.states}
+                                        onChange={this.changeState.bind(this)}
+                                        value={this.state.state}
+                                    />
+                                </div>
+                            
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>City</label>
+                                    <Select.Creatable
+                                        options={this.state.cities}
+                                        onChange={ city => this.setState({ city }) }
+                                        value={this.state.city}
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className='row pb20 pt20'>
+                                <label className='form-label'><h5 className='form-header'>Qualifications</h5></label>
+                            </div>
+
+                            <div className='row pb20'>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Minimum Years of Experience</label>
                                     <Select.Creatable 
                                         id='min'
                                         options={this.years}
@@ -180,8 +263,8 @@ export default class JobAdd extends React.Component{
                                         value={this.state.minimum}
                                     />
                                 </div>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Maximum Years of Experience</label>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Maximum Years of Experience</label>
                                     <Select.Creatable 
                                         id='max'
                                         options={this.years}
@@ -189,14 +272,54 @@ export default class JobAdd extends React.Component{
                                         value={this.state.maximum}
                                     />
                                 </div>
-                                <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                    <label className='panel-label'>Requisition Number</label>
-                                    <input className='form-control' type='text' onChange={ e => this.setState({ requisition: e.target.value })} />
+                            </div>
+
+                            <div className='row pb20'>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Preferred Courses Attained</label>
+                                    <Select.Creatable 
+                                        multi={true}
+                                        options={this.state.jobCourses}
+                                        onChange={ value => this.setState({ courses: value })}
+                                        value={this.state.courses}
+                                    />      
+                                </div>
+                                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                    <label className='form-label'>Qualification for Education Attainment</label>
+                                    <Select.Creatable 
+                                        options={this.state.attainments}
+                                        onChange={ value => this.setState({ attainment: value })}
+                                        value={this.state.attainment}
+                                    />                       
                                 </div>
                             </div>
-                            <div className='row m70'>
-                                <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1'>
-                                    <label className='panel-label'>Job Description</label>
+
+                            <div className='row pb20'>                                
+                                <div className='col-lg-12 col-md-12 col-sm-12'>
+                                    <label className='form-label'>Required Skills</label>
+                                    <div className='input-group'>  
+                                        <input id='skill' className='form-control' value={this.state.skill} onChange={e => this.setState({ skill: e.target.value })} />
+                                        <span className='input-group-btn'>
+                                            <button type='button' onClick={this.handleAdd.bind(this)} className='btn btn-primary table-btn btn35'>+</button>   
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='row pb20'>
+                                <div className='col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>     
+                                    {this.state.requirements.map((skill, index) => 
+                                        <Skills skill={skill} key={index} deleteSkill={this.handleDelete.bind(this)} />
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className='row pb20 pt20'>
+                                <label className='form-label'><h5 className='form-header'>Job Description</h5></label>
+                            </div>
+
+                            <div className='row pb20'>
+                                <div className='col-lg-12 col-md-12 col-sm-12'>
                                     <Froala
                                         options={this.options}
                                         tag='textarea'
@@ -237,9 +360,11 @@ export default class JobAdd extends React.Component{
                     attainments: data.attainments,
                     positions: data.positions,
                     types: data.types,
-                    location: `${data.location.city} ${data.location.state}, ${data.location.country}`,
+                    location: `${data.location.city}, ${data.location.state}, ${data.location.country}`,
                     industries: data.industries,
-                    genders: data.genders
+                    genders: data.genders,
+                    jobCourses: data.courses,
+                    countries: data.countries
                 })
             }
         })

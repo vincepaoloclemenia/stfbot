@@ -22,13 +22,13 @@ export default class SearchResultsList extends React.Component{
     }
 
     renderCompaniesHeading(){
-        if (this.props.companies.length === 0) { return; }
-        
+        if (this.props.companies.length >= 1)     
+          
         return <li className="autocomplete-heading"><h4>Companies</h4></li>
     }
 
     renderJobsHeading(){
-        if (this.props.jobs.length === 0) { return; }
+        if (this.props.jobs.length >= 1)
         
         return <li className="autocomplete-heading"><h4>Jobs</h4></li>
     }

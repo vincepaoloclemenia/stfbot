@@ -10,8 +10,8 @@ end
 json.jobs do |json|
     json.array! @jobs do |job|
         json.id job.id
-        json.name job.name
-        json.url company_path(job)
-        json.avatar_url job.avatar
+        json.title job.title
+        json.url job_path(slug: job.company.slug, id: job.id)
+        json.avatar_url job.company.avatar
     end
 end

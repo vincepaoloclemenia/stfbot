@@ -1,29 +1,47 @@
 import React, { Component } from 'react'
 import FroalaEditor from 'react-froala-wysiwyg'
 import JobAdd from 'components/JobAdd.jsx'
+import Show from 'components/JobShow.jsx'
+import ReactTooltip from 'react-tooltip'
 
 export default class JobsContainer extends React.Component{
     constructor(props){
         super(props)
-
+        this.className = 'col-lg-8 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2'
         this.state = {
             fetching: false,
-            class: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
+            class: this.className,
             jobs: [],
-            addNew: false
+            addNew: false,
+            showJob: false,
+            job: {}
         }
     }
 
     handleAdd(data){
         this.setState({ addNew: false })
-        if(data.success){
-            $.notify(data.success, { className: 'success', position: 'bottom' })
-        }else
-            $.notify(data.error, { className: 'error', position: 'bottom' })
+        this.fetchData()
+        $.notify("Job was successfully added!", {className: 'success', position: 'top center'})
+    }
+
+    handleEdit(){
+        this.setState({ showJob: false, edit: false })
+        $.ajax({
+            url: '/api/jobs.json',
+            method: 'GET',
+            success: (data) => {
+                this.setState({ showJob: true, jobs: data.jobs, job: data.jobs.find( x => x.id === this.state.job.id ) })
+                $.notify("Job record was successfully saved!", {className: 'success', position: 'top center'})                
+            }
+        })
     }
 
     onCloseForm(){
         this.setState({ addNew: false })
+    }
+
+    showJob(data){
+        this.setState({ showJob: true, job: data, class: 'col-lg-6 col-md-6 col-sm-6 col-xs-6' })        
     }
 
     componentDidMount(){
@@ -34,7 +52,7 @@ export default class JobsContainer extends React.Component{
         if(this.state.addNew){
             return(
                 <div className='row m70'>
-                    <div className='col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1'>
+                    <div className={this.state.class}>
                         
                         <JobAdd onAdd={this.handleAdd.bind(this)} onCloseForm={this.onCloseForm.bind(this)} />
                             
@@ -44,18 +62,19 @@ export default class JobsContainer extends React.Component{
         }
         return(
             <div className='row m70'>
-                <div className='col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1'>
+                <div className={this.state.class}>
     
                     <div className='panel'>
                         <div className="panel-heading ml15 mr15 with-border">
-                            <i className="fa fa-archive pr1" aria-hidden="true"></i>List of Jobs
-                            <button onClick={() => this.setState({ addNew: true })} className='btn btn-primary pull-right company-overview'><i className="fa fa-plus pr1" aria-hidden="true"></i>Add New Job Order</button>
+                            <i className="fa fa-archive" aria-hidden="true"></i>List of Jobs
+                            <button onClick={() => this.setState({ addNew: true, class: this.className, showJob: false })} className='btn btn-primary pull-right company-overview'><i className="fa fa-plus" aria-hidden="true"></i>Add New Job Order</button>
                         </div>
                         <div className='panel-body'>
                             {this.renderJobsTable()}
                         </div>                            
                     </div>
                 </div>
+                {this.renderShowJob()}
             </div>
         )
     }
@@ -70,32 +89,31 @@ export default class JobsContainer extends React.Component{
         })
     }
 
+    renderShowJob(){
+        if(this.state.showJob)
+        return <Show close={false} onEdit={this.handleEdit.bind(this)} class={this.state.class} job={this.state.job} hide={() => this.setState({ showJob: false, class: this.className })} />
+    }
+
     renderJobsTable(){
         return(
-            <table className='table table-hover table-bordered job-table'>
-                <thead>
-                    <tr className='table-header'>
-                        <th className='table-head' scope='col'><i className="fa fa-sticky-note pr1" aria-hidden="true"></i>Job Title</th>
-                        <th className='table-head' scope='col'><i className="fa fa-industry pr1" aria-hidden="true"></i>Industry</th>
-                        <th className='table-head' scope='col'><i className="fa fa-calendar-check-o pr1" aria-hidden="true"></i>Date posted</th>
-                        <th className='table-head' scope='col'><i className="fa fa-eye pr1" aria-hidden="true"></i>Who viewed job posts?</th>
-                        <th className='table-head' scope='col'><i className="fa fa-files-o pr1" aria-hidden="true"></i>Applicants</th>
-                        <th className='table-head' scope='col'><i className="fa fa-users pr1" aria-hidden="true"></i>Suggested People</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.jobs.map((job) =>
-                        <tr className='table-row' key={job.id} >
-                            <td className='table-data'>{job.title}</td>
-                            <td className='table-data'>{job.industry}</td>
-                            <td className='table-data'>{job.date}</td>
-                            <td className='table-data'><a href='/applicants'>New viewers (11)</a></td>
-                            <td className='table-data'><a href='/applicants'>New applicants (7)</a></td>
-                            <td className='table-data'><a href='/applicants'>(3) New Suggestions</a></td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <div>
+                {this.state.jobs.map((job, index) =>
+                    <li key={index} className='job-item'>
+                        <div className='row'>
+                            <div className='col-lg-5 col-md-5 col-lg-offset-1 col-md-offset-1'>
+                                <h4 onClick={this.showJob.bind(this, job)}>{job.title}</h4>
+                                <p>Posted: {job.date}</p>
+                            </div>
+                            <div className='col-lg-5 col-md-5 col-sm-12 col-xs-12'>
+                                <ReactTooltip place='top'/>
+                                <li className='list-button new' data-tip='Who viewed this post?'><i className="fa fa fa-users pr1" aria-hidden="true"></i>Who viewed this job post?<span className='new-notif'>4</span></li>
+                                <li className='list-button' data-tip='Applicants'><i className="fa fa-folder pr1" aria-hidden="true"></i>Applicants</li>                                
+                                <li className='list-button' data-tip='Suggested Candidates'><i className="fa fa-shopping-bag pr1" aria-hidden="true"></i>Suggested Candidates</li>
+                            </div>
+                        </div>
+                    </li>
+                )}
+            </div>
         )
     }
 

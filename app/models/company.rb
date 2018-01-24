@@ -1,9 +1,13 @@
 class Company < ApplicationRecord
     extend FriendlyId
+    include PgSearch
     has_many :employees, class_name: 'CompanyEmployee', dependent: :destroy
     has_many :users, through: :employees
     has_many :jobs, dependent: :destroy
-    has_one :location, dependent: :destroy
+    has_one :location, dependent: :destroy  
+
+    pg_search_scope :search, against: [:name],
+    using: {tsearch: {dictionary: "english"}}
     
     has_attached_file :avatar, styles: { medium: "300x300>", thumb: "35x35>" }, default_url: "/img/company-no-image-avatar.png"
     validates_attachment :avatar, content_type: { content_type: /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" }, size: { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
@@ -50,6 +54,14 @@ class Company < ApplicationRecord
 
     def destroy_users
         self.users.all.where.not(role: 'applicant').destroy_all
+    end
+
+    def self.text_search(query)
+        if query.present?
+          search(query)
+        else
+          scoped
+        end
     end
 
 end

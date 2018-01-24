@@ -31,6 +31,7 @@
     //position: relative;
     &.pull-right{ display: inline-block }
     &.with-border{ border: 1px solid $main-color }
+    z-index: -1;
 }
 
 .input-group{

@@ -28,8 +28,9 @@ table {
     }
 
     tr.table-row{
+        cursor: pointer;
         height: 80px;
-        &:hover{
+        &:hover, &.clicked{
             background-color: lighten($main-color, 40%);
             td, a { color: white }      
         }
@@ -38,6 +39,10 @@ table {
             font-family: 'Noto Sans', sans-serif;
             font-weight: 600;
         }
+    }
+    tr#clicked{
+        background-color: lighten($main-color, 40%);
+        td, a { color: white }   
     }
 
     th.table-head{
