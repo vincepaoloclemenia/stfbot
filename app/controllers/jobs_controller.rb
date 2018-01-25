@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+    before_action :get_job, only: :show
     def index
     end
 
@@ -9,5 +10,7 @@ class JobsController < ApplicationController
     end
 
     private
-    
+        def get_job
+            @job = Job.friendly.find(params[:title])
+        end
 end

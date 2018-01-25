@@ -11,7 +11,7 @@ json.jobs do |json|
     json.array! @jobs do |job|
         json.id job.id
         json.title job.title
-        json.url job_path(slug: job.company.slug, id: job.id)
+        json.url job_path(slug: job.company.slug, title: job.slug)
         json.avatar_url job.company.avatar
     end
 end

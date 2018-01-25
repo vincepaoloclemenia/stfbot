@@ -3,9 +3,10 @@ img.img-responsive{
     image-rendering: crisp-edges;
     image-rendering: pixelated; 
     &.full{
-        height: 250px;
+        height: 267px;
         width: 100%;
         background: lighten(grey, 30%);
         border-bottom: 1px solid grey;
+        z-index: -1;
     }
 }

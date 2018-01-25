@@ -38,15 +38,15 @@ export default class CompanyProfile extends React.Component{
     render(){    
         return(
             <div className="row m70">
-                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                <div className='col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1'>
+                    <div className="col-lg-10 col-md-100 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                         <div className='row pb15'>
-                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <div className='col-lg-12 col-md-122 col-xs-12'>
                                 {this.renderJumbotron()}
                             </div>
                         </div>
                         <div className='row pb15'>
-                            <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <div className='col-lg-12 col-md-122 col-xs-12'>
                                 {this.renderPanel()}
                             </div>
                         </div>
@@ -68,8 +68,8 @@ export default class CompanyProfile extends React.Component{
                 <div className="panel-body mr20 mb25 mt15">
                     <h5 className='company-header pl20 fs16'>Company Overview</h5>
                     <div className="row ml20 pb20">
-                        <div className='col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
-                            <div className='company-content'>
+                        <div className='col-lg-10 col-md-100 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
+                            <div className='company-preview'>
                                 <FroalaEditorView 
                                     model={this.state.company.overview}
                                 />
@@ -78,8 +78,8 @@ export default class CompanyProfile extends React.Component{
                     </div>
                     <h5 className='company-header pl20 fs16'>Why Join Us</h5>
                     <div className="row ml20 pb20">
-                        <div className='col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
-                            <div className='company-content'>    
+                        <div className='col-lg-10 col-md-100 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
+                            <div className='company-preview'>    
                                 <FroalaEditorView 
                                     model={this.state.company.whyJoinUs}
                                 />
@@ -88,8 +88,8 @@ export default class CompanyProfile extends React.Component{
                     </div>
                     <h5 className='company-header pl20 fs16'>Benefits</h5>
                     <div className="row ml20 pb20">
-                        <div className='col-lg-10 col-md-10 col-sm-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
-                            <div className='company-content'><p>{this.state.company.companyBenefits}</p></div>
+                        <div className='col-lg-10 col-md-100 col-lg-offset-1 col-md-offset-1 col-sm-offset-1'>
+                            <div className='company-preview'><p>{this.state.company.companyBenefits}</p></div>
                         </div>
                     </div>
                 </div>
@@ -105,69 +105,73 @@ export default class CompanyProfile extends React.Component{
         }
         return(
             <div className='panel'>
-                <img className='img-responsive full' src={this.state.company.avatar} />
-                <div className='panel-body'>
-                    {this.renderButtons()}
-                    <div className='company-cover-pad'>
-                        
+                <img className='img-responsive full' src={this.state.company.avatar} />   
+                <div className='panel-body'>   
+                    <div className='pull-right'>
+                        {this.renderButtons()}  
+                    </div>                  
+                    <div className='company-cover-pad'> 
+                                                               
                         <img className='company-display-picture' src={this.state.company.avatar} />
                         <div className='row'> 
-                            <h4 className='company-header fs25'>{this.state.company.name}</h4>
-                            <div className='col-lg-6 col-md-6 col-sm-6'> 
-                                <div className='row'>                                              
-                                    <div className='col-lg-1 col-md-1 col-sm-1'>
-                                        <i className="fa fa-map-marker fa-lg color-red pr1" aria-hidden="true"></i>
-                                    </div>
-                                    <div className='col-lg-11 col-md-11 col-sm-11'>
-                                        <p className='company-prof'>
-                                            {this.state.company.street} {this.state.company.city}, {this.state.company.country}
-                                        </p>
-                                    </div>                    
-                                </div>
-                                <div className='row'>
-                                    <div className='col-lg-1 col-md-1 col-sm-1'>
-                                        <i className="fa fa-industry fa-lg with-color pr1" aria-hidden="true"></i>
-                                    </div>
-                                    <div className='col-lg-11 col-md-11 col-sm-11'>
-                                        <p className='company-prof'>
-                                            {this.state.company.industry}
-                                        </p> 
-                                    </div>                                    
-                                </div>   
-                                <div className='row'>              
-                                    <div className='col-lg-1 col-md-1 col-sm-1'>
-                                        <i className="fa fa-globe fa-lg with-color pr1" aria-hidden="true"></i>
-                                    </div>
-                                    <div className='col-lg-11 col-md-11 col-sm-11'>
-                                        <p className='company-prof'>
-                                            <a href={this.state.company.website}>{this.state.company.website}</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='col-lg-6 col-md-6 col-sm-6'> 
-                                <div className='padded-to-right'>
-                                    <div className='row'>                                
-                                        <div className='col-lg-1 col-md-1 col-sm-1'>
-                                            <i className="fa fa fa-users fa-lg with-color pr1" aria-hidden="true"></i>
+                            <div className='col-md-12'>
+                                <h4 className='company-header fs25'>{this.state.company.name}</h4>
+                                <div className='col-lg-6 col-md-6'> 
+                                    <div className='row'>                                              
+                                        <div className='col-lg-1 col-md-1'>
+                                            <i className="fa fa-map-marker fa-lg color-red pr1" aria-hidden="true"></i>
                                         </div>
-                                        <div className='col-lg-11 col-md-11 col-sm-11'>
+                                        <div className='col-lg-11 col-md-11'>
                                             <p className='company-prof'>
-                                                {this.state.company.numOfEmp} employees
+                                                {this.state.company.street} {this.state.company.city}, {this.state.company.country}
+                                            </p>
+                                        </div>                    
+                                    </div>
+                                    <div className='row'>
+                                        <div className='col-lg-1 col-md-1'>
+                                            <i className="fa fa-industry fa-lg with-color pr1" aria-hidden="true"></i>
+                                        </div>
+                                        <div className='col-lg-11 col-md-11'>
+                                            <p className='company-prof'>
+                                                {this.state.company.industry}
+                                            </p> 
+                                        </div>                                    
+                                    </div>   
+                                    <div className='row'>              
+                                        <div className='col-lg-1 col-md-1'>
+                                            <i className="fa fa-globe fa-lg with-color pr1" aria-hidden="true"></i>
+                                        </div>
+                                        <div className='col-lg-11 col-md-11'>
+                                            <p className='company-prof'>
+                                                <a href={this.state.company.website}>{this.state.company.website}</a>
                                             </p>
                                         </div>
                                     </div>
-                                    <div className='row'>     
-                                        <div className='col-lg-1 col-md-1 col-sm-1'>
-                                            <i className="fa fa-american-sign-language-interpreting fa-lg with-color pr1" aria-hidden="true"></i>
+                                </div>
+                                <div className='col-lg-6 col-md-6'> 
+                                    <div className='padded-to-right'>
+                                        <div className='row'>                                
+                                            <div className='col-lg-1 col-md-1'>
+                                                <i className="fa fa fa-users fa-lg with-color pr1" aria-hidden="true"></i>
+                                            </div>
+                                            <div className='col-lg-11 col-md-11'>
+                                                <p className='company-prof'>
+                                                    {this.state.company.numOfEmp} employees
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className='col-lg-11 col-md-11 col-sm-11'>
-                                            <p className='company-prof'>
-                                                {this.state.company.languageSpoken}
-                                            </p> 
+                                        <div className='row'>     
+                                            <div className='col-lg-1 col-md-1'>
+                                                <i className="fa fa-american-sign-language-interpreting fa-lg with-color pr1" aria-hidden="true"></i>
+                                            </div>
+                                            <div className='col-lg-11 col-md-11'>
+                                                <p className='company-prof'>
+                                                    {this.state.company.languageSpoken}
+                                                </p> 
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>               
+                                    </div>               
+                                </div>
                             </div>
                         </div>                    
                     </div>
@@ -180,7 +184,7 @@ export default class CompanyProfile extends React.Component{
         if(this.props.currentCompany){
             return(
                 <div className='pull-right'>
-                    <button onClick={() => this.setState({ editProfile: true })} className='btn btn-primary company-edit'><i className="fa fa-pencil pr1" aria-hidden="true"></i>Edit Company Profile</button>
+                    <button onClick={() => this.setState({ editProfile: true })} className='btn btn-primary company-overview'><i className="fa fa-pencil pr1" aria-hidden="true"></i>Edit Company Profile</button>
                 </div>
             )
         }

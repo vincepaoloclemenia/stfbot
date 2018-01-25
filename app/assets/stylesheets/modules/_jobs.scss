@@ -36,13 +36,25 @@
         background: white;
     }
 
+    img.company-profile-avatar{
+        position: absolute;
+        height: 130px;
+        width: 130px;
+        border: 3px solid $blue;
+        margin-left: 4%;
+        margin-top: -107px;
+        background: white;
+    }
+
     h5.comp-header{
         font-family: 'Patua One', sans-serif;
         color: $main-color;  
         &.pl20 { padding-left: 20px }
         &.fs25 { font-size: 25px }
+        &.fs20 { font-size: 20px }
         &.fs18 { font-size: 18px }
         &.fs16 { font-size: 16px }
+        padding-bottom: 5px;
     }
     div.company-preview{
         font-size: 12px;
@@ -53,7 +65,13 @@
 
     p.form-paragraph{
         font-size: 12px;
+        font-weight: 600;
         color: darken(grey, 15%);
+    }
+    a.form-paragraph{
+        font-family: 'Noto Sans', sans-serif;        
+        font-size: 15px;
+        color: darken($light-blue, 35%);
     }
     li.list-button{
         cursor: pointer;
@@ -78,5 +96,13 @@
                 display: inline-block;       
             }
         }
+    }
+    label.info{
+        padding: 10px;
+        background-color: lighten(lightgreen, 15%);
+        color: darken(lightseagreen, 10%);
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 600;
+        font-size: 13px;        
     }
 }

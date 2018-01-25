@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       get :suggestions, on: :collection
       get :get_cities, on: :collection
       get :get_states, on: :collection
+      post :apply, on: :collection
     end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
@@ -71,7 +72,7 @@ Rails.application.routes.draw do
   
   get '/candidate/recommended-jobs' => 'users#recommended_jobs', as: :recommendations
   get '/:slug/jobs' => 'jobs#jobs', as: :jobs
-  get '/:slug/jobs/:id' => 'jobs#show', as: :job
+  get '/:slug/jobs/:title' => 'jobs#show', as: :job
   get 'inquire' => 'pages#inquire', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  
   get 'users/:username' => 'users#show', as: :profile

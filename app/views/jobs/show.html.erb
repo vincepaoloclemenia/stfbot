@@ -1,0 +1,7 @@
+<div class='row m70'>
+    <%= react_component 'Job', { 
+        url: "/#{@job.company.slug}/jobs/#{@job.slug}.json",
+        companyUrl: company_path(@job.company)
+        } 
+    %>
+</div>

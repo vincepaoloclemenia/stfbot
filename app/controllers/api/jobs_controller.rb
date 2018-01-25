@@ -88,6 +88,16 @@ class Api::JobsController < Api::BaseController
         end
     end
 
+    def apply
+        @job = Job.find(params[:id])
+        @application = current_user.apply(@job)
+        if @application.save
+            render json: { applied: current_user.applied?(@job) }
+        else
+            render json: { message: @application.errors.full_messages }
+        end
+    end
+
     private
 
         def job_params

@@ -53,6 +53,42 @@
         }
         height: 40px;
     }
+    &.apply{
+        font-family: 'Noto Sans', sans-serif;        
+        position: relative;
+        font-weight: 500;
+        font-size: 13px;
+        background-color: $blue; 
+        width: 140px;
+        color: white;
+        border: none;
+        &:hover{
+            &:hover{
+                background-color: lighten($blue, 20%);
+                transition: 0.5s;
+            }
+        }
+        height: 40px;
+    }
+    &.save{
+        font-weight: 500;
+        font-family: 'Noto Sans', sans-serif;        
+        position: relative;
+        font-size: 13px;
+        background-color: transparent; 
+        width: 140px;
+        color: darken(grey, 20%);
+        border: solid 1px darken(grey, 20%);
+        &:hover{
+            &:hover{
+                border: solid 1px #FF5D7B;
+                background-color: #FF5D7B;
+                transition: 0.5s;
+                color: white;
+            }
+        }
+        height: 40px;
+    }
 
     &.btn35{ height: 35px }
     &.table-btn, &.modal-btn, &.add_fields {
@@ -64,6 +100,8 @@
             transition: 0.5s;
         }
     }
+
+    &.inline { display: inline-block }
 
     &.cancel{
         background-color: transparent; 

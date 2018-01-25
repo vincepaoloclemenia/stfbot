@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   extend FriendlyId
+  include ApplyJob
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -10,8 +11,6 @@ class User < ApplicationRecord
   has_many :work_experiences, dependent: :destroy
   has_one :address, dependent: :destroy
   has_many :created_jobs, class_name: 'Job', source: :user_id, dependent: :destroy
-  has_many :job_applications, dependent: :destroy
-  has_many :applied_jobs, class_name: 'Job', through: :job_applications, source: :job, dependent: :destroy
   has_one :preference, dependent: :destroy
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable

@@ -121,11 +121,11 @@ export default class CompanyEdit extends React.Component{
                     <div className='modal-form-container'>
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Name</label>
+                                <label className='form-label'>Name</label>
                                 <input className='form-control' value={this.state.companyName} type='text' onChange={ e => this.setState({ companyName: e.target.value })} />
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Industry</label>
+                                <label className='form-label'>Industry</label>
                                 <Select.Creatable
                                     optionClassName='form-control'
                                     options={this.state.industries}
@@ -137,11 +137,11 @@ export default class CompanyEdit extends React.Component{
 
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Contact</label>
+                                <label className='form-label'>Contact</label>
                                 <input className='form-control' value={this.state.telefax} type='text' onChange={ e => this.setState({ telefax: e.target.value })} />
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Company Size</label>
+                                <label className='form-label'>Company Size</label>
                                 <Select.Creatable
                                     optionClassName='form-control'
                                     options={this.state.sizes}
@@ -158,7 +158,7 @@ export default class CompanyEdit extends React.Component{
                         
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Country</label>
+                                <label className='form-label'>Country</label>
                                 <Select.Creatable
                                     optionClassName='form-control'
                                     options={this.state.countries}
@@ -167,7 +167,7 @@ export default class CompanyEdit extends React.Component{
                                 />
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>State</label>
+                                <label className='form-label'>State</label>
                                 <Select.Creatable
                                     optionClassName='form-control'
                                     options={this.state.states}
@@ -180,7 +180,7 @@ export default class CompanyEdit extends React.Component{
                         
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>City</label>
+                                <label className='form-label'>City</label>
                                 <Select.Creatable
                                     optionClassName='form-control'
                                     options={this.state.cities}
@@ -189,7 +189,7 @@ export default class CompanyEdit extends React.Component{
                                 />
                             </div>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Street</label>
+                                <label className='form-label'>Street</label>
                                 <input className='form-control' value={this.state.street} type='text' onChange={ e => this.setState({ street: e.target.value })} />
                             </div>
                         </div>
@@ -200,24 +200,24 @@ export default class CompanyEdit extends React.Component{
                         
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>First Name</label>
+                                <label className='form-label'>First Name</label>
                                 <input className='form-control' value={this.state.firstName} placeholder='First Name' onChange={e => this.setState({ firstName: e.target.value })} />
                             </div>
             
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Last Name</label>
+                                <label className='form-label'>Last Name</label>
                                 <input className='form-control' value={this.state.lastName} placeholder='Last Name' onChange={e => this.setState({ lastName: e.target.value })} />
                             </div>
                         </div>
 
                         <div className='row pb20'>
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Email</label>
+                                <label className='form-label'>Email</label>
                                 <input className='form-control' value={this.state.email} placeholder='First Name' onChange={e => this.setState({ email: e.target.value })} />
                             </div>
             
                             <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>Username</label>
+                                <label className='form-label'>Username</label>
                                 <input className='form-control' value={this.state.username} placeholder='Last Name' onChange={e => this.setState({ username: e.target.value })} />
                             </div>
                         </div>

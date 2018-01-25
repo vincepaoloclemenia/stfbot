@@ -59,6 +59,7 @@
     }
     div.padded-to-right { padding-left: 25px }
     .panel-body{
+        &.absolute{ position: absolute; z-index: 999 }
         &.mt25{ margin-top: 25px }
         &.mb25{ margin-bottom: 25px }
         &.mr20{ margin-right: 20px }
@@ -95,7 +96,10 @@
         padding: 55px 0px 50px 60px;
         word-wrap: break-word;
         margin-bottom: 10px;
+        font-size: 12px;
+        font-family: 'Open Sans', sans-serif;        
     }
+
     div.company-content{
         font-family: 'Open Sans', sans-serif;
         text-align: justify;
@@ -115,9 +119,10 @@
         background: white;
     }
     p.company-prof{
-        font-size: 13px;
+        font-family: 'Open Sans', sans-serif;        
+        font-size: 12px;
         padding-bottom: 20px;
-        font-weight: 500;
+        font-weight: 600;
         word-wrap: break-word;
     }
 
