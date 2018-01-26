@@ -53,7 +53,7 @@ export default class PreferenceJob extends React.Component{
                                 <div className="panel-body mb25">
                                     <div className='row pt20 pb20 bordered'>
                                         <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                                            <div className='label-for-preference'><h4>Job Function</h4></div>
+                                            <div className='label-for-preference'><h5>Job Function</h5></div>
                                             {this.state.functions.map( (func, index) => 
                                                 <div className='row pb20' key={index}>
                                                     <div className='col-lg-12 col-md-12 col-sm-12'>

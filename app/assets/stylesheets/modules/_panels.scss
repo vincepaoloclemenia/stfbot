@@ -86,6 +86,14 @@
         &.fs18 { font-size: 18px }
         &.fs16 { font-size: 16px }
     }
+    h5.job-header{
+        cursor: pointer;
+        font-size: 18px;
+        color: $main-color;
+        font-family: 'Patua One', sans-serif;
+        font-weight: 300;        
+        &:hover{ text-decoration: underline }
+    }
 
     div.company-cover-pad{
         z-index: 999;
@@ -169,7 +177,18 @@
             font-size: 13px;
             font-family: 'Noto Sans', sans-serif;
         }
+        
     }
+
+    p.job-par{
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 500px;
+        color: grey;
+        font-size: 11px;
+        &.pull-right{ align-content: right }
+    }
+
+    div.pull-left{ float: left }
 
     li.list-item, div.preference{
         margin-left: 20px;

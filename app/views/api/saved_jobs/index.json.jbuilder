@@ -1,5 +1,5 @@
 json.jobs do |json|
-    json.array! @jobs do |job|
+    json.array! @saved_jobs do |job|
         json.id job.id
         json.title job.title
         json.location job.location
@@ -18,6 +18,7 @@ json.jobs do |json|
         json.description job.description
         json.requirements job.requirements
         json.preferred_courses job.preferred_courses
+        json.savedAlready current_user.saved?(job)
         json.company do |c|
             c.name job.company.name
             c.avatar job.company.avatar
@@ -25,6 +26,7 @@ json.jobs do |json|
             c.why_join_us job.company.why_join_us
             c.benefits job.company.benefits
             c.website job.company.website
+            c.company_url company_path(job.company)
         end
         json.creator do |c|
             c.id job.creator.id

@@ -70,6 +70,25 @@
         }
         height: 40px;
     }
+    &.unsave{
+        font-weight: 500;
+        font-family: 'Noto Sans', sans-serif;        
+        position: relative;
+        font-size: 13px;
+        background-color: transparent; 
+        width: 140px;
+        color: darken(grey, 20%);
+        border: solid 1px darken(grey, 20%);
+        &:hover{
+            &:hover{
+                border: solid 1px darken(grey, 20%);
+                background-color: darken(grey, 20%);
+                transition: 0.5s;
+                color: white;
+            }
+        }
+        height: 40px;
+    }
     &.save{
         font-weight: 500;
         font-family: 'Noto Sans', sans-serif;        

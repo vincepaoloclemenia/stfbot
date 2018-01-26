@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   extend FriendlyId
   include ApplyJob
+  include SaveJobs
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -12,6 +13,9 @@ class User < ApplicationRecord
   has_one :address, dependent: :destroy
   has_many :created_jobs, class_name: 'Job', source: :user_id, dependent: :destroy
   has_one :preference, dependent: :destroy
+  has_many :suggested_jobs, dependent: :destroy
+  has_many :preferred_jobs, class_name: 'Job', source: :user, dependent: :destroy
+
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable
           #:confirmable, :lockable, :timeoutable,
@@ -22,7 +26,8 @@ class User < ApplicationRecord
   validates_attachment :avatar,
                       :content_type => { :content_type => /^image\/(png|gif|jpeg|jpg)/, message: "must be in the format png|gif|jpg" },
                       :size => { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
-  validates_attachment :resume, content_type: { content_type: /^application\/(pdf|doc|docx)/, message: "Only accepts pdf or doc files" }
+  
+                      validates_attachment :resume, content_type: { content_type: /^application\/(pdf|doc|docx)/, message: "Only accepts pdf or doc files" }
 
   validates_presence_of :first_name, :last_name, :role
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }

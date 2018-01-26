@@ -4,7 +4,15 @@ import FroalaView from 'react-froala-wysiwyg/FroalaEditorView'
 export default class Job extends React.Component{
     constructor(props){
         super(props)
-        this.state = { job: {}, company: {}, requirements: [], preferredCourses: [], appliedAlready: null, isApplicant: null }
+        this.state = { 
+            job: {}, 
+            company: {}, 
+            requirements: [], 
+            preferredCourses: [], 
+            appliedAlready: this.props.appliedAlready, 
+            isApplicant: this.props.isApplicant, 
+            savedAlready: this.props.savedAlready 
+        }
     }
 
     handleApply(){
@@ -12,8 +20,39 @@ export default class Job extends React.Component{
             url: `/api/jobs/apply`,
             method: 'POST',
             data: { id: this.state.job.id },
+            success: (data) => {         
+                if(data){
+                    $.notify(data.message, { className: 'error', position: 'top center' })
+                }else      
+                this.setState({ appliedAlready: true })
+            }
+        })
+    }
+
+    handleSave(){
+        $.ajax({
+            url: `/api/jobs/save`,
+            method: 'POST',
+            data: { id: this.state.job.id },
             success: (data) => {               
-                this.setState({ appliedAlready: data.applied })
+                if(data){
+                    $.notify(data.message, { className: 'error', position: 'top center' })
+                }else      
+                this.setState({ savedAlready: true })
+            }
+        })
+    }
+
+    handleUnsave(){
+        $.ajax({
+            url: `/api/jobs/unsave`,
+            method: 'DELETE',
+            data: { id: this.state.job.id },
+            success: (data) => {               
+                if(data){
+                    $.notify(data.message, { className: 'error', position: 'top center' })
+                }else      
+                this.setState({ savedAlready: false })
             }
         })
     }
@@ -24,7 +63,6 @@ export default class Job extends React.Component{
             method: 'GET',
             dataType: 'JSON',
             success: (data) => {
-                console.log(data.job, data.job.company)
                 this.setState({ 
                     job: {
                        id: data.job.id,
@@ -52,9 +90,7 @@ export default class Job extends React.Component{
                         website: data.job.company.website,
                     },
                     preferredCourses: data.job.preferred_courses,
-                    requirements: data.job.requirements,
-                    appliedAlready: data.applied_already,
-                    isApplicant: data.is_applicant
+                    requirements: data.job.requirements
                 })
             }
         })
@@ -178,8 +214,14 @@ export default class Job extends React.Component{
 
     renderSaveButton(){
         if(this.state.appliedAlready){ return }
-        return(
-            <button className='btn btn-primary save inline'><i className="fa fa-heart pr1" aria-hidden="true"></i>Save Job</button>            
-        )
+        if(this.state.savedAlready){
+            return(
+                <button onClick={this.handleUnsave.bind(this)} className='btn btn-primary unsave inline'><i className="fa fa-heart pink pr1" aria-hidden="true"></i>Unsave Job</button>            
+            )
+        }else{
+            return(
+                <button onClick={this.handleSave.bind(this)} className='btn btn-primary save inline'><i className="fa fa-heart pr1" aria-hidden="true"></i>Save Job</button>            
+            )
+        }      
     }
 }

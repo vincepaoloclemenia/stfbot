@@ -1,5 +1,6 @@
 class Api::JobsController < Api::BaseController
     before_action :find_job, only: [:edit, :update, :destroy]
+    before_action :get_job, only: [:apply, :save, :unsave]
     def index
         @jobs = current_company.jobs.where(user_id: current_user.id)
     end
@@ -89,12 +90,26 @@ class Api::JobsController < Api::BaseController
     end
 
     def apply
-        @job = Job.find(params[:id])
         @application = current_user.apply(@job)
         if @application.save
-            render json: { applied: current_user.applied?(@job) }
         else
             render json: { message: @application.errors.full_messages }
+        end
+    end
+
+    def save
+        @item = current_user.save_job(@job)
+        if @item.save
+        else
+            render json: { message: @item.errors.full_messages }
+        end
+    end
+
+    def unsave
+        @item = current_user.unsave_job(@job)
+        if @item.save
+        else
+            render json: { message: @item.errors.full_messages }
         end
     end
 
@@ -120,6 +135,10 @@ class Api::JobsController < Api::BaseController
 
         def find_job
             @job = current_user.created_jobs.find(params[:id])
+        end
+        
+        def get_job
+            @job = Job.find(params[:id])
         end
         
 end

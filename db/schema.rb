@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180122051927) do
+ActiveRecord::Schema.define(version: 20180125030153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(version: 20180122051927) do
     t.index ["confirmation_token"], name: "index_admins_on_confirmation_token", unique: true
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "candidates", force: :cascade do |t|
+    t.bigint "job_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_candidates_on_job_id"
+    t.index ["user_id"], name: "index_candidates_on_user_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -192,6 +201,15 @@ ActiveRecord::Schema.define(version: 20180122051927) do
     t.index ["user_id"], name: "index_preferences_on_user_id"
   end
 
+  create_table "saved_jobs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_saved_jobs_on_job_id"
+    t.index ["user_id"], name: "index_saved_jobs_on_user_id"
+  end
+
   create_table "skills", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
@@ -199,6 +217,15 @@ ActiveRecord::Schema.define(version: 20180122051927) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_skills_on_user_id"
+  end
+
+  create_table "suggested_jobs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_suggested_jobs_on_job_id"
+    t.index ["user_id"], name: "index_suggested_jobs_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

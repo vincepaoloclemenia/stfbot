@@ -28,6 +28,8 @@ Rails.application.routes.draw do
       get :get_cities, on: :collection
       get :get_states, on: :collection
       post :apply, on: :collection
+      post :save, on: :collection
+      delete :unsave, on: :collection
     end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
@@ -43,6 +45,8 @@ Rails.application.routes.draw do
       get :get_states, on: :collection
       get :get_cities, on: :collection
     end
+    
+    resources :saved_jobs, only: :index 
 
     resources :users, only: [:index, :create, :destroy, :update] do
       get :user_profile, on: :collection
@@ -70,6 +74,7 @@ Rails.application.routes.draw do
 
   end
   
+  get '/:slug/my_saved_jobs' => 'saved_jobs#index', as: :saved_jobs
   get '/candidate/recommended-jobs' => 'users#recommended_jobs', as: :recommendations
   get '/:slug/jobs' => 'jobs#jobs', as: :jobs
   get '/:slug/jobs/:title' => 'jobs#show', as: :job

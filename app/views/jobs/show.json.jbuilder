@@ -31,6 +31,3 @@ json.job do |json|
         c.last_name @job.creator.last_name
     end
 end
-
-json.is_applicant current_user.role != 'company_admin'
-json.applied_already current_user.applied?(@job)

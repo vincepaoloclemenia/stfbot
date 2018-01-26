@@ -4,7 +4,7 @@
             <li id="toggle-btn"><button class='sidebar-btn'><span></span></button></li>
             <li class='<%= which_link?('pages')%>'><a href="/" class="menu-link"><i class="fa fa-tachometer fa-lg" aria-hidden="true"><span>Dashboard</span></i></a></li>
             <li class='<%= your_page?('users','profile') %>'><%= link_to '<i class="fa fa-list-alt fa-lg" aria-hidden="true"><span>My Profile</span></i>'.html_safe, user_profile_users_path, class: 'menu-link' %></li>
-            <li><a href="/" class="menu-link"><i class="fa fa-heart-o fa-lg" aria-hidden="true"><span>Saved Jobs</span></i></a></li>
+            <li class='<%= your_page?('saved_jobs','index') %>'><%= link_to '<i class="fa fa-heart-o fa-lg" aria-hidden="true"><span>Saved Jobs</span></i>'.html_safe, saved_jobs_path(current_user.slug), class: 'menu-link' %></li>
             <li class="<%= your_page?('users','recommended_jobs') %>"><a href="/candidate/recommended-jobs" class='menu-link'><i class="fa fa-shopping-bag fa-lg" aria-hidden="true"><span>Recommended Jobs</span></i></i></a></li>
         </ul>
     </div>
