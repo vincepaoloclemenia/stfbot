@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
 import VirtualizedSelect from 'react-virtualized-select'
+import FroalaView from 'react-froala-wysiwyg/FroalaEditorView'
 
 export default class EditEmployee extends React.Component{
     constructor(props){

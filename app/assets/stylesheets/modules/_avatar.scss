@@ -13,4 +13,5 @@ img.company-avatar{
     image-rendering: auto;
     image-rendering: crisp-edges;
     image-rendering: pixelated; 
+    &.for-saved-jobs{ height: 85px; width: 85px }
 }

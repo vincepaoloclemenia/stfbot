@@ -46,7 +46,9 @@ Rails.application.routes.draw do
       get :get_cities, on: :collection
     end
     
-    resources :saved_jobs, only: :index 
+    resources :saved_jobs, only: :index do
+      get :applied_jobs, on: :collection
+    end
 
     resources :users, only: [:index, :create, :destroy, :update] do
       get :user_profile, on: :collection
@@ -59,6 +61,7 @@ Rails.application.routes.draw do
       put :upload_avatar, on: :collection
       delete :delete_picture, on: :collection
       delete :delete_resume, on: :collection
+      get :candidate, on: :collection
     end
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection
@@ -74,6 +77,7 @@ Rails.application.routes.draw do
 
   end
   
+  get '/:slug/my_applications' => 'saved_jobs#my_applications', as: :applications
   get '/:slug/my_saved_jobs' => 'saved_jobs#index', as: :saved_jobs
   get '/candidate/recommended-jobs' => 'users#recommended_jobs', as: :recommendations
   get '/:slug/jobs' => 'jobs#jobs', as: :jobs

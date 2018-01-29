@@ -44,7 +44,7 @@ class Api::WorkExperiencesController < Api::BaseController
     private
 
         def work_experience_params
-            params.require(:work_experience).permit(:company_name, :job_title, :employment_from, :employment_to, :job_level, :job_functions, :job_description, :employment_status)
+            params.require(:work_experience).permit(:company_name, :job_title, :employment_from, :employment_to, :job_level, :job_functions, :job_description, :employment_status, :achievements)
         end
 
 end

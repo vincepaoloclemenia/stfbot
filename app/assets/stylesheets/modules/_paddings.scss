@@ -3,6 +3,7 @@
         margin-top: 70px;
         margin-bottom: 70px;
     }
+    &.mt30 { margin-top: 30px }
     &.mb50{ margin-bottom: 50px }
     &.pb20{ padding-bottom: 20px }
     &.mb20 { margin-bottom: 20px }
@@ -15,6 +16,7 @@
     &.h90{ height: 90px }
     &.h120{ height: 20% }
     &.ml20 { margin-left: 20px }
+    &.mr15 { margin-right: 15px }
     &.mr20{ margin-right: 20px }
     &.pt35 { padding-top: 35px }
     &.pt10 { padding-top: 10px }
@@ -53,7 +55,8 @@ span.gap3{
     }
 }
 span.gap1{
-    padding-left: 1em
+    padding-left: 1em;
+    padding-bottom: 1em;
 }
 
 span.gap1-right{ padding-right: 1em }

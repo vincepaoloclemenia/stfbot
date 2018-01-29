@@ -5,7 +5,8 @@ import 'react-virtualized-select/styles.css'
 import Select from 'react-select';
 import React, { Component } from 'react';
 import VirtualizedSelect from 'react-virtualized-select'
-
+import 'froala-editor/js/froala_editor.pkgd.min.js'
+import Froala from 'react-froala-wysiwyg'
 
 export default class EducationNew extends React.Component{
     constructor(props){
@@ -37,7 +38,8 @@ export default class EducationNew extends React.Component{
                                     attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
                                     attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
                                     course: this.state.course === null ? null : this.state.course.label,
-                                    status: this.state.wasGraduated                    
+                                    status: this.state.wasGraduated,
+                                    accomplishments: this.state.accomplishments                    
                                 }
             },
             success: (response ) => {
@@ -77,7 +79,7 @@ export default class EducationNew extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>Education Attainment</label>
+                        <label className='form-label'>Education Attainment</label>
                         <VirtualizedSelect
                         options={this.state.attainments}
                         onChange={(value) => this.setState({ attainment: value, showCourse: value.label === 'College' || value.label === 'Vocational' ? true : false, course: value.label === 'High School' ? null : this.state.course })}
@@ -91,7 +93,7 @@ export default class EducationNew extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>School Name</label>
+                        <label className='form-label'>School Name</label>
                         <Select.Creatable
                         options={this.state.universities}
                         onChange={(selectValue) => this.setState({ selectValue })}
@@ -101,7 +103,7 @@ export default class EducationNew extends React.Component{
                 </div>
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>From:</label>   
+                        <label className='form-label'>From:</label>   
                         <div className='row'>
                             <div className='col-md-6'>                              
                                 <VirtualizedSelect
@@ -128,7 +130,7 @@ export default class EducationNew extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>To:</label>       
+                        <label className='form-label'>To:</label>       
                         <div className='row'>
                             <div className='col-md-6'>
                                 <VirtualizedSelect
@@ -155,7 +157,20 @@ export default class EducationNew extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <input type='checkbox'  checked={this.state.wasGraduated} onChange={this.handleCheck.bind(this)} /><label className='panel-label'><span className='gap3'>I've graduated</span></label>
+                        <input type='checkbox'  checked={this.state.wasGraduated} onChange={this.handleCheck.bind(this)} /><label className='form-label'><span className='gap3'>I've graduated</span></label>
+                    </div>
+                </div>
+
+                <div className='row pb20'>
+                    <div className='col-md-10 col-md-offset-1'>
+                        <label className='form-label'>Accomplishments / Achiements (optional)</label>
+                        <Froala
+                            options={this.options}
+                            tag='textarea'
+                            config={{ placeholderText: 'What have accomplished as student?', charCounterCount: false}}
+                            model={this.state.accomplishments}
+                            onModelChange={(model) => this.setState({ accomplishments: model })}
+                        />    
                     </div>
                 </div>
 
@@ -190,7 +205,7 @@ export default class EducationNew extends React.Component{
             return(
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>Course/Degree: </label>       
+                        <label className='form-label'>Course/Degree: </label>       
                         <Select.Creatable
                         options={this.state.courses}
                         onChange={(value) => this.setState({ course: value })}

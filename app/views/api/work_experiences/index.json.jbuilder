@@ -9,5 +9,6 @@ json.experiences do |work_exp|
         json.employment_to work_exp.employment_status ? 'Current' : work_exp.employment_to.strftime('%B %Y') 
         json.job_level work_exp.job_level
         json.employment_status work_exp.employment_status
+        json.achievements work_exp.achievements
     end
 end

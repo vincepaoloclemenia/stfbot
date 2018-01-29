@@ -54,7 +54,7 @@ class Api::EducationsController < Api::BaseController
     private
 
     def education_params
-        params.require(:education).permit(:school_name, :education_attainment, :attend_from, :attend_to, :status, :accomplishment, :course)
+        params.require(:education).permit(:school_name, :education_attainment, :attend_from, :attend_to, :status, :accomplishments, :course)
     end
 
 end

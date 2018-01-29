@@ -5,6 +5,8 @@ import 'react-virtualized-select/styles.css'
 import Select from 'react-select';
 import React, { Component } from 'react';
 import VirtualizedSelect from 'react-virtualized-select'
+import 'froala-editor/js/froala_editor.pkgd.min.js'
+import Froala from 'react-froala-wysiwyg'
 
 export default class EducationEdit extends React.Component{
     constructor(props){
@@ -23,6 +25,7 @@ export default class EducationEdit extends React.Component{
             monthTo: null,            
             yearTo: null,
             wasGraduated: this.props.education.graduate,
+            accomplishments: this.props.education.accomplishments
         }
     }
 
@@ -36,12 +39,12 @@ export default class EducationEdit extends React.Component{
                                     attend_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, 'MMM-YYYY').format(),
                                     attend_to: moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, 'MMM-YYYY').format(),
                                     course: this.state.course === '' ? '' : this.state.course.label,
-                                    status: this.state.wasGraduated                    
+                                    status: this.state.wasGraduated,
+                                    accomplishments: this.state.accomplishments                   
                                 }
             },
             success: (response ) => {
                 this.props.onUpdate()
-                console.log ('It Worked!', response)
             },
             error: (response) => {
                 this.props.closeForm()
@@ -164,6 +167,19 @@ export default class EducationEdit extends React.Component{
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
                         <input type='checkbox' checked={this.state.wasGraduated} onChange={this.handleCheck.bind(this)} /><label className='panel-label'><span className='gap3'>I've graduated</span></label>
+                    </div>
+                </div>
+
+                <div className='row pb20'>
+                    <div className='col-md-10 col-md-offset-1'>
+                        <label className='form-label'>Accomplishments / Achiements (optional)</label>
+                        <Froala
+                            options={this.options}
+                            tag='textarea'
+                            config={{ placeholderText: 'What have accomplished as student?', charCounterCount: false}}
+                            model={this.state.accomplishments}
+                            onModelChange={(model) => this.setState({ accomplishments: model })}
+                        />    
                     </div>
                 </div>
 

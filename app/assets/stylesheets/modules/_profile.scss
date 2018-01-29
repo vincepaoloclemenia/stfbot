@@ -6,3 +6,48 @@ ul.user-credentials{
         padding: 3px 0px;
     }
 }
+div.col-md-12 {
+    &.mt30{ margin-top: 30px }
+    div.profile-container, div.profile-preview{
+        padding-top: 30px;
+        width: 900px;
+        position: relative;
+        margin:0 auto;
+        line-height: 1.4em;
+        font-size: 12px;
+        color: darken(grey, 15%);        
+        justify-content: flex-start;
+        ul.user-credentials{
+            li { list-style: none }
+        }
+        li.profile-item{
+            margin-bottom: 20px;
+            list-style: none;
+            padding: 5px 15px;
+            font-size: 12px;
+            color: darken(grey, 15%);
+            p { padding-bottom: 8px }
+        }
+        h5.profile-header { color: $main-color }
+    }
+    li.profile-list { list-style: disc }
+}
+    
+
+@media only screen and (max-width: 950px){
+    div.profile-preview{ 
+        width: 700px; 
+    }
+}
+
+@media only screen and (max-width: 750px){
+    div.profile-preview{ 
+        width: 500px; 
+    }
+}
+
+@media only screen and (max-width: 550px){
+    div.profile-preview{ 
+        width: 400px; 
+    }
+}

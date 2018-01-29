@@ -7,5 +7,6 @@ json.educations do |education|
         json.attend_to education.attend_to.strftime('%B %Y')
         json.graduate education.status
         json.course education.course
+        json.accomplishments education.accomplishments
     end
 end

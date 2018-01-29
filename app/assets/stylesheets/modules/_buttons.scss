@@ -62,13 +62,12 @@
         width: 140px;
         color: white;
         border: none;
-        &:hover{
-            &:hover{
-                background-color: lighten($blue, 20%);
-                transition: 0.5s;
-            }
+        &:hover{           
+            background-color: lighten($blue, 20%);
+            transition: 0.5s;            
         }
         height: 40px;
+        &.w120{ width: 120px }
     }
     &.unsave{
         font-weight: 500;
@@ -88,6 +87,7 @@
             }
         }
         height: 40px;
+        &.w120{ width: 120px }
     }
     &.save{
         font-weight: 500;

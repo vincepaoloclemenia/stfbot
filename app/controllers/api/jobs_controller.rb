@@ -92,6 +92,7 @@ class Api::JobsController < Api::BaseController
     def apply
         @application = current_user.apply(@job)
         if @application.save
+            current_user.unsave_job(@job) if current_user.saved?(@job)
         else
             render json: { message: @application.errors.full_messages }
         end

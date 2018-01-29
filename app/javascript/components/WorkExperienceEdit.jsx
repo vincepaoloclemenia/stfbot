@@ -5,6 +5,8 @@ import 'react-virtualized-select/styles.css'
 import Select from 'react-select';
 import React, { Component } from 'react';
 import VirtualizedSelect from 'react-virtualized-select'
+import 'froala-editor/js/froala_editor.pkgd.min.js'
+import Froala from 'react-froala-wysiwyg'
 
 export default class WorkExperienceEdit extends React.Component{
     constructor(props){
@@ -12,7 +14,9 @@ export default class WorkExperienceEdit extends React.Component{
         this.state = { 
             company: this.props.experience.company_name, 
             jobTitle: this.props.experience.job_title, 
-            employed: this.props.experience.employment_status
+            employed: this.props.experience.employment_status,
+            description: this.props.experience.job_description,
+            achievements: this.props.experience.achievements
         }
     }
 
@@ -27,7 +31,9 @@ export default class WorkExperienceEdit extends React.Component{
                 employment_from: moment(`${this.state.monthFrom.label} ${this.state.yearFrom.label}`, "MMM-YYYY").format(),
                 employment_to: this.state.employed ? null : moment(`${this.state.monthTo.label} ${this.state.yearTo.label}`, "MMM-YYYY").format(),
                 job_functions: this.state.jobFunction.label,
-                employment_status: this.state.employed
+                employment_status: this.state.employed,
+                achievements: this.state.achievements,
+                job_description: this.state.description
             }},
             success: (data) => {
                 this.props.onUpdate()
@@ -61,12 +67,17 @@ export default class WorkExperienceEdit extends React.Component{
         })
     }
 
+    config1 = {
+        placeholderText: 'What are your tasks during your employment?',
+        charCounterCount: false
+    }
+
     render(){
         return(
             <div className='panel-body mb25 mt25'>
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>Job Title</label>
+                        <label className='form-label'>Job Title</label>
                         <input type='text'
                             className='form-control'
                             onChange={(event) => this.setState({ jobTitle: event.target.value })}
@@ -78,7 +89,7 @@ export default class WorkExperienceEdit extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>Company</label>
+                        <label className='form-label'>Company</label>
                         <input type='text'
                             className='form-control'
                             onChange={(event) => this.setState({ company: event.target.value })}
@@ -92,7 +103,7 @@ export default class WorkExperienceEdit extends React.Component{
                     <div className='col-md-10 col-md-offset-1'>
                         <div className='row'>
                             <div className='col-md-6'>
-                                <label className='panel-label'>Job Level</label>
+                                <label className='form-label'>Job Level</label>
                                 <VirtualizedSelect
                                 optionClassName='form-control'
                                 options={this.state.jobLevels}
@@ -101,7 +112,7 @@ export default class WorkExperienceEdit extends React.Component{
                                 />
                             </div>
                             <div className='col-md-6'>
-                                <label className='panel-label'>Job Functions</label>
+                                <label className='form-label'>Job Functions</label>
                                 <Select.Creatable
                                 optionClassName='form-control'
                                 options={this.state.jobFunctions}
@@ -116,7 +127,7 @@ export default class WorkExperienceEdit extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <label className='panel-label'>From:</label>   
+                        <label className='form-label'>From:</label>   
                         <div className='row'>
                             <div className='col-md-6'>                              
                                 <VirtualizedSelect
@@ -142,11 +153,37 @@ export default class WorkExperienceEdit extends React.Component{
 
                 <div className='row pb20'>
                     <div className='col-md-10 col-md-offset-1'>
-                        <input type='checkbox' checked={this.state.employed} onChange={this.handleCheck.bind(this)} /><label className='panel-label'><span className='gap3'>Currently Employed</span></label>  
+                        <input type='checkbox' checked={this.state.employed} onChange={this.handleCheck.bind(this)} /><label className='form-label'><span className='gap3'>Currently Employed</span></label>  
                     </div>
                 </div>
 
                 {this.renderTo()}
+
+                <div className='row pb20'>
+                    <div className='col-md-10 col-md-offset-1'>
+                        <label className='form-label'>Description of your task</label>
+                        <Froala
+                            options={this.options}
+                            tag='textarea'
+                            config={this.config1}
+                            model={this.state.description}
+                            onModelChange={(model) => this.setState({ description: model })}
+                        />    
+                    </div>
+                </div>
+
+                <div className='row pb20'>
+                    <div className='col-md-10 col-md-offset-1'>
+                        <label className='form-label'>Achievements (optional)</label>
+                        <Froala
+                            options={this.options}
+                            tag='textarea'
+                            config={{ placeholderText: 'What are your achiements during your employment?', charCounterCount: false}}
+                            model={this.state.achievements}
+                            onModelChange={(model) => this.setState({ achievements: model })}
+                        />    
+                    </div>
+                </div>
 
                 <div className='row pt20'>
                     <div className='col-md-10 col-md-offset-1'>
@@ -175,7 +212,7 @@ export default class WorkExperienceEdit extends React.Component{
         return(
             <div className='row pb20'>
                 <div className='col-md-10 col-md-offset-1'>
-                    <label className='panel-label'>To:</label>
+                    <label className='form-label'>To:</label>
                     
                     <div className='row'>
                         <div className='col-md-6'>                              

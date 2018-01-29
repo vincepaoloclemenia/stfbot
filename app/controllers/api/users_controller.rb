@@ -1,5 +1,5 @@
 class Api::UsersController < Api::BaseController
-    before_action :authenticate_user!, except: [:get_countries, :get_states, :get_cities]
+    before_action :authenticate_user!, except: [:get_countries, :get_states, :get_cities, :candidate]
     #before_action :authenticate_role, only: :update
     def index
         respond_with User.all
@@ -88,6 +88,12 @@ class Api::UsersController < Api::BaseController
         @months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         @days = (1...32).map{ |i| i.to_s }
         @genders = ['Male', 'Female']
+    end
+
+    def candidate
+        @experiences = current_user.work_experiences
+        @educations = current_user.educations
+        @skills = current_user.skills
     end
 
     private
