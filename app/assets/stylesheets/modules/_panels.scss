@@ -20,6 +20,7 @@
         &.with-border{
             border-bottom: 1px solid gray;
         }
+        h1, h2, h3, h4, h5 { color: grey }
     }
     li.user-profile{
         cursor: pointer;
@@ -201,6 +202,41 @@
     
     li.skill-item{
         font-size: 15px;
+    }
+
+    div.candidate-profile{
+        h5 { 
+            font-family: 'Noto Sans', sans-serif; 
+            color: $main-color;
+            font-weight: 900;
+            font-size: 17px;
+            span{
+                color: grey;
+                font-size: 11px;
+                .pull-right{ float: right }
+            }
+        }
+        p {
+            color: darken(grey, 15%);
+            font-family: 'Open Sans', sans-serif;   
+            font-size: 11px;
+        }
+
+        li {
+            list-style: disc;
+            color: darken(grey, 15%);
+            font-family: 'Open Sans', sans-serif;   
+            font-size: 11px;
+            span { font-size: 11px }
+        }
+    }
+    ul.buttons{
+        li {
+            list-style: none;
+            display: inline;
+            margin-left: 15%;
+            color: darken(grey, 10%);
+        }
     }
 
     span.pull-right{ float: right !important }

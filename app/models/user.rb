@@ -2,6 +2,7 @@ class User < ApplicationRecord
   extend FriendlyId
   include ApplyJob
   include SaveJobs
+  include ViewJob
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -60,7 +61,16 @@ class User < ApplicationRecord
   end
 
   def employed?  
-    !company.nil?   
+    !company.nil?
+  end
+
+  def current_employment
+    experience = if !employed? && work_experiences.where(employment_status: true).exists?
+      work_experiences.find_by(employment_status: true)
+      else
+        nil
+    end
+    experience
   end
 
 end

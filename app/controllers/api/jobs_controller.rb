@@ -1,6 +1,6 @@
 class Api::JobsController < Api::BaseController
     before_action :find_job, only: [:edit, :update, :destroy]
-    before_action :get_job, only: [:apply, :save, :unsave]
+    before_action :get_job, only: [:apply, :save, :unsave, :view, :viewers, :applicants]
     def index
         @jobs = current_company.jobs.where(user_id: current_user.id)
     end
@@ -71,6 +71,14 @@ class Api::JobsController < Api::BaseController
         @suggestions = []
     end
 
+    def viewers
+        @viewers = @job.interested_applicants
+    end
+
+    def applicants
+        @applicants = @job.applicants
+    end
+
     def get_states
         @states = if params[:country].present? 
             @country = Api::FindState.new(params[:country])
@@ -113,6 +121,11 @@ class Api::JobsController < Api::BaseController
             render json: { message: @item.errors.full_messages }
         end
     end
+
+    def view
+        @view = current_user.view(@job)
+    end
+
 
     private
 

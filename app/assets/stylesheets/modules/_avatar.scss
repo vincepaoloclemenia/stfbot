@@ -15,3 +15,13 @@ img.company-avatar{
     image-rendering: pixelated; 
     &.for-saved-jobs{ height: 85px; width: 85px }
 }
+
+img.applicant-avatar{
+    border: 1px solid $blue;
+    height: 70px;
+    width: 70px;
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
+    //margin-top: 20%;
+}

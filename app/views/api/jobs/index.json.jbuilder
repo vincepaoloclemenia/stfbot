@@ -33,5 +33,7 @@ json.jobs do |json|
             c.last_name job.creator.last_name
             c.last_sign_in_at time_ago_in_words(job.creator.last_sign_in_at) + ' ago'
         end
+        json.applicants_count job.job_applications.unread.size
+        json.viewers_count job.viewers.unread.size
     end
 end

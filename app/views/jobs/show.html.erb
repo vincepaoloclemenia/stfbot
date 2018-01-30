@@ -4,7 +4,9 @@
         companyUrl: company_path(@job.company),
         appliedAlready: current_user.applied?(@job),
         isApplicant: current_user.role != 'company_admin',
-        savedAlready: current_user.saved?(@job)
+        savedAlready: current_user.saved?(@job),
+        hasNotViewed: !current_user.has_viewed?(@job) && current_user.role == 'applicant',
+        job: @job
         } 
     %>
 </div>

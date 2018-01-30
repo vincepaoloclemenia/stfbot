@@ -1,4 +1,41 @@
 .panel{
+    div.row.with-top-border.p10.h120{
+        h4 { cursor: pointer; color: $main-color }
+        color: grey;
+        font-family: 'Noto Sans', sans-serif;
+        font-weight: 500px;
+        list-style: none;
+        min-height: 100px;
+        position: relative;
+        padding: 20px 20px 20px 20px;
+        &:hover, &.active{ background-color: lighten(grey, 45%) }
+        p { font-size: 12px }
+        li.list-button{
+            list-style: none;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 12px;
+            &:hover{
+                text-decoration: underline;
+                color: $main-color;
+            }
+            &.new{
+                font-weight: 700;
+                color: $main-color;
+                span.new-notif{
+                    border-radius: 50%;
+                    padding: 3px 6px;
+                    background: darken(tomato, 20%);
+                    color: white;
+                    font-family: 'Noto Sans', sans-serif;
+                    font-size: 9px;  
+                    margin-left: 5px;
+                    display: inline-block;       
+                }
+            }
+        }
+    }
     li.job-item{
         h4 { cursor: pointer; color: $main-color }
         color: grey;

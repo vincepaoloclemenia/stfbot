@@ -58,6 +58,12 @@ export default class Job extends React.Component{
     }
 
     componentDidMount(){
+        if(this.props.hasNotViewed){
+            $.ajax({
+                url: `/api/jobs/view?id=${this.props.job.id}`,
+                method: 'POST'
+            })
+        }
         $.ajax({
             url: this.props.url,
             method: 'GET',

@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       post :apply, on: :collection
       post :save, on: :collection
       delete :unsave, on: :collection
+      post :view, on: :collection
+      get :viewers, on: :collection
+      get :applicants, on: :collection
     end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
@@ -84,7 +87,7 @@ Rails.application.routes.draw do
   get '/:slug/jobs/:title' => 'jobs#show', as: :job
   get 'inquire' => 'pages#inquire', as: :inquire
   get 'add_user' => 'companies#add_user', as: :add_user  
-  get 'users/:username' => 'users#show', as: :profile
+  get 'candidates/:slug' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard
   get 'user_signup' => 'pages#user_signup', as: :register
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
