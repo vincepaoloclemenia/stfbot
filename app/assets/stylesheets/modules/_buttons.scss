@@ -165,6 +165,15 @@
             transition: 0.5s;
         }
     }
+    &.translucent{
+        border: none;
+        color: grey;
+        font-size: 11px;
+        font-family: 'Noto Sans', sans-serif;
+        background-color: transparent;
+        &:hover{ color: $blue }
+        &.clicked{ color: $main-color }
+    }
     &.modal-cancel{
         font-size: 11px;
         font-family: 'Noto Sans', sans-serif;

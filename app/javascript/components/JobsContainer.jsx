@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import FroalaEditor from 'react-froala-wysiwyg'
 import JobAdd from 'components/JobAdd.jsx'
 import Show from 'components/JobShow.jsx'
-import ReactTooltip from 'react-tooltip'
 import Applicants from 'components/Applicants.jsx'
 import Viewers from 'components/Viewers.jsx'
 
@@ -50,10 +49,28 @@ export default class JobsContainer extends React.Component{
 
     openApplicants(job){
         this.setState({ openViewers: false, addNew: false, showJob: false, openApplicants: true, job, class: 'col-lg-6 col-md-6' })
+        if(job.applicants_count != 0){
+            $.ajax({
+                url: `/api/jobs/clear_count?id=${job.id}`,
+                method: 'PATCH',
+                success: () => {
+                    this.fetchData()
+                }
+            })
+        }      
     }
 
     openViewers(job){
         this.setState({ openApplicants: false, addNew: false, showJob: false, openViewers: true, job, class: 'col-lg-6 col-md-6' })
+        if(job.viewers_count != 0){
+            $.ajax({
+                url: `/api/jobs/clear_notif?id=${job.id}`,
+                method: 'PATCH',
+                success: () => {
+                    this.fetchData()
+                }
+            })
+        }
     }
 
     componentDidMount(){
@@ -108,7 +125,7 @@ export default class JobsContainer extends React.Component{
         return <Show close={false} onEdit={this.handleEdit.bind(this)} class={this.state.class} job={this.state.job} hide={() => this.setState({ showJob: false, class: this.className })} />
         
         if(this.state.openApplicants)
-        return<Applicants job={this.state.job} class={this.state.class} hide={() => this.setState({ openApplicants: false, class: this.className })} />
+        return<Applicants job={this.state.job} class={this.state.class} hide={() => this.setState({ openApplicants: false, class: this.className })} onMarkingRead={ () => this.fetchData() } />
 
         if(this.state.openViewers)
         return<Viewers job={this.state.job} class={this.state.class} hide={() => this.setState({ openViewers: false, class: this.className })} />
@@ -125,10 +142,9 @@ export default class JobsContainer extends React.Component{
                                 <p>Posted: {job.date}</p>
                             </div>
                             <div className='col-lg-5 col-md-5 col-sm-12 col-xs-12'>
-                                <ReactTooltip place='top'/>
-                                <li onClick={this.openViewers.bind(this, job)} className={job.viewers_count == 0 ? 'list-button' : 'list-button new'} data-tip='Who viewed this post?'><i className="fa fa fa-users pr1" aria-hidden="true"></i>Who viewed this job post?{this.notifCount(job.viewers_count)}</li>
-                                <li onClick={this.openApplicants.bind(this, job)} className={job.applicants_count == 0 ? 'list-button' : 'list-button new'} data-tip='Applicants'><i className="fa fa-folder pr1" aria-hidden="true"></i>Applicants{this.notifCount(job.applicants_count)}</li>                                
-                                <li className='list-button' data-tip='Suggested Candidates'><i className="fa fa-shopping-bag pr1" aria-hidden="true"></i>Suggested Candidates</li>
+                                <li onClick={this.openViewers.bind(this, job)} className={job.viewers_count == 0 ? 'list-button' : 'list-button new'} ><i className="fa fa fa-users pr1" aria-hidden="true"></i>Who viewed this job post?{this.notifCount(job.viewers_count)}</li>
+                                <li onClick={this.openApplicants.bind(this, job)} className={job.applicants_count == 0 ? 'list-button' : 'list-button new'} ><i className="fa fa-folder pr1" aria-hidden="true"></i>Applicants{this.notifCount(job.applicants_count)}</li>                                
+                                <li className='list-button'><i className="fa fa-shopping-bag pr1" aria-hidden="true"></i>Suggested Candidates</li>
                             </div>
                         </div>
                     </div>

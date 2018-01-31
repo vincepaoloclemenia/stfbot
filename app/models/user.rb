@@ -29,15 +29,14 @@ class User < ApplicationRecord
                       :size => { :in => 0..1000.kilobytes, message: "must be less than 1MB" }
   
                       validates_attachment :resume, content_type: { content_type: /^application\/(pdf|doc|docx)/, message: "Only accepts pdf or doc files" }
-
   validates_presence_of :first_name, :last_name, :role
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }
-
   friendly_id :username, use: [:slugged, :finders]
-
-  before_save :capitalize_names 
   validate :validate_role
   
+  #scope :qualified_applicants, -> { where.not(role: 'company_admin').joins(:job_applications).where( 'job_applications.qualified = ?', true ) }
+  
+  before_save :capitalize_names 
   after_destroy { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
 
   attr_accessor :login

@@ -33,6 +33,10 @@ Rails.application.routes.draw do
       post :view, on: :collection
       get :viewers, on: :collection
       get :applicants, on: :collection
+      patch :mark_as_read, on: :collection
+      patch :unread, on: :collection
+      patch :clear_count, on: :collection
+      patch :clear_notif, on: :collection
     end
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection

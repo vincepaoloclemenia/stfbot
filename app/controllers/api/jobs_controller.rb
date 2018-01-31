@@ -1,6 +1,6 @@
 class Api::JobsController < Api::BaseController
     before_action :find_job, only: [:edit, :update, :destroy]
-    before_action :get_job, only: [:apply, :save, :unsave, :view, :viewers, :applicants]
+    before_action :get_job, only: [:apply, :save, :unsave, :view, :viewers, :applicants, :mark_as_read, :unread, :clear_count, :clear_notif]
     def index
         @jobs = current_company.jobs.where(user_id: current_user.id)
     end
@@ -76,7 +76,8 @@ class Api::JobsController < Api::BaseController
     end
 
     def applicants
-        @applicants = @job.applicants
+        @unread = @job.unread_qualified_applicants
+        @read = @job.read_qualified_applicants
     end
 
     def get_states
@@ -126,6 +127,23 @@ class Api::JobsController < Api::BaseController
         @view = current_user.view(@job)
     end
 
+    def mark_as_read
+        @application = @job.unread_qualified_applications.find(params[:application_id])
+        @application.update(seen: true)
+    end
+
+    def unread
+        @application = @job.read_qualified_applications.find(params[:application_id])
+        @application.update(seen: false)
+    end
+
+    def clear_count
+        @job.unread_applications.update_all(read: true)
+    end
+
+    def clear_notif
+        @job.unchecked_viewers.update_all(checked: true )
+    end
 
     private
 
