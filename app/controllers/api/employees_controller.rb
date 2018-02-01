@@ -3,20 +3,20 @@ class Api::EmployeesController < Api::BaseController
     before_action :find_user, only: [:update, :destroy]
     before_action :find_company, only: [ :index, :create, :employers, :finance_admins ]
     def index
-        @employers = @company.users.where(role: 'employer')
-        @finance_admins = @company.users.where(role: 'finance admin')
+        @employers = @company.employees.where(role: 'employer')
+        @finance_admins = @company.employees.where(role: 'finance admin')
     end
 
     def employers
-        @employers = @company.users.where(role: 'employer')
+        @employers = @company.employees.where(role: 'employer')
     end
 
     def finance_admins
-        @finance_admins = @company.users.where(role: 'finance admin')
+        @finance_admins = @company.employees.where(role: 'finance admin')
     end
 
     def create
-        @user = @company.users.create(user_params)
+        @user = @company.employees.create(user_params)
         @user.save
         if @user.save
             render json: { status: 200, message: 'An Employee has been added successfully', user: @user }
@@ -45,7 +45,7 @@ class Api::EmployeesController < Api::BaseController
 
     private
         def find_user
-            @user = current_user.company.users.find(params[:id])
+            @user = current_user.company.employees.find(params[:id])
         end
 
         def find_company

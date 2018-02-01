@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   resources :companies, only: [:index, :show] do
     resources :jobs, only: [:index, :show]
   end
-  resources :employees, only: :index
   resources :inquiries, only: :index
   resources :applicants, only: :index
   
@@ -84,6 +83,7 @@ Rails.application.routes.draw do
 
   end
   
+  get '/:slug/employees' => 'employees#index', as: :employees
   get '/:slug/my_applications' => 'saved_jobs#my_applications', as: :applications
   get '/:slug/my_saved_jobs' => 'saved_jobs#index', as: :saved_jobs
   get '/candidate/recommended-jobs' => 'users#recommended_jobs', as: :recommendations

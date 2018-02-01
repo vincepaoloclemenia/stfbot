@@ -1,8 +1,8 @@
 class Company < ApplicationRecord
     extend FriendlyId
     include PgSearch
-    has_many :employees, class_name: 'CompanyEmployee', dependent: :destroy
-    has_many :users, through: :employees
+    has_many :company_employees, dependent: :destroy
+    has_many :employees, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy  
 
@@ -27,13 +27,13 @@ class Company < ApplicationRecord
     end
 
     def an_employee?(applicant)
-        users.pluck(:id).include?(applicant.id)
+        employees.pluck(:id).include?(applicant.id)
     end
 
     def company_profile
         progress = [
-            users.where(role: 'employer').exists?,
-            users.where(role: 'finance admin').exists?,
+            employees.where(role: 'employer').exists?,
+            employees.where(role: 'finance admin').exists?,
             avatar.url != '/img/company-no-image-avatar.png',
             overview.present?,
             why_join_us.present?
@@ -47,13 +47,17 @@ class Company < ApplicationRecord
     end
 
     def regulate_admins
-        if users.where(role: 'company_admin').size > 1 
-            errors.add(:users, 'Oops! Company has reached the maximum number of admins: 2')
+        if employees.where(role: 'company_admin').size > 1 
+            errors.add(:employees, 'Oops! Company has reached the maximum number of admins: 2')
         end
     end
 
+    def hired_employees
+        employees.where.not( role: 'company_admin' )
+    end
+
     def destroy_users
-        self.users.all.where.not(role: 'applicant').destroy_all
+        self.employees.all.where.not(role: 'applicant').destroy_all
     end
 
     def self.text_search(query)

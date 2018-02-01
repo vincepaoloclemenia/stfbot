@@ -29,6 +29,7 @@ json.jobs do |json|
             c.website job.company.website
             c.company_url company_path(job.company)
         end
+        json.application current_user.job_applications.find_by(job_id: job.id)
         json.creator do |c|
             c.id job.creator.id
             c.email job.creator.email

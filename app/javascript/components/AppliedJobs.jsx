@@ -97,7 +97,7 @@ export default class AppliedJobs extends React.Component{
                                 <h5 className='job-header'>{job.title}</h5>
                                 <a href={job.company.company_url}>{job.company.name}</a>
                                 <p className='job-par'>{job.location.split(' | ').join(', ')}</p>
-                                <p className='job-par'>Currently being viewed</p>
+                                <p className='job-par'>{job.application.seen ? 'Currently being viewed' : 'Pending'}</p>
                             </div>                        
                         </div>
                         <div className='col-md-5 pull-right'>

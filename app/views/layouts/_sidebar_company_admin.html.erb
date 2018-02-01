@@ -4,7 +4,7 @@
             <li id="toggle-btn"><button class='sidebar-btn'><span></span></button></li>
             <li class='<%= which_link?('pages')%>'><a href="/" class="menu-link"><i class="fa fa-tachometer fa-lg" aria-hidden="true"><span>Dashboard</span></i></a></li>
             <li class='<%= is_your_company?(params[:id])%>'><a href="/companies/<%= current_user.company.slug %>" class="menu-link"><i class="fa fa-id-card-o fa-lg"><span>Company Profile</span></i></a></li>
-            <li class='<%= which_link?('employees')%>'><a href="/employees" class="menu-link"><i class="fa fa-users fa-lg" aria-hidden="true"><span>Employees</span></i></a></li>
+            <li class='<%= which_link?('employees')%>'><a href="/<%= current_user.company.slug %>/employees" class="menu-link"><i class="fa fa-users fa-lg" aria-hidden="true"><span>Employees</span></i></a></li>
             <li class='<%= which_link?('jobs')%>'><a href="/" class="menu-link"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"><span>List of Jobs Created</span></i></a></li>
         </ul>
     </div>

@@ -10,7 +10,7 @@ class Api::ClientsController < Api::BaseController
         @company = Company.create(company_params)
         @company.save
         @com = Company.find(@company.id)
-        @com.users.create(user_params)
+        @com.employees.create(user_params)
         @com.create_location(location_params)
         if @com.save
             render json: { status: 200, message: 'Company was successfully created!'} 
@@ -21,7 +21,7 @@ class Api::ClientsController < Api::BaseController
 
     def update
         @company.update(company_params)
-        @company.users.update(update_user)
+        @company.employees.update(update_user)
         @company.location.update(location_params)
         if @company.save
             render json: { message: "Company #{@company.name} has been successfully updated!" }
