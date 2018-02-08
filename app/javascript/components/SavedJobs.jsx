@@ -6,11 +6,13 @@ export default class SavedJobs extends React.Component{
         this.className = 'col-lg-8 col-md-10 col-lg-offset-2 col-md-offset-1'
         this.state = { 
             class: this.className, 
-            jobs: [] 
+            jobs: [],
+            fetching: false 
         }
     }
 
     componentDidMount(){
+        this.setState({ fetching: true })
         this.fetchJobs()
     }
 
@@ -42,20 +44,37 @@ export default class SavedJobs extends React.Component{
             success: (data) => {               
                 if(data){
                     $.notify(data.message, { className: 'error', position: 'top center' })
-                }else      
+                }else  
+                this.setState({ fetching: true })    
                 this.fetchJobs()
             }
         })
     }
 
     render(){
+        if(this.state.fetching){
+            return(           
+                <div className='row m70'>
+                    <div className={this.className}>
+                        <div className='panel'>
+                            <div className="panel-heading ml15 mr15">
+                                <h4><i className="fa fa-heart pink pr1" aria-hidden="true"></i>List of Saved Jobs</h4>                        
+                            </div>
+                            <div className='panel-body'>
+                                <center><i className="fa fa-spinner fa-spin fa-2x fa-fw with-color"></i></center>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         if(this.state.jobs.length === 0){
             return(
                 <div className='row m70'>
                     <div className={this.state.class}>
                         <div className='panel'>
                             <div className="panel-heading ml15 mr15">
-                            <h4><i className="fa fa-heart pink pr1" aria-hidden="true"></i>List of Saved Jobs</h4>                        
+                                <h4><i className="fa fa-heart pink pr1" aria-hidden="true"></i>List of Saved Jobs</h4>                        
                             </div>
                             <div className='panel-body'>
                                 <center><i><h5>You have not saved any jobs yet.</h5></i></center>
@@ -70,7 +89,7 @@ export default class SavedJobs extends React.Component{
                 <div className={this.state.class}>
                     <div className='panel'>
                         <div className="panel-heading ml15 mr15">
-                        <h4><i className="fa fa-heart pink pr1" aria-hidden="true"></i>List of Saved Jobs</h4>                        
+                            <h4><i className="fa fa-heart pink pr1" aria-hidden="true"></i>List of Saved Jobs</h4>                        
                         </div>
                         <div className='panel-body'>
                             {this.renderListOfJobs()}
@@ -128,7 +147,7 @@ export default class SavedJobs extends React.Component{
             url: '/api/saved_jobs.json',
             method: 'GET',
             success: (data) => {
-                this.setState({ jobs: data.jobs })
+                this.setState({ jobs: data.jobs, fetching: false })
             }
         })
     }

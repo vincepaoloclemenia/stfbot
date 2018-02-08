@@ -96,18 +96,22 @@ class Api::UsersController < Api::BaseController
         @skills = current_user.skills
     end
 
+    def get_profile
+        @user = User.find(params[:id])
+    end
+
     private
 
-    def user_params
-        params.require(:user).permit( :avatar, :first_name, :last_name, :contact, :address, :gender, :birthdate)
-    end
+        def user_params
+            params.require(:user).permit( :avatar, :first_name, :last_name, :contact, :address, :gender, :birthdate)
+        end
 
-    def address_params
-        params.require(:address).permit(:country, :state, :city, :street)
-    end
+        def address_params
+            params.require(:address).permit(:country, :state, :city, :street)
+        end
 
-    def authenticate_role
-        redirect_to root_path, alert: 'Access Denied' if current_user.username != params[:username]
-    end
+        def authenticate_role
+            redirect_to root_path, alert: 'Access Denied' if current_user.username != params[:username]
+        end
 
 end

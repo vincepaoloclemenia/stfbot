@@ -33,6 +33,16 @@ export default class Applicants extends React.Component{
         })
     }
 
+    markAsUnqualified(application){
+        $.ajax({
+            url: `/api/jobs/reject_application?=id=${application.job_id}&application_id=${application.id}`,
+            method: 'PATCH',
+            success: () => {
+                this.props.onMarkingRead()
+            }
+        })
+    }
+
     firstTab(){
         this.setState({ view: false })
     }
@@ -66,22 +76,26 @@ export default class Applicants extends React.Component{
         )
         return(
             <div className={this.props.class}>
-                <div className='panel'>
-                    <button onClick={() => this.props.hide()} className='btn btn-primary close pull-right'><i className='fa fa-window-close-o' aria-hidden='true'></i></button>
-                    <div className='panel-heading ml15 mr15'><h5><i className="fa fa fa-users pr1" aria-hidden="true"></i>Applicants for {this.props.job.title} post</h5></div>
-                    <div className='panel-body'>
-                        <div className='row pb20'>
-                            <div className='row ml15 pb20'>
-                                <div className='col-md-12'>
-                                    <div className="tab">
-                                        <button className={`tablinks${this.state.view ? '' : ' active'}`} onClick={this.firstTab.bind(this)}>Unread Applications</button>
-                                        <button className={`tablinks${this.state.view ? ' active' : ''}`} onClick={this.secondTab.bind(this)}>Viewed Appplications</button>
+                <div className='applicants-container'>
+                    <div className='hide-scroll'>
+                        <div className='panel'>
+                            <button onClick={() => this.props.hide()} className='btn btn-primary close pull-right'><i className='fa fa-window-close-o' aria-hidden='true'></i></button>
+                            <div className='panel-heading ml15 mr15'><h5><i className="fa fa fa-users pr1" aria-hidden="true"></i>Applicants for {this.props.job.title} post</h5></div>
+                            <div className='panel-body'>
+                                <div className='row pb20'>
+                                    <div className='row ml15 pb20'>
+                                        <div className='col-md-12'>
+                                            <div className="tab">
+                                                <button className={`tablinks${this.state.view ? '' : ' active'}`} onClick={this.firstTab.bind(this)}>Unread Applications</button>
+                                                <button className={`tablinks${this.state.view ? ' active' : ''}`} onClick={this.secondTab.bind(this)}>Viewed Appplications</button>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {this.renderUnread()}
                                 </div>
-                            </div>
-                            {this.renderUnread()}
-                        </div>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +144,7 @@ export default class Applicants extends React.Component{
                                 </div>
                                 <div className='row pb20'>                                            
                                     <div className='col-md-2'>
-                                        <img className='applicant-avatar' alrt={applicant.full_name} src={applicant.avatar}/>
+                                        <img className='applicant-avatar' alt={applicant.full_name} src={applicant.avatar}/>
                                     </div>
                                     <div className='col-md-10'>
                                         <div className='candidate-profile'>

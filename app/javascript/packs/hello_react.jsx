@@ -5,7 +5,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-//import ImageUploader from 'react-images-upload';
 
 const Hello = props => (
   <div>Hello {props.name}!</div>

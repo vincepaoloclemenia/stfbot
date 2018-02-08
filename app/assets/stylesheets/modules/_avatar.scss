@@ -25,3 +25,12 @@ img.applicant-avatar{
     image-rendering: pixelated; 
     //margin-top: 20%;
 }
+
+img.profile-avatar{
+    border: 1px solid $blue;
+    height: 150px;
+    width: 150px;
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated; 
+}

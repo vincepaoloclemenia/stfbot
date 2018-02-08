@@ -145,6 +145,11 @@ class Api::JobsController < Api::BaseController
         @job.unchecked_viewers.update_all(checked: true )
     end
 
+    def reject_application
+        @application = @job.unread_qualified_applicants.find(params[:application_id])
+        @application.update(qualified: false)
+    end
+
     private
 
         def job_params

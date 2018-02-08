@@ -18,21 +18,6 @@ export default class ProfilePreview extends React.Component{
             }
         })
     }
-    lorem = (
-        <p>
-          Mauris ac arcu sit amet dui interdum bibendum a sed diam. Praesent
-          rhoncus congue ipsum elementum lobortis. Ut ligula purus, ultrices id
-          condimentum quis, tincidunt quis purus. Proin quis enim metus. Nunc
-          feugiat odio at eros porta, ut rhoncus lorem tristique. Nunc et ipsum eu
-          ex vulputate consectetur vel eu nisi. Donec ultricies rutrum lectus, sit
-          ame feugiat est semper vitae. Proin varius imperdiet consequat. Proin eu
-          metus nisi. In hac habitasse platea dictumst. Vestibulum ac ultrices
-          risus. Pellentesque arcu sapien, aliquet sed orci sit amet, pulvinar
-          interdum velit. Nunc a rhoncus ipsum, maximus fermentum dolor. Praesent
-          aliquet justo vitae rutrum volutpat. Ut quis pulvinar est.
-        </p>
-      );
-
     render(){
         return(
             
@@ -105,7 +90,7 @@ export default class ProfilePreview extends React.Component{
             return(
                 <div className='row ml15 mr15 pb20 pt15 bordered-bottom'>
                     <div className='profile-preview'>
-                        <label className='form-label'><h5 className='profile-header'><i className="fa fa-building fa-lg pr1 with-color" aria-hidden="true"></i>Skills</h5></label>
+                        <label className='form-label'><h5 className='profile-header'><i className="fa fa-book fa-lg pr1 with-color" aria-hidden="true"></i>Skills</h5></label>
                         {this.state.skills.map ((skill)=>
                             <ul key={skill.id}>
                                 <li className='profile-list'>{skill.name}<span className='gap3 with-text'>{skill.literacy_level}</span></li>

@@ -4,6 +4,7 @@ import JobAdd from 'components/JobAdd.jsx'
 import Show from 'components/JobShow.jsx'
 import Applicants from 'components/Applicants.jsx'
 import Viewers from 'components/Viewers.jsx'
+import { Link } from 'react-router'
 
 export default class JobsContainer extends React.Component{
     constructor(props){
@@ -22,7 +23,7 @@ export default class JobsContainer extends React.Component{
     }
 
     handleAdd(data){
-        this.setState({ addNew: false })
+        this.setState({ addNew: false, job: null })
         this.fetchData()
         $.notify("Job was successfully added!", {className: 'success', position: 'top center'})
     }
@@ -40,7 +41,7 @@ export default class JobsContainer extends React.Component{
     }
 
     onCloseForm(){
-        this.setState({ addNew: false })
+        this.setState({ addNew: false, job: null })
     }
 
     showJob(data){
@@ -91,8 +92,7 @@ export default class JobsContainer extends React.Component{
         }
         return(
             <div className='row m70'>
-                <div className={this.state.class}>
-    
+                <div className={this.state.class}>   
                     <div className='panel'>
                         <div className="panel-heading ml15 mr15">
                             <h5>
@@ -122,24 +122,28 @@ export default class JobsContainer extends React.Component{
 
     renderShowJob(){
         if(this.state.showJob)
-        return <Show close={false} onEdit={this.handleEdit.bind(this)} class={this.state.class} job={this.state.job} hide={() => this.setState({ showJob: false, class: this.className })} />
+        return(
+            <Show close={false} onEdit={this.handleEdit.bind(this)} class={this.state.class} job={this.state.job} hide={() => this.setState({ showJob: false, class: this.className, job: null })} />
+        )
         
         if(this.state.openApplicants)
-        return<Applicants job={this.state.job} class={this.state.class} hide={() => this.setState({ openApplicants: false, class: this.className })} onMarkingRead={ () => this.fetchData() } />
+        return<Applicants job={this.state.job} class={this.state.class} hide={() => this.setState({ openApplicants: false, class: this.className, job: null })} onMarkingRead={ () => this.fetchData() } />
 
         if(this.state.openViewers)
-        return<Viewers job={this.state.job} class={this.state.class} hide={() => this.setState({ openViewers: false, class: this.className })} />
+        return<Viewers job={this.state.job} class={this.state.class} hide={() => this.setState({ openViewers: false, class: this.className, job: null })} />
     }
 
     renderJobsTable(){
         return(
             <div className='col-md-12'>
+                
                 {this.state.jobs.map((job, index) =>
-                    <div key={index} className='row with-top-border p10 h120'>
+                    <div key={index} className={this.renderClass(job)}>
                         <div className='row'>
                             <div className='col-lg-5 col-md-5 col-lg-offset-1 col-md-offset-1'>
                                 <h4 onClick={this.showJob.bind(this, job)}>{job.title}</h4>
                                 <p>Posted: {job.date}</p>
+                                <p>Requisition number: {job.requisition_number}</p>
                             </div>
                             <div className='col-lg-5 col-md-5 col-sm-12 col-xs-12'>
                                 <li onClick={this.openViewers.bind(this, job)} className={job.viewers_count == 0 ? 'list-button' : 'list-button new'} ><i className="fa fa fa-users pr1" aria-hidden="true"></i>Who viewed this job post?{this.notifCount(job.viewers_count)}</li>
@@ -149,6 +153,7 @@ export default class JobsContainer extends React.Component{
                         </div>
                     </div>
                 )}
+                
             </div>
         )
     }
@@ -158,5 +163,14 @@ export default class JobsContainer extends React.Component{
         return(
             <span className='new-notif'>{count}</span>
         )
+    }
+
+    renderClass(job){
+        if(this.state.job){
+            if (this.state.job.id === job.id){
+                return 'row with-top-border p10 h120 active'
+            }
+        }
+        return 'row with-top-border p10 h120'
     }
 }

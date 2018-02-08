@@ -1,0 +1,30 @@
+.profile-container{
+    div.profile-left-panel{ max-width: 490px }
+    div.panel{
+        box-shadow: 1px 2px 2px 1px grey;
+        div.avatar-container{
+            float: left;
+            position: relative;
+            margin: 0px 15px;
+        }
+
+        div.user-basic-info{
+            position: relative;
+            display: inline-block;
+            margin: 0px 15px;
+            h4.user-profile{
+                font-family: 'Noto Sans', sans-serif; 
+                color: $main-color;
+                font-size: 24px;
+            }
+            li.user-info{
+                font-family: 'Noto Sans', sans-serif; 
+                color: grey;
+                font-size: 12px;
+            }
+        }
+        div.job-container{
+            
+        }
+    }
+}
