@@ -99,6 +99,14 @@ class Api::UsersController < Api::BaseController
     def get_profile
         @user = User.find(params[:id])
     end
+    
+    def candidate_information
+        @user = User.find(params[:id])
+        @experiences = @user.past_employments
+        @educations = @user.educations
+        @skills = @user.skills
+        @current_work = @user.current_employment
+    end
 
     private
 

@@ -1,21 +1,32 @@
 .profile-container{
-    div.profile-left-panel{ max-width: 490px }
+    div.profile-left-panel{ position: fixed; width: 330px; margin-left: 3%; }
+    div.profile-right-panel { width: 65%; float: right; margin-right: 20px }
     div.panel{
+       
         box-shadow: 1px 2px 2px 1px grey;
         div.avatar-container{
-            float: left;
             position: relative;
             margin: 0px 15px;
+        }
+        label { 
+            color: darken(grey, 10%); 
+            font-family: 'Lora Sans', sans-serif;
+        }
+        h4.candidate-profile-header{
+            font-family: 'Noto Sans', sans-serif; 
+            color: $main-color;
+            font-size: 20px;
         }
 
         div.user-basic-info{
             position: relative;
-            display: inline-block;
             margin: 0px 15px;
             h4.user-profile{
                 font-family: 'Noto Sans', sans-serif; 
                 color: $main-color;
                 font-size: 24px;
+                text-align: center;
+                margin-bottom: 25px;
             }
             li.user-info{
                 font-family: 'Noto Sans', sans-serif; 
@@ -23,8 +34,69 @@
                 font-size: 12px;
             }
         }
-        div.job-container{
+
+        div.work-exp-container, div.educations-container{
+            h5 { 
+                font-family: 'Lora Sans', sans-serif;
+                color: darken(grey, 20%);
+                font-weight: 900;
+                font-size: 15px;
+            }
+            h6{
+                font-family: 'Lora Sans', sans-serif;
+                color: darken(grey, 20%);
+                font-weight: 700;
+                font-size: 13px;
+            }
+            
+            p { 
+                font-family: 'Noto Sans', sans-serif;
+                color: darken(grey, 20%);
+                font-weight: 500;
+                font-size: 13px;
+                margin-bottom: 20px;
+            }      
+        }
+
+        
+
+        li:not(.user-info) { list-style: disc }
+
+        div.froala-description{
+            font-size: 13px;
+            color: grey;
+            text-justify: justify;
+            margin-bottom: 20px;
+        }
+        
+        div.skills-container{
+            margin: 0px 15px;
+            h4 { 
+                font-family: 'Noto Sans', sans-serif; 
+                color: $main-color;
+                font-size: 20px;
+            }
+            li {
+                font-family: 'Noto Sans', sans-serif;
+                color: darken(grey, 20%);              
+                font-size: 15px;
+                margin-bottom: 20px;
+                span { 
+                    margin-left: 2em; 
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: grey;
+                }
+            }
             
         }
     }
+}
+
+@media screen and (max-width: 991px){
+    div.profile-left-panel { z-index: 9999; width: 50%; }
+}
+
+@media (max-width: 1000px){
+    div.profile-right-panel { width: 100% }
 }

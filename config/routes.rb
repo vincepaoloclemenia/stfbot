@@ -69,6 +69,7 @@ Rails.application.routes.draw do
       delete :delete_resume, on: :collection
       get :candidate, on: :collection
       get :get_profile, on: :collection
+      get :candidate_information, on: :collection
     end
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection

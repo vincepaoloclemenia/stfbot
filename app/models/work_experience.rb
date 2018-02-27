@@ -13,4 +13,10 @@ class WorkExperience < ApplicationRecord
     #t.index ["user_id"], name: "index_work_experiences_on_user_id"
     belongs_to :user
     validates_presence_of :company_name, :job_title, :employment_from, :job_level, :job_functions
+
+    validate :regulate_employment
+
+    def regulate_employment
+        errors.add('Current employment', ' must be only one!') if user.employed_in_resume?
+    end
 end

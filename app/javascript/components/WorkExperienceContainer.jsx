@@ -22,7 +22,7 @@ export default class WorkExperienceContainer extends React.Component{
         this.setState({ openNew: true })
     }
 
-    handleAdd(){
+    handleAdd(message){
         this.setState({ fetching: true, openNew: false })
         $.ajax({
             url: '/api/work_experiences.json',
@@ -32,7 +32,10 @@ export default class WorkExperienceContainer extends React.Component{
                 this.setState({ userExperiences: data.experiences, fetching: false })
             }
         })
-        $.notify("Work Experience added successfully", { className: 'success', position: 'top center' } ); 
+        if(message)
+            $.notify(message, { className: 'error', position: 'top center' } ); 
+        else
+            $.notify("Work Experience added successfully", { className: 'success', position: 'top center' } );       
     }
 
     handleClose(){

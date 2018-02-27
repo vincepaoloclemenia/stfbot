@@ -34,6 +34,7 @@ class User < ApplicationRecord
   friendly_id :username, use: [:slugged, :finders]
   validate :validate_role
   
+  
   #scope :qualified_applicants, -> { where.not(role: 'company_admin').joins(:job_applications).where( 'job_applications.qualified = ?', true ) }
   
   before_save :capitalize_names 
@@ -50,6 +51,21 @@ class User < ApplicationRecord
     last_name.split.map(&:capitalize!).join(' ')
   end
 
+  def age
+    age = if Date.today.month < birthdate.month 
+      ( Date.today.year - birthdate.year - 1).to_i
+    elsif Date.today.month == birthdate.month 
+      if Date.today.day < birthdate.day
+        ( Date.today.year - birthdate.year - 1).to_i
+      else
+        ( Date.today.year - birthdate.year)
+      end
+    else
+      ( Date.today.year - birthdate.year).to_i
+    end
+    return age
+  end
+
   def validate_role
     if new_record?
       roles = ['applicant', 'employer', 'company_admin', 'finance admin']
@@ -63,13 +79,21 @@ class User < ApplicationRecord
     !company.nil?
   end
 
+  def employed_in_resume?
+    work_experiences.where(employment_status: true).exists?
+  end
+
   def current_employment
-    experience = if !employed? && work_experiences.where(employment_status: true).exists?
+    experience = if !employed? && employed_in_resume?
       work_experiences.find_by(employment_status: true)
       else
         nil
     end
     experience
+  end
+
+  def past_employments
+    work_experiences.where(employment_status: false)
   end
 
 end

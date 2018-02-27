@@ -26,9 +26,8 @@ class Api::WorkExperiencesController < Api::BaseController
     def create
         @experience = current_user.work_experiences.create(work_experience_params)
         if @experience.save
-            render json: { status: 200, message: 'Work Experience Saved' }.to_json
         else
-            render json: { errors: @experience.errors.full_messages }
+            render json: @experience.errors.full_messages
         end
     end
 
