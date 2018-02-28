@@ -54,6 +54,7 @@ export default class PreferenceJobFunctionNew extends React.Component{
             if(this.props.preference){
                 $.ajax({
                     url: `/api/preferences/${this.props.preference.id}`,
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                     method: 'PATCH',
                     data: {
                         preference: {

@@ -65,6 +65,7 @@ export default class Inquiry extends React.Component{
         this.setState({ label: 'Requesting', disable: true })
         $.ajax({
             url: '/api/inquiries/',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data: { inquiry: {
                 company_name: this.state.companyName,

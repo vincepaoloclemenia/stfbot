@@ -18,6 +18,7 @@ export default class Job extends React.Component{
     handleApply(){
         $.ajax({
             url: `/api/jobs/apply`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data: { id: this.state.job.id },
             success: (data) => {         
@@ -32,6 +33,7 @@ export default class Job extends React.Component{
     handleSave(){
         $.ajax({
             url: `/api/jobs/save`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data: { id: this.state.job.id },
             success: (data) => {               
@@ -46,6 +48,7 @@ export default class Job extends React.Component{
     handleUnsave(){
         $.ajax({
             url: `/api/jobs/unsave`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'DELETE',
             data: { id: this.state.job.id },
             success: (data) => {               
@@ -61,6 +64,7 @@ export default class Job extends React.Component{
         if(this.props.hasNotViewed){
             $.ajax({
                 url: `/api/jobs/view?id=${this.props.job.id}`,
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                 method: 'POST'
             })
         }

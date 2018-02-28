@@ -22,6 +22,7 @@ export default class CompanyEdit extends React.Component{
     handleUpdateCompany(){
         $.ajax({
             url: `/api/clients/${this.props.company.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             data: {
                 company: {

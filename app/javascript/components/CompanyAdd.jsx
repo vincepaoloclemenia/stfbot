@@ -38,6 +38,7 @@ export default class CompanyAdd extends React.Component{
     handleSave(){
         $.ajax({
             url: '/api/clients/',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data:{
                 company: {

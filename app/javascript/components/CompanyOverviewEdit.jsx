@@ -17,6 +17,7 @@ export default class CompanyOverviewEdit extends React.Component{
     handleUpdate(){
         $.ajax({
             url: `/api/companies/update_overview?id=${this.props.company.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             data: { 
                 company: { overview: this.state.overview, why_join_us: this.state.whyJoinUs, benefits: this.state.benefits }

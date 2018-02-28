@@ -23,6 +23,7 @@ export default class SavedJobs extends React.Component{
     handleApply(job){
         $.ajax({
             url: `/api/jobs/apply?id=${job.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             success: (data) => {               
                 if(data){
@@ -39,6 +40,7 @@ export default class SavedJobs extends React.Component{
     handleUnsave(job){
         $.ajax({
             url: `/api/jobs/unsave`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'DELETE',
             data: { id: job.id },
             success: (data) => {               

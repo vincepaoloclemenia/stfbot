@@ -23,6 +23,7 @@ export default class WorkExperienceEdit extends React.Component{
     handleUpdate(){
         $.ajax({
             url: `/api/work_experiences/${this.props.experience.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PUT',
             data: { work_experience: {
                 company_name: this.state.company,

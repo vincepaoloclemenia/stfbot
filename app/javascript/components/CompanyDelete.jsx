@@ -9,6 +9,7 @@ export default class CompanyDelete extends React.Component{
     handleDelete(){
         $.ajax({
             url: `/api/clients/${this.props.company.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'DELETE',
             success: (data) => {
                 this.props.onDelete(data)

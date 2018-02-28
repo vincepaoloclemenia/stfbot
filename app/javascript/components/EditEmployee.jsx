@@ -21,6 +21,7 @@ export default class EditEmployee extends React.Component{
     handleSave(){
         $.ajax({
             url: `/api/employees/${this.props.employee.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             data: { user: {
                 first_name: this.state.employeeFirstName,

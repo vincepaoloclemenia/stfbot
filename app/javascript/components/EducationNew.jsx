@@ -31,6 +31,7 @@ export default class EducationNew extends React.Component{
     handleClick(){
         $.ajax({
             url: '/api/educations',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data: { 
                     education: { school_name: this.state.selectValue.label,

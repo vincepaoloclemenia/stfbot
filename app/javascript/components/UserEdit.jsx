@@ -33,6 +33,7 @@ export default class UserEdit extends React.Component{
     componentWillMount(){
         $.ajax({
             url: '/api/users/get_countries.json',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'GET',
             dataType: 'JSON',
             success: (data)=>{

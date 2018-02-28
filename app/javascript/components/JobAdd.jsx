@@ -75,6 +75,7 @@ export default class JobAdd extends React.Component{
         this.state.courses.map((course) => preferences.push(course.label) )
         $.ajax({
             url: '/api/jobs/',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'POST',
             data: {
                 job: {

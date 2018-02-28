@@ -41,6 +41,7 @@ export default class ResumeUpload extends React.Component{
         document.getElementById('remove').innerHTML = 'Removing..'
         $.ajax({
             url: '/api/users/delete_resume',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'delete',
             success: () => {
                 this.setState({ userResume: null, label: 'Choose a file', removable: false })

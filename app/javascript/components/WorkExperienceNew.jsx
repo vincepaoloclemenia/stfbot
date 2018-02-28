@@ -28,6 +28,7 @@ export default class WorkExperienceNew extends React.Component{
     handleAdd(){
         $.ajax({
             url: '/api/work_experiences',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},            
             method: 'POST',
             data: { work_experience: {
                 company_name: this.state.company,

@@ -32,6 +32,7 @@ export default class EducationEdit extends React.Component{
     handleUpdate(){
         $.ajax({
             url: `/api/educations/${this.props.education.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PUT',
             data: { 
                     education: { school_name: this.state.schoolName.label,

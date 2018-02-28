@@ -80,6 +80,7 @@ export default class JobEdit extends React.Component{
         }}
         $.ajax({
             url: `/api/jobs/${this.props.job.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             data: job,
             success: (data) => {

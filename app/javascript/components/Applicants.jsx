@@ -16,6 +16,7 @@ export default class Applicants extends React.Component{
     markAsRead(application){
         $.ajax({
             url: `/api/jobs/mark_as_read?id=${application.job_id}&application_id=${application.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             success: () => {
                 this.props.onMarkingRead()
@@ -26,6 +27,7 @@ export default class Applicants extends React.Component{
     unreadApplication(application){
         $.ajax({
             url: `/api/jobs/unread?id=${application.job_id}&application_id=${application.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             success: () => {
                 this.props.onMarkingRead()
@@ -36,6 +38,7 @@ export default class Applicants extends React.Component{
     markAsUnqualified(application){
         $.ajax({
             url: `/api/jobs/reject_application?=id=${application.job_id}&application_id=${application.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             success: () => {
                 this.props.onMarkingRead()

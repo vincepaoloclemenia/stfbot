@@ -69,6 +69,7 @@ export default class CompanyProfileEdit extends React.Component{
         dataForm.append('location[street]', this.state.street)
         $.ajax({
             url: `/api/companies/${this.props.company.id}`,
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             method: 'PATCH',
             processData: false,
             contentType: false,

@@ -18,16 +18,19 @@ class Company < ApplicationRecord
 
     before_save :regulate_admins
     
-    def hire(applicant)
-        employees.create(user_id: applicant.id, hiring_date: Date.today.to_date)
+    def hire(applicant, job)
+        company_employees.create(user_id: applicant.id, hiring_date: Date.today.to_date)
+        if applicant.current_employment.present?
+            applicant.current_employment.update(employment_status: false, employment_to: Date.today)
+        end
     end
 
     def terminate(current_employee)
-        employees.find_by(user_id: current_employee.id).destroy
+        company_employees.find_by(user_id: current_employee.id).destroy
     end
 
     def an_employee?(applicant)
-        employees.pluck(:id).include?(applicant.id)
+        company_employees.pluck(:id).include?(applicant.id)
     end
 
     def company_profile
