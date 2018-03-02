@@ -2,7 +2,7 @@ class Company < ApplicationRecord
     extend FriendlyId
     include PgSearch
     has_many :company_employees, dependent: :destroy
-    has_many :employees, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
+    has_many :employees, -> { order last_name: :asc }, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy  
 
@@ -18,7 +18,7 @@ class Company < ApplicationRecord
 
     before_save :regulate_admins
     
-    def hire(applicant, job)
+    def hire(applicant)
         company_employees.create(user_id: applicant.id, hiring_date: Date.today.to_date)
         if applicant.current_employment.present?
             applicant.current_employment.update(employment_status: false, employment_to: Date.today)

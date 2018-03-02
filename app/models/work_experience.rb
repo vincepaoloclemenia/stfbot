@@ -14,9 +14,12 @@ class WorkExperience < ApplicationRecord
     belongs_to :user
     validates :company_name, :job_title, :employment_from, :job_level, :job_functions, presence: true
 
-    validate :regulate_employment, on: :create
+    validate :regulate_employment
 
-    def regulate_employment
-        errors.add('Current employment', ' must be only one!') if user.employed_in_resume?
-    end
+    def regulate_employment 
+        if user.employed_in_resume? && employment_status == true
+            errors.add('Current employment', ' must be only one!')   
+        end
+    end 
+
 end

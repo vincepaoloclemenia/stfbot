@@ -18,7 +18,24 @@ export default class Employees extends React.Component{
             userRole: null, 
             employers: [],
             financeAdmins: [],
-            roles: [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}] 
+            functions: [],
+            jobLevels: [],
+            years: [],
+            roles: [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}], 
+            months: [
+                { 'label': 'Jan', 'value': 0 },
+                { 'label': 'Feb', 'value': 1 },
+                { 'label': 'Mar', 'value': 2 },
+                { 'label': 'Apr', 'value': 3 },
+                { 'label': 'May', 'value': 4 },
+                { 'label': 'Jun', 'value': 5 },
+                { 'label': 'Jul', 'value': 6 },
+                { 'label': 'Aug', 'value': 7 },
+                { 'label': 'Sep', 'value': 8 },
+                { 'label': 'Oct', 'value': 9 },
+                { 'label': 'Nov', 'value': 10 },
+                { 'label': 'Dec', 'value': 11 }
+            ]
         }
         this.onCloseModal = this.onCloseModal.bind(this)
         this.onOpenModal = this.onOpenModal.bind(this)
@@ -43,7 +60,11 @@ export default class Employees extends React.Component{
                 password: 'password123',
                 first_name: this.state.userFirstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
                 last_name: this.state.userLastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() })
-            }},
+                },
+                employment_date: `${this.state.month.label} ${this.state.year.label}`,
+                job_level: this.state.jobLevel.label,
+                job_function: this.state.jobFunction.label
+            },
             success: (data) => {
                 if(data.user.role === 'employer'){
                     $.ajax({
@@ -109,7 +130,10 @@ export default class Employees extends React.Component{
             success: (data) => {
                 this.setState({
                     employers: data.employers,
-                    financeAdmins: data.finance_admins
+                    financeAdmins: data.finance_admins, 
+                    years: data.years,
+                    jobLevels: data.job_levels,
+                    functions: data.functions
                 })
             }
         })
@@ -176,6 +200,56 @@ export default class Employees extends React.Component{
                                     options={this.state.roles}
                                     onChange={(value) => this.setState({ userRole: value })}
                                     value={this.state.userRole}                                                
+                                />
+                            </div>
+                        </div>
+
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Employment Date:</label>
+                            </div>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <VirtualizedSelect
+                                    optionClassName='with-border'
+                                    options={this.state.months}
+                                    onChange={(value) => this.setState({ month: value })}
+                                    value={this.state.month}                                                
+                                />
+                            </div>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <VirtualizedSelect
+                                    optionClassName='with-border'
+                                    options={this.state.years}
+                                    onChange={(value) => this.setState({ year: value })}
+                                    value={this.state.year}                                                
+                                />
+                            </div>
+                        </div>
+
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Job Function:</label>
+                            </div>
+                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                                <VirtualizedSelect
+                                    optionClassName='with-border'
+                                    options={this.state.functions}
+                                    onChange={(value) => this.setState({ jobFunction: value })}
+                                    value={this.state.jobFunction}                                                
+                                />
+                            </div>
+                        </div>
+
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Job Level:</label>
+                            </div>
+                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                                <VirtualizedSelect
+                                    optionClassName='with-border'
+                                    options={this.state.jobLevels}
+                                    onChange={(value) => this.setState({ jobLevel: value })}
+                                    value={this.state.jobLevel}                                                
                                 />
                             </div>
                         </div>

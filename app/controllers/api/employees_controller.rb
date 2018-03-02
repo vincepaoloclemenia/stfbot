@@ -5,6 +5,9 @@ class Api::EmployeesController < Api::BaseController
     def index
         @employers = @company.employees.where(role: 'employer')
         @finance_admins = @company.employees.where(role: 'finance admin')
+        @years = (1990...Date.today.year + 1).to_a.sort {|x,y| y <=> x }
+        @job_levels = ['Internship / OJT', 'Entry Level/Fresh Grad', 'Associate / Supervisor', 'Mid-senior Level / Manager', 'Director / Executive' ].sort  
+        @functions = ['Accounting and Finance', 'General Services', 'Management and Consultancy', 'Human and Resources', 'Legal', 'Sciences', 'Arts and Sports', 'IT and Software', 'Architecture and Engineering'].sort  
     end
 
     def employers
@@ -17,9 +20,12 @@ class Api::EmployeesController < Api::BaseController
 
     def create
         @user = @company.employees.create(user_params)
-        @user.save
+        @job_level = params[:job_level]
+        @employment_date = params[:employment_date].to_date
+        @job_function = params[:job_function]
         if @user.save
             render json: { status: 200, message: 'An Employee has been added successfully', user: @user }
+            @user.create_work_experience(@employment_date, @job_level, @job_function)
         else 
             render json: { errors: @user.errors.full_messages }.to_json
         end

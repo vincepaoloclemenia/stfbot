@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 const ReactDataGrid = require('react-data-grid')
+const { Editors, Toolbar, Formatters } = require('react-data-grid-addons');
 
 export default class HiredEmployees extends React.Component{
     constructor(props){

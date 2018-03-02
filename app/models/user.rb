@@ -68,7 +68,7 @@ class User < ApplicationRecord
 
   def validate_role
     if new_record?
-      roles = ['applicant', 'employer', 'company_admin', 'finance admin']
+      roles = ['applicant', 'employer', 'company_admin', 'finance admin', 'regular_employee', 'contractor']
       if roles.exclude?(self.role)
         errors.add(:role, :invalid)
       end
@@ -90,6 +90,41 @@ class User < ApplicationRecord
         nil
     end
     experience
+  end
+
+  def create_work_experience(employment_date, position_level, job_function)
+    if work_experiences.find_by_employment_status(true).present?
+      work = work_experiences.find_by_employment_status(true)
+      work.update(employment_status: false)
+      job_title = role.eql?('employer') ? 'Technical Recruiter' : 'Finance Admin'
+      work_experiences.create(
+        job_title: job_title,
+        company_name: self.company.name,
+        employment_from: employment_date,
+        employment_status: true,
+        job_functions: job_function,
+        job_level: position_level
+      )
+    else
+      job_title = role.eql?('employer') ? 'Technical Recruiter' : 'Finance Admin'
+      work_experiences.create(
+        job_title: job_title,
+        company_name: self.company.name,
+        employment_from: employment_date,
+        employment_status: true,
+        job_functions: job_function,
+        job_level: position_level
+      )
+    end
+  end
+
+  def employment_thru_stfbot?
+    work = if employed?
+      work_experiences.find_by(employment_status: true)
+    else
+      nil
+    end
+    work
   end
 
   def past_employments

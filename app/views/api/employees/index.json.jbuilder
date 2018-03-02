@@ -23,3 +23,24 @@ json.finance_admins do |json|
         json.role fa.role.split.map(&:capitalize!).join(' ')
     end
 end
+
+json.years do |json|
+    json.array! @years.each_with_index.to_a do |(year, index)|
+        json.label year
+        json.value index
+    end
+end
+
+json.functions do |json|
+    json.array! @functions.each_with_index.to_a do |(func, index)|
+        json.label func
+        json.value index
+    end
+end
+
+json.job_levels do |json|
+    json.array! @job_levels.each_with_index.to_a do |(jl, index)|
+        json.label jl
+        json.value index
+    end
+end

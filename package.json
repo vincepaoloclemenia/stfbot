@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
     "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.0.0",
     "coffeescript": "1.12.7",
     "faker": "^4.1.0",
     "history": "^4.7.2",
