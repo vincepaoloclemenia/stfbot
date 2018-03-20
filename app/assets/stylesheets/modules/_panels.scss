@@ -11,6 +11,16 @@
     &.with-border{
         box-shadow: 3px 3px 5px 6px #ccc;
     }
+
+    &.colored{
+        background-color: lighten($light-blue, 20%)
+    }
+
+    div.centered{
+        width: 50%;
+        margin: 0 auto;
+    }
+
     .panel-heading{
         font-family: 'Noto Sans', sans-serif;
         font-size: 15px;
@@ -91,7 +101,7 @@
         &.fs18 { font-size: 18px }
         &.fs16 { font-size: 16px }
     }
-    h5.job-header{
+    h5.job-header, h5.user-header{
         cursor: pointer;
         font-size: 18px;
         color: $main-color;
@@ -140,7 +150,7 @@
     }
 
     input{
-        &.inputfile, &.image-input {
+        &.inputfile, &.image-input{
             width: 0.1px;
             height: 0.1px;
             opacity: 0;
@@ -164,6 +174,32 @@
                 }
             }
         }
+        
+    }
+
+    input#import{
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+        + label{
+            padding: 10px 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 300;
+            color: white;
+            background-color: $blue;
+            display: inline-block;
+            &:hover, &:focus{
+                background-color: $main-color;
+            }
+            &:focus{
+                outline: 1px dotted #000;
+                outline: -webkit-focus-ring-color auto 5px;
+            }
+        }
     }
 
     .label-for-preference{
@@ -185,7 +221,7 @@
         
     }
 
-    p.job-par{
+    p.job-par, p.user-par{
         font-family: 'Noto Sans', sans-serif;
         font-weight: 500px;
         color: grey;

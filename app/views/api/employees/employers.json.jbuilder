@@ -7,6 +7,7 @@ json.employers do |json|
         json.full_name emp.full_name
         json.email emp.email
         json.contact emp.contact
+        json.code_num emp.code_num
         json.role emp.role.capitalize!
     end
 end

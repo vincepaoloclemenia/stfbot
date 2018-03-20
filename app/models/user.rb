@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_one :preference, dependent: :destroy
   has_many :suggested_jobs, dependent: :destroy
   has_many :preferred_jobs, class_name: 'Job', source: :user, dependent: :destroy
+  has_many :timelogs, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable
@@ -126,9 +127,29 @@ class User < ApplicationRecord
     end
     work
   end
-
+  
   def past_employments
     work_experiences.where(employment_status: false)
+  end
+
+  def todays_log
+    timelogs.find_by_date(Date.today)
+  end
+
+  def logged_in?
+    todays_log.present?
+  end
+
+  def logged_out?
+    todays_log.logout.present?   
+  end
+
+  def taken_break?
+    todays_log.break.present?
+  end
+
+  def end_of_break?
+    todays_log.returned.present?
   end
 
 end

@@ -6,6 +6,7 @@ json.finance_admins do |json|
         json.avatar fa.avatar
         json.full_name fa.full_name
         json.email fa.email
+        json.code_num fa.code_num
         json.contact fa.contact
         json.role fa.role.split.map(&:capitalize!).join(' ')
     end

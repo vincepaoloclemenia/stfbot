@@ -3,6 +3,7 @@ class Company < ApplicationRecord
     include PgSearch
     has_many :company_employees, dependent: :destroy
     has_many :employees, -> { order last_name: :asc }, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
+    has_many :contractors, -> { where(role: 'contractor').order(last_name: :asc)}, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy  
 

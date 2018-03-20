@@ -1,5 +1,33 @@
 <div class='row m70'>
     <div class='col-lg-10 col-lg-offset-1'>
-        <%= react_component 'HiredEmployees' %>
+        <div class='panel'>
+            <div class='panel-heading ml15 mr15 with-border'>
+                <h5><i class='fa fa-users lg pr1' aria-hidden='true'></i>Employees
+                    <div class='pull-right'>               
+                                            
+                        <%= form_for @timesheet, url: import_timesheet_path do |f| %>
+                            <%= f.file_field :file, id: 'import', class: 'inputfile' %>
+                            <label id='label-import' for="import">Upload Timesheet</label>
+                            <%= submit_tag "Import", id: 'save-import', class: 'btn btn-primary transparent' %>
+                        <% end %>                       
+                                        
+                    </div>  
+                </h5>      
+            </div>  
+            <div class='panel-body'>  
+                <% if alert %>         
+                    <% alert.map do |message| %>
+                        <div class="alert alert-danger" role="alert"><%= message %></div>                  
+                    <% end %>   
+                <% end %>       
+            </div>
+            <%= react_component 'HiredEmployees' %>
+        </div>       
     </div>
 </div>
+
+<script>
+    $("#import").on('change', function(){
+        $('#label-import').text($(this).val().split(/(\\|\/)/g).pop())
+    })
+</script>

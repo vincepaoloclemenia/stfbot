@@ -6,7 +6,7 @@ import FroalaView from 'react-froala-wysiwyg/FroalaEditorView'
 
 export default class EditEmployee extends React.Component{
     constructor(props){
-        var roles = [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}]
+        var roles = [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}, {'label': 'Contractor', 'value': 1}]
         super(props)
         this.state = {
             open: false,
@@ -14,6 +14,10 @@ export default class EditEmployee extends React.Component{
             employeeLastName: this.props.employee.last_name,
             employeeEmail: this.props.employee.email,
             roles: roles,
+            codeNum: this.props.employee.code_num,
+            hourRate: this.props.employee.rate_per_hour,
+            minFlexTime: this.props.employee.min_flexi_time,
+            maxFlexTime: this.props.employee.max_flexi_time,
             employeeRole:  roles.find( x => x.label === this.props.employee.role )
         }
     }
@@ -27,7 +31,11 @@ export default class EditEmployee extends React.Component{
                 first_name: this.state.employeeFirstName,
                 last_name: this.state.employeeLastName,
                 email: this.state.employeeEmail,
-                role: this.state.employeeRole.label.toLocaleLowerCase()
+                role: this.state.employeeRole.label.toLocaleLowerCase(),
+                code_num: this.state.codeNum,
+                rate_per_hour: this.state.hourRate,
+                max_flexi_time: this.state.maxFlexTime,
+                min_flexi_time: this.state.minFlexTime
                 }
             },
             success: (data) => {
@@ -60,7 +68,38 @@ export default class EditEmployee extends React.Component{
                                 <label className='panel-label'>Email:</label>
                             </div>
                             <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-                                <input className='form-control' value={this.state.employeeEmail} placeholder='employee email' onChange={e => this.setState({ employeeEmail: e.target.value })} />
+                                <input className='form-control' value={this.state.employeeEmail} placeholder='Employee email' onChange={e => this.setState({ employeeEmail: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Hourly Rate:</label>
+                            </div>
+                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                                <input type='number' value={this.state.hourRate} className='form-control' placeholder='Hour Rate' onChange={e => this.setState({ hourRate: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Contractor Number:</label>
+                            </div>
+                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                                <input className='form-control' value={this.state.codeNum} placeholder='Contractor Number' onChange={e => this.setState({ employeeEmail: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-5'>
+                                <label className='panel-label'>Time Range of Flexibility</label>
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                <label className='panel-label'>From:</label>
+                                <input className='form-control' value={this.state.minFlexTime} placeholder='Minimum Allowed Time for Contractor' onChange={e => this.setState({ minFlexTime: e.target.value })} />
+                            </div>
+                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                <label className='panel-label'>To:</label>
+                                <input className='form-control' value={this.state.maxFlexTime} placeholder='Maximum Allowed Time for Contractor' onChange={e => this.setState({ maxFlexTime: e.target.value })} />
                             </div>
                         </div>
                         <div className='row pb20'>

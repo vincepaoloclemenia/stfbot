@@ -1,13 +1,16 @@
 class Api::EmployeesController < Api::BaseController
     before_action :authenticate_user!
     before_action :find_user, only: [:update, :destroy]
-    before_action :find_company, only: [ :index, :create, :employers, :finance_admins ]
+    before_action :find_company, only: [ :index, :create, :employers, :finance_admins, :contractors ]
     def index
+        @contractors = @company.contractors
         @employers = @company.employees.where(role: 'employer')
         @finance_admins = @company.employees.where(role: 'finance admin')
         @years = (1990...Date.today.year + 1).to_a.sort {|x,y| y <=> x }
         @job_levels = ['Internship / OJT', 'Entry Level/Fresh Grad', 'Associate / Supervisor', 'Mid-senior Level / Manager', 'Director / Executive' ].sort  
         @functions = ['Accounting and Finance', 'General Services', 'Management and Consultancy', 'Human and Resources', 'Legal', 'Sciences', 'Arts and Sports', 'IT and Software', 'Architecture and Engineering'].sort  
+        @hours = (1..12).to_a
+        @minutes = (1..59).to_a
     end
 
     def employers
@@ -16,6 +19,10 @@ class Api::EmployeesController < Api::BaseController
 
     def finance_admins
         @finance_admins = @company.employees.where(role: 'finance admin')
+    end
+
+    def contractors
+        @contractors = @company.contractors.paginate(page: params[:page], per_page: 10)
     end
 
     def create
@@ -59,10 +66,10 @@ class Api::EmployeesController < Api::BaseController
         end
 
         def user_params
-            params.require(:user).permit(:email, :password, :role, :username, :first_name, :last_name)
+            params.require(:user).permit(:email, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :password, :role, :username, :first_name, :last_name)
         end
         
         def update_attributes
-            params.require(:user).permit(:email, :role, :first_name, :last_name)
+            params.require(:user).permit(:email, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :role, :first_name, :last_name)
         end
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :autocomplete, only: :index
+    
     resources :companies, only: [:update] do
       get :get_company_profile, on: :collection
       get :get_countries, on: :collection
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       get :get_cities, on: :collection
       patch :update_overview, on: :collection
     end
+
     resources :jobs, except: :show do 
       get :suggestions, on: :collection
       get :get_cities, on: :collection
@@ -37,9 +39,11 @@ Rails.application.routes.draw do
       patch :clear_count, on: :collection
       patch :clear_notif, on: :collection
     end
+
     resources :dashboard, only: [] do
       get :check_company_profile, on: :collection
     end
+
     resources :clients, except: :show do 
       get :get_countries, on: :collection
       get :get_states, on: :collection
@@ -71,20 +75,28 @@ Rails.application.routes.draw do
       get :get_profile, on: :collection
       get :candidate_information, on: :collection
     end
+
     resources :educations, only: [:index, :new, :create, :destroy, :update] do
       get :get_options, on: :collection
     end
+
     resources :inquiries, only: [:index, :create, :destroy, :new]
 
     resources :employees, only: [:index, :create, :update, :destroy] do
       get :employers, on: :collection
       get :finance_admins, on: :collection
+      get :contractors, on: :collection
     end
+
     resources :skills, only: [:index, :create, :destroy, :update]
+
     resources :work_experiences
+
+    resources :timelogs
 
   end
   
+  post '/employees/import_timesheet' => 'employees#import_timesheet', as: :import_timesheet
   get '/:slug/employees' => 'employees#index', as: :employees
   get '/:slug/my_applications' => 'saved_jobs#my_applications', as: :applications
   get '/:slug/my_saved_jobs' => 'saved_jobs#index', as: :saved_jobs

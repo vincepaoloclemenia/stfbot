@@ -20,8 +20,11 @@ export default class Employees extends React.Component{
             financeAdmins: [],
             functions: [],
             jobLevels: [],
+            contractors: [],
+            view: 'contractors',
+            codeNum: '',
             years: [],
-            roles: [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}], 
+            roles: [{'label': 'Employer', 'value': 0}, {'label': 'Finance Admin', 'value': 1}, {'label': 'Contractor', 'value': 2}], 
             months: [
                 { 'label': 'Jan', 'value': 0 },
                 { 'label': 'Feb', 'value': 1 },
@@ -35,7 +38,9 @@ export default class Employees extends React.Component{
                 { 'label': 'Oct', 'value': 9 },
                 { 'label': 'Nov', 'value': 10 },
                 { 'label': 'Dec', 'value': 11 }
-            ]
+            ],
+            hours: [],
+            minutes: []
         }
         this.onCloseModal = this.onCloseModal.bind(this)
         this.onOpenModal = this.onOpenModal.bind(this)
@@ -59,7 +64,11 @@ export default class Employees extends React.Component{
                 username: this.state.userName,
                 password: 'password123',
                 first_name: this.state.userFirstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
-                last_name: this.state.userLastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() })
+                last_name: this.state.userLastName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
+                code_num: this.state.codeNum,
+                rate_per_hour: this.state.hourRate,
+                max_flexi_time: this.state.maxFlexTime,
+                min_flexi_time: this.state.minFlexTime
                 },
                 employment_date: `${this.state.month.label} ${this.state.year.label}`,
                 job_level: this.state.jobLevel.label,
@@ -84,7 +93,26 @@ export default class Employees extends React.Component{
                         }
                     }) 
                 }       
-                $.notify(data.message, { className: 'success', position: 'top center' } );                
+                if(data.user.role === 'contractor'){
+                    $.ajax({
+                        url: '/api/employees/contractors.json',
+                        method: 'get',
+                        success: (data) => {
+                            this.setState({ open: false, contractors: data.contractors })
+                        }
+                    }) 
+                }       
+                $.notify(data.message, { className: 'success', position: 'top center' } );      
+                this.setState({
+                    userFirstName: null,
+                    userLastName: null,
+                    userName: null,
+                    userEmail: null,
+                    userRole: null, 
+                    codeNum: null,
+                    
+
+                })           
             }
         })
 
@@ -120,6 +148,15 @@ export default class Employees extends React.Component{
                 }
             }) 
         }    
+        if(data.user.role === 'contractor'){
+            $.ajax({
+                url: '/api/employees/contractors.json',
+                method: 'get',
+                success: (data) => {
+                    this.setState({ open: false, contractors: data.contractors })
+                }
+            }) 
+        }       
         $.notify(data.message, { className: 'info', position: 'top center' } );  
     }
 
@@ -133,7 +170,8 @@ export default class Employees extends React.Component{
                     financeAdmins: data.finance_admins, 
                     years: data.years,
                     jobLevels: data.job_levels,
-                    functions: data.functions
+                    functions: data.functions,
+                    contractors: data.contractors
                 })
             }
         })
@@ -147,17 +185,19 @@ export default class Employees extends React.Component{
                     
                 </div>
                 <div className='panel-body mb25'>
-                    <div className='row pb20'>
-                        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                        <div className='panel-heading ml15 mr15 with-border'>Employers</div>
-                            {this.renderEmployers()}
+                    <div className='row ml15 pb20'>
+                        <div className='col-md-12'>
+                            <div className="tab">
+                                <button className={`tablinks${this.state.view === 'contractors' ? ' active' : ''}`} onClick={() => this.setState({ view: 'contractors' })}>Contractors</button>
+                                <button className={`tablinks${this.state.view === 'financeAdmins' ? ' active' : ''}`} onClick={() => this.setState({ view: 'financeAdmins' })}>Finance Admins</button>
+                                <button className={`tablinks${this.state.view === 'employers' ? ' active' : ''}`} onClick={() => this.setState({ view: 'employers' })}>Employers</button>
+                            </div>
                         </div>
                     </div>
                     <div className='row pb20'>
-                        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                        <div className='panel-heading ml15 mr15 with-border'>Finance Admins</div>
-                            {this.renderFinanceAdmins()}
-                        </div>
+                        
+                        {this.renderEmployees()}
+                        
                     </div>
                 </div>
                 <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -192,15 +232,33 @@ export default class Employees extends React.Component{
                         </div>
                         <div className='row pb20'>
                             <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <label className='panel-label'>Designation:</label>
+                                <label className='panel-label'>Hourly Rate:</label>
                             </div>
                             <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-                                <VirtualizedSelect
-                                    optionClassName='with-border'
-                                    options={this.state.roles}
-                                    onChange={(value) => this.setState({ userRole: value })}
-                                    value={this.state.userRole}                                                
-                                />
+                                <input type='number' className='form-control' placeholder='Hour Rate' onChange={e => this.setState({ hourRate: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                                <label className='panel-label'>Contractor Number:</label>
+                            </div>
+                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                                <input className='form-control' placeholder='Code Number' onChange={e => this.setState({ codeNum: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-5'>
+                                <label className='panel-label'>Time Range of Flexibility</label>
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                <label className='panel-label'>From:</label>
+                                <input className='form-control' placeholder='Minimum Allowed Time for Contractor' onChange={e => this.setState({ minFlexTime: e.target.value })} />
+                            </div>
+                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                                <label className='panel-label'>To:</label>
+                                <input className='form-control' placeholder='Maximum Allowed Time for Contractor' onChange={e => this.setState({ maxFlexTime: e.target.value })} />
                             </div>
                         </div>
 
@@ -266,46 +324,33 @@ export default class Employees extends React.Component{
         )
     }
 
-    renderEmployers(){
-        return(
-            <table className="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Contact</th>
-                        <th>Edit / Delete</th>                            
-                    </tr>                   
-                </thead>
-                <tbody>
-                    {this.state.employers.map((emp) =>
-                        <tr className='tall-height' key={emp.id}>
-                            <td id='stay-left' className='larger-fonts'>
-                                <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar} />
-                                <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
-                            </td>
-                            <td className='larger-fonts'>
-                                {emp.email}
-                            </td>
-                            <td className='larger-fonts'>
-                                {emp.contact === null ? <i>No contact yet</i> : emp.contact}
-                            </td>
-                            <td>
-                                <EditEmployee employee={emp} onUpdate={this.handleUpdate.bind(this)} />                              
-                                <span className='action-gap'></span>
-                                <DeleteEmployee employee={emp} onDelete={this.handleDelete.bind(this)} />                             
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        )
-    }
-
-    renderFinanceAdmins(){
-        if(this.state.financeAdmins.length === 0){
+    renderEmployees(){
+        if(this.state.view === 'employers'){
+            if(this.state.employers.length === 0){
+                return(
+                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div className='panel-heading ml15 mr15'>Employees</div>
+                            <table className="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Edit / Delete</th>                            
+                                    </tr>                   
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                                
+                            </table>
+                        <center><i>No Employers Yet</i></center>
+                    </div>
+                )
+            }     
             return(
-                <div>
+                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div className='panel-heading ml15 mr15'>Employers</div>
                     <table className="table table-hover">
                         <thead>
                             <tr>
@@ -316,47 +361,150 @@ export default class Employees extends React.Component{
                             </tr>                   
                         </thead>
                         <tbody>
-                            
+                            {this.state.employers.map((emp) =>
+                                <tr className='tall-height' key={emp.id}>
+                                    <td id='stay-left' className='larger-fonts'>
+                                        <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar} />
+                                        <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.email}
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.contact === null ? <i>No contact yet</i> : emp.contact}
+                                    </td>
+                                    <td>
+                                        <EditEmployee employee={emp} onUpdate={this.handleUpdate.bind(this)} />                              
+                                        <span className='action-gap'></span>
+                                        <DeleteEmployee employee={emp} onDelete={this.handleDelete.bind(this)} />                             
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
-                        
                     </table>
-                    <center><i>No Finance Admins Yet</i></center>
                 </div>
             )
         }
-        return(
-            <table className="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Contact</th>
-                        <th>Edit / Delete</th>                            
-                    </tr>                   
-                </thead>
-                <tbody>
-                    {this.state.financeAdmins.map((emp) =>
-                        <tr className='tall-height' key={emp.id}>
-                            <td id='stay-left' className='larger-fonts'>
-                                <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar}/>
-                                <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
-                            </td>
-                            <td className='larger-fonts'>
-                                {emp.email}
-                            </td>
-                            <td className='larger-fonts'>
-                                {emp.contact === null ? <i>No contact yet</i> : emp.contact}
-                            </td>
-                            <td>
-                                <EditEmployee employee={emp} onUpdate={this.handleUpdate.bind(this)} />                             
-                                <span className='action-gap'></span>
-                                <DeleteEmployee employee={emp} onDelete={this.handleDelete.bind(this)} />                         
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        )
+        if(this.state.view === 'financeAdmins'){
+            if(this.state.financeAdmins.length === 0){
+                return(
+                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div className='panel-heading ml15 mr15'>Finance Admins</div>
+                        <table className="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Edit / Delete</th>                            
+                                </tr>                   
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                            
+                        </table>
+                        <center><i>No Finance Admins Yet</i></center>
+                    </div>
+                )
+            }
+            return(
+                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div className='panel-heading ml15 mr15'>Finance Admins</div>
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Edit / Delete</th>                            
+                            </tr>                   
+                        </thead>
+                        <tbody>
+                            {this.state.financeAdmins.map((emp) =>
+                                <tr className='tall-height' key={emp.id}>
+                                    <td id='stay-left' className='larger-fonts'>
+                                        <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar}/>
+                                        <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.email}
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.contact === null ? <i>No contact yet</i> : emp.contact}
+                                    </td>
+                                    <td>
+                                        <EditEmployee employee={emp} onUpdate={this.handleUpdate.bind(this)} />                             
+                                        <span className='action-gap'></span>
+                                        <DeleteEmployee employee={emp} onDelete={this.handleDelete.bind(this)} />                         
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+        if (this.state.view === 'contractors'){
+            if(this.state.contractors.length === 0){
+                return(
+                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div className='panel-heading ml15 mr15'>Contractors</div>
+                        <table className="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Edit / Delete</th>                            
+                                </tr>                   
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                            
+                        </table>
+                        <center><i>No Contractors Yet</i></center>
+                    </div>
+                )
+            }      
+            return(
+                <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div className='panel-heading ml15 mr15'>Contractors</div>
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Edit / Delete</th>                            
+                            </tr>                   
+                        </thead>
+                        <tbody>
+                            {this.state.contractors.map((emp) =>
+                                <tr className='tall-height' key={emp.id}>
+                                    <td id='stay-left' className='larger-fonts'>
+                                        <img style={{ width: '40px', height: '40px' }} alt="avatar image" className="avatar-image" src={emp.avatar}/>
+                                        <span className='gap1'>{emp.first_name} {emp.last_name}</span>                                
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.email}
+                                    </td>
+                                    <td className='larger-fonts'>
+                                        {emp.contact === null ? <i>No contact yet</i> : emp.contact}
+                                    </td>
+                                    <td>
+                                        <EditEmployee employee={emp} onUpdate={this.handleUpdate.bind(this)} />                             
+                                        <span className='action-gap'></span>
+                                        <DeleteEmployee employee={emp} onDelete={this.handleDelete.bind(this)} />                         
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
     }
 
     disableButton(){

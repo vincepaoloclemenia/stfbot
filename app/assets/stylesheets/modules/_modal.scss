@@ -24,7 +24,14 @@
 .modal-title-caption{
     font-family: 'Noto Sans', sans-serif;
     color: lighten($font-grey, 20%);
-    font-weight: 300px;
+    font-weight: 300;
+    padding: 20px 15px;  
+    width: 100%;  
+    border-bottom: 1px solid grey;
+    margin-bottom: 25px;
+}
+h4.modal-header{
+    color: lighten($font-grey, 15%);
     padding: 20px 15px;  
     width: 100%;  
     border-bottom: 1px solid grey;
@@ -49,4 +56,9 @@
         }
 
     }
+}
+
+.custom-modal{
+    max-width: 600px !important;
+    width: 100%;
 }

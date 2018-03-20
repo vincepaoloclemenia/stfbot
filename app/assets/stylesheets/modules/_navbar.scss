@@ -19,6 +19,25 @@
     }
 }
 
+.dropdown-menu{
+    &.with-timelog{
+        height: 800px;
+        width: 250px;
+        li.dropdownlink{
+            text-align: center;
+            height: 30px;
+        }
+        a { 
+            padding: 10px 0
+        }
+    }
+    &.time-in{
+        width: 250px;
+        li.timesheet-link { height: 40px; text-align: center; padding: 15px 10px }
+    }
+
+}
+
 .navbar-default{
 
     .navbar-nav > li > a {   
