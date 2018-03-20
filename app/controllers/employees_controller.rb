@@ -19,4 +19,8 @@ class EmployeesController < ApplicationController
             alert: "#{@timesheet.errors.full_messages}"
         end
     end
+
+    def time_log
+        @user = current_user.company.employees.find_by_username(params[:employee])
+    end
 end

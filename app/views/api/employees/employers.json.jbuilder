@@ -9,5 +9,6 @@ json.employers do |json|
         json.contact emp.contact
         json.code_num emp.code_num
         json.role emp.role.capitalize!
+        json.shifting_schedule emp.shifting_schedule
     end
 end

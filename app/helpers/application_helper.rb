@@ -28,4 +28,9 @@ module ApplicationHelper
     def current_company? (company)
         current_user.company.id == company.id
     end
+
+    def to_peso(num)
+		num = 0 if num == 0 || num.nil?
+		number_to_currency(num, unit: "₱ ")
+	end
 end

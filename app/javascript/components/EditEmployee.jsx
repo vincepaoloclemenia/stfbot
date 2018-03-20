@@ -18,7 +18,8 @@ export default class EditEmployee extends React.Component{
             hourRate: this.props.employee.rate_per_hour,
             minFlexTime: this.props.employee.min_flexi_time,
             maxFlexTime: this.props.employee.max_flexi_time,
-            employeeRole:  roles.find( x => x.label === this.props.employee.role )
+            employeeRole:  roles.find( x => x.label === this.props.employee.role ),
+            checked: this.props.employee.shifting_schedule
         }
     }
 
@@ -35,7 +36,8 @@ export default class EditEmployee extends React.Component{
                 code_num: this.state.codeNum,
                 rate_per_hour: this.state.hourRate,
                 max_flexi_time: this.state.maxFlexTime,
-                min_flexi_time: this.state.minFlexTime
+                min_flexi_time: this.state.minFlexTime,
+                shifting_schedule: this.state.checked
                 }
             },
             success: (data) => {
@@ -93,15 +95,11 @@ export default class EditEmployee extends React.Component{
                             </div>
                         </div>
                         <div className='row pb20'>
-                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>From:</label>
-                                <input className='form-control' value={this.state.minFlexTime} placeholder='Minimum Allowed Time for Contractor' onChange={e => this.setState({ minFlexTime: e.target.value })} />
-                            </div>
-                            <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-                                <label className='panel-label'>To:</label>
-                                <input className='form-control' value={this.state.maxFlexTime} placeholder='Maximum Allowed Time for Contractor' onChange={e => this.setState({ maxFlexTime: e.target.value })} />
+                            <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+                                <input type='checkbox' checked={this.state.checked} onChange={() => this.setState({ checked: !this.state.checked })} /><label className='form-label'><span className='gap3'>Shifting Schedule?</span></label>  
                             </div>
                         </div>
+                        {this.renderTimerRange()}
                         <div className='row pb20'>
                             <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
                                 <label className='panel-label'>Designation:</label>
@@ -125,6 +123,22 @@ export default class EditEmployee extends React.Component{
                     </div>
                 </Modal>
             </button>
+        )
+    }
+
+    renderTimerRange(){
+        if(this.state.checked){ return }
+        return(
+            <div className='row pb20'>
+                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                    <label className='panel-label'>From:</label>
+                    <input className='form-control' value={this.state.minFlexTime} placeholder='Minimum Allowed Time for Contractor' onChange={e => this.setState({ minFlexTime: e.target.value })} />
+                </div>
+                <div className='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                    <label className='panel-label'>To:</label>
+                    <input className='form-control' value={this.state.maxFlexTime} placeholder='Maximum Allowed Time for Contractor' onChange={e => this.setState({ maxFlexTime: e.target.value })} />
+                </div>
+            </div>
         )
     }
 }

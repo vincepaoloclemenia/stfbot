@@ -56,6 +56,12 @@ class Api::EmployeesController < Api::BaseController
         end
     end
 
+    def timelogs
+        @user = User.find(params[:id])
+        @timelogs = @user.timelogs
+        @unvalidated_timelogs = @user.timelogs.where(valid_ot: nil)
+    end
+
     private
         def find_user
             @user = current_user.company.employees.find(params[:id])
@@ -66,10 +72,10 @@ class Api::EmployeesController < Api::BaseController
         end
 
         def user_params
-            params.require(:user).permit(:email, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :password, :role, :username, :first_name, :last_name)
+            params.require(:user).permit(:email, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :password, :role, :username, :first_name, :last_name)
         end
         
         def update_attributes
-            params.require(:user).permit(:email, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :role, :first_name, :last_name)
+            params.require(:user).permit(:email, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :role, :first_name, :last_name)
         end
 end

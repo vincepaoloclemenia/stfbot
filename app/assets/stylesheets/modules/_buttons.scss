@@ -53,6 +53,19 @@
         }
         height: 40px;
     }
+    &.view-timelog{
+        position: relative;
+        font-size: 11px;
+        background-color: transparent; 
+        width: 120px;
+        color: $main-color;
+        &:hover{
+            background-color: lighten($main-color, 10%);
+            color: $white;
+            transition: 0.5s;
+        }
+        padding: 5px;
+    }
     &.apply{
         font-family: 'Noto Sans', sans-serif;        
         position: relative;

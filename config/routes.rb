@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       get :employers, on: :collection
       get :finance_admins, on: :collection
       get :contractors, on: :collection
+      get :timelogs, on: :collection
     end
 
     resources :skills, only: [:index, :create, :destroy, :update]
@@ -97,6 +98,7 @@ Rails.application.routes.draw do
   end
   
   post '/employees/import_timesheet' => 'employees#import_timesheet', as: :import_timesheet
+  get '/:slug/employees/timelogs' => 'employees#time_log', as: :timelog
   get '/:slug/employees' => 'employees#index', as: :employees
   get '/:slug/my_applications' => 'saved_jobs#my_applications', as: :applications
   get '/:slug/my_saved_jobs' => 'saved_jobs#index', as: :saved_jobs

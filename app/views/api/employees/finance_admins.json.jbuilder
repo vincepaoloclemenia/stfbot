@@ -9,5 +9,6 @@ json.finance_admins do |json|
         json.code_num fa.code_num
         json.contact fa.contact
         json.role fa.role.split.map(&:capitalize!).join(' ')
+        json.shifting_schedule fa.shifting_schedule
     end
 end

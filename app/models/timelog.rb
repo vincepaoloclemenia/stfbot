@@ -2,7 +2,7 @@ class Timelog < ApplicationRecord
     belongs_to :user, -> { includes(:company).where( role: ['regular_employee', 'employer', 'contractor', 'finance admin'] ) }
     validates :date, presence: true, uniqueness: { scope: :user, message: "can only login once" }
     #before_update :validate_entries
-    default_scope -> { order(date: :asc) }
+    default_scope -> { order(date: :desc) }
 
     def missing_entry
         if logout.present? && login.nil?

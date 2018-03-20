@@ -53,6 +53,7 @@ export default class HiredEmployees extends React.Component{
                                         <h5 className='user-header'>{contractor.last_name}, {contractor.first_name}</h5>
                                         <p className='user-par'>Code number: {contractor.code_num}</p>
                                         <p className='user-par'>Email: {contractor.email}</p>
+                                        <a href={`/${contractor.company.slug}/employees/timelogs?employee=${contractor.username}`} target='_blank' className='btn btn-primary view-timelog'>View timelogs</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,10 @@
+<div class='row m70'>
+    <div class='col-lg-10 col-lg-offset-1'>
+        <div class='panel'>
+            <div class='panel-heading ml15 mr15 with-border'>
+                <h4><%= @user.nil? ? "No such user found" : "#{@user.full_name}'s Timelogs" %></h4>
+            </div>
+            <%= react_component 'Timelog', { user: @user } %>
+        </div>
+    </div>
+</div>

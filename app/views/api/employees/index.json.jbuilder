@@ -9,6 +9,7 @@ json.employers do |json|
         json.code_num emp.code_num
         json.contact emp.contact
         json.role emp.role.split.map(&:capitalize!).join(' ')
+        json.shifting_schedule emp.shifting_schedule
     end
 end
 
@@ -23,6 +24,7 @@ json.finance_admins do |json|
         json.code_num fa.code_num
         json.contact fa.contact
         json.role fa.role.split.map(&:capitalize!).join(' ')
+        json.shifting_schedule fa.shifting_schedule
     end
 end
 
@@ -40,6 +42,7 @@ json.contractors do |json|
         json.rate_per_hour con.rate_per_hour
         json.min_flexi_time con.min_flexi_time
         json.max_flexi_time con.max_flexi_time
+        json.shifting_schedule con.shifting_schedule
     end
 end
 
