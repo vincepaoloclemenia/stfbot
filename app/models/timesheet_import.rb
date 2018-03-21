@@ -25,7 +25,7 @@ class TimesheetImport
           if ( (date.wday == 0 || date.wday == 6) && login_entries.exclude?(sheet.cell(i, 'D'))) || ( (date.wday >= 1 && date.wday <= 5) && login_entries.include?(sheet.cell(i, 'D')))
             self.errors.add('Invalid entry', " for #{user.full_name}'s timesheet, #{date.strftime('%B %d, %Y')} in Row #{i}")
           else
-            @timelog = Timelog.where(user_id: user.id, date: date).first_or_create 
+            @timelog = Timelog.where(user_id: user.id, date: date, shift: sheet.cell(i, 'H'), valid_ot: sheet.cell(i, 'I')).first_or_create 
             if sheet.cell(i, 'D') == 'a_in'
               if @timelog.login.nil?
                 @timelog.update(login: "#{date} #{sheet.cell(i, 'B')}")   
@@ -71,7 +71,7 @@ class TimesheetImport
             else
               next
             end
-            @timelog.compute_total_hours     
+            @timelog.compute_total_pay     
           end           
         else
           next

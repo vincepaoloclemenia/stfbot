@@ -1,50 +1,40 @@
 class Timelog < ApplicationRecord
     belongs_to :user, -> { includes(:company).where( role: ['regular_employee', 'employer', 'contractor', 'finance admin'] ) }
     validates :date, presence: true, uniqueness: { scope: :user, message: "can only login once" }
-    #before_update :validate_entries
+    
     default_scope -> { order(date: :desc) }
 
-    def missing_entry
-        if logout.present? && login.nil?
-            errors.add("Login", " is missing for Name: #{self.user.full_name}, Date: #{date.strftime('%B %d, %Y')}")
-        elsif break_in.present? && break_out.nil?
-            errors.add("Break Out", " is missing for Name: #{self.user.full_name}, Date: #{date.strftime('%B %d, %Y')}")
-        elsif overtime_out.present? && overtime_in.nil?
-            errors.add("Overtime Out", " is missing for Name: #{self.user.full_name}, Date: #{date.strftime('%B %d, %Y')}")
-        end
-    end
-
-    def validate_entries
-        if date.wday > 5
-            if overtime_out.nil? && overtime_in.present?
-                errors.add("overtime out", " is missing")
-            elsif login.present? || logout.present? || break_in.present? || break_out.present?
-                errors.add("overtime", " wrong entry")
-            end
-        else
-            if logout.nil? && login.present?
-                errors.add("logout entry", " is missing")
-            elsif break_out.nil? && break_in.present?
-                errors.add("break out entry", " is missing")
-            end
-        end
-    end
-
     def break_hours
-        hours = if break_in? && break_out?
-            ((break_in - break_out) / 60 / 60 ).round(2)
+        hours = if break_in? && break_out? && !self.user.shifting_schedule
+            ((break_in - break_out) / 60 / 60 ).round(2) <= 1 ? 1 : ((break_in - break_out) / 60 / 60 ).round(2)
         else
             0
         end
-        hours
+        hours.to_d
     end
 
     def user_max_flex_timein
-        "#{date} #{self.user.max_flexi_time}".to_time
+        if self.user.shifting_schedule?
+            case shift
+                when '1ST SHIFT' then "#{date} 7:30 AM".to_time
+                when '2ND SHIFT' then "#{date} 3:30 PM".to_time
+                when '3RD SHIFT' then "#{date} 11:30 PM".to_time
+            end
+        else
+            "#{date} #{self.user.max_flexi_time}".to_time
+        end
     end
 
     def user_min_flex_timein
-        "#{date} #{self.user.min_flexi_time}".to_time
+        if self.user.shifting_schedule?
+            case shift
+                when '1ST SHIFT' then "#{date} 7:30 AM".to_time
+                when '2ND SHIFT' then "#{date} 3:30 PM".to_time
+                when '3RD SHIFT' then "#{date} 11:30 PM".to_time
+            end
+        else
+            "#{date} #{self.user.min_flexi_time}".to_time
+        end
     end
 
     def user_max_flex_timeout
@@ -59,55 +49,119 @@ class Timelog < ApplicationRecord
         login > user_max_flex_timein
     end
 
-    def undertime?
-        if late?
-            (user_max_flex_timeout - login - break_hours) < 8
-        else
-            hours_per_day < 8
-        end
+    def undertime? 
+        logout < user_min_flex_timeout
     end
 
-    def compute_total_hours
-        if date.wday == 0 || date.wday == 6
-            if overtime_in? && overtime_out?
-                night_differential = overtime_in > "#{date} 10:00 PM".to_time ? 0.1 : 0
-                percentage = is_holiday? ? 2 : 1.5
-                deduction = is_holiday? ? 1 : 0.5
-                total_hrs = ((overtime_out - overtime_in) / 60 / 60 ).round(2) - deduction
-                total_payment = (total_hrs * self.user.rate_per_hour * percentage) + (total_hrs * self.user.rate_per_hour * night_differential)
-                self.update(total_pay: total_payment.round(2), overtime: total_hrs, total_break_hours: break_hours, total_hours: total_hrs)
-            end
-        else
-            if login? && logout?
-                night_differential = login >= "#{date} 10:00 PM".to_time ? 0.1 : 0
-                ot_percentage = is_holiday? ? 2 : 1.3 
-                if valid_ot?
-                    if late?
-                        total_hrs = ((user_max_flex_timeout - login - break_hours)/60/60).round(2)
-                        excess = ((logout - user_max_flex_timeout)/60/60).round(2)
-                        valid_ot_hrs = excess - ( 8 - total_hrs )
-                        hours_to_be_paid = (total_hours + excess) >= 8 ? 8 : total_hours + excess
-                        ot = hours_to_be_paid <= 8 ? 0 : valid_ot_hrs >= 1 ? valid_ot_hrs : 0
-                        total_payment = (hours_to_be_paid * self.user.rate_per_hour) + (ot * ot_percentage) + (hours_to_be_paid * self.user.rate_per_hour * night_differential)
-                        self.update(total_hours: hours_to_be_paid, overtime: ot, total_break_hours: break_hours, total_pay: total_payment.round(2))
-                    else
-                        total_hrs = ((logout - login - break_hours)/60/60).round(2)
-                        overtime_hours = (total_hrs - 8) >= 1 ? total_hrs - 8 : 0
-                        hours_to_be_paid = total_hours >= 8 ? 8 : total_hours
-                        total_payment = (hours_to_be_paid * self.user.rate_per_hour) + (overtime * self.user.rate_per_hour * ot_percentage) * (hours_to_be_paid * self.user.rate_per_hour * night_differential)
-                        self.update(total_hours: hours_to_be_paid, overtime: overtime_hours, total_break_hours: break_hours, total_pay: total_payment.round(2))                        
-                    end                   
+    def valid_overtime?
+        valid_ot == 'VALID' || valid_ot == 'valid'
+    end
+
+    def early_time_in?
+        login < user_min_flex_timein
+    end
+
+    def total_rendered_hours
+        hours = if date.wday == 0 || date.wday == 6
+                    0
                 else
-                    if late?
-                        total_hrs = ((user_max_flex_timeout - login - break_hours)/60/60).round(2)
-                        total_payment = (total_hrs * self.user.rate_per_hour).round(2) + (total_hrs * self.user.rate_per_hour * night_differential)
-                        self.update(total_hours: total_hrs, overtime: 0, total_break_hours: break_hours, total_pay: total_payment.round(2))                                                
+                    if login? &&  logout?                
+                        if late?
+                            (user_max_flex_timeout - login ) / 60 / 60 - break_hours
+                        elsif late? && undertime?
+                            ((logout - login) /60 /60) - break_hours
+                        elsif early_time_in?  
+                            undertime? ? ((logout - user_max_flex_timein)/60/60) - break_hours : (logout - login) /60 /60 - break_hours
+                        else
+                            (logout - login) / 60 / 60 - break_hours <= 8 ? (logout - login) / 60 / 60 : 8
+                        end              
                     else
-                        total_hrs = ((logout - login - break_hours)/60/60).round(2)
-                        total_payment = (total_hrs * self.user.rate_per_hour).round(2) + (total_hrs * self.user.rate_per_hour * night_differential)
-                        self.update(total_hours: total_hrs, overtime: 0, total_break_hours: break_hours, total_pay: total_payment.round(2))                                                                        
-                    end            
+                        0
+                    end
                 end
+        hours.to_d
+    end
+
+    def total_overtime_hours
+        hours = if date.wday == 0 || date.wday == 6
+                    deduction = is_holiday? ? 1 : 0.5
+                    if overtime_out? && overtime_in?
+                        (overtime_out - overtime_in) / 60 / 60 - deduction
+                    else
+                        0
+                    end
+                else    
+                    if login? && logout?
+                        if late?
+                            if (((user_max_flex_timeout - login) / 60 / 60)  - break_hours ) < 8 || undertime?
+                                0
+                            else
+                                hours_to_complete = 8 - ((user_max_flex_timeout - login ) / 60 / 60) - break_hours
+                                overtime = (logout - user_max_flex_timeout) / 60 / 60
+                                hours_to_complete > overtime ? hours_to_complete - overtime : 0
+                            end
+                        elsif early_time_in?
+                            if undertime? 
+                                rendered_hours = (((logout - login)/60/60) - break_hours) < 8 ? 0 : 8 - ((logout - login)/60/60) - break_hours
+                                rendered_hours >= 1 ? rendered_hours : 0
+                            else
+                                (((login - logout)/60/60 - break_hours) - 8) >= 1 ? (login - logout)/60/60 - break_hours : 0  
+                            end
+                        elsif late? && undertime?
+                            0
+                        else
+                            if ((logout - login ) / 60 / 60 ) - break_hours <= 8 || (((logout - login ) / 60 / 60 ) - break_hours - 8 ) < 1
+                                0
+                            else
+                                ((logout - login ) / 60 / 60 ) - break_hours - 8 
+                            end
+                        end
+                    else
+                        0
+                    end
+                end
+        hours.to_d
+    end
+
+    def compute_total_pay
+        if date.wday == 0 || date.wday == 6
+            percentage = is_holiday? ? 2 : 1.5
+            ot_pay = total_overtime_hours * self.user.rate_per_hour * percentage
+            self.update(overtime_pay: ot_pay.to_d, total_break_hours: break_hours.to_d, total_hours: total_rendered_hours.to_d, overtime: total_overtime_hours.to_d, total_pay: ot_pay.to_d)
+        else #weekdays
+            if valid_overtime?
+                percentage = is_holiday? ? 2 : 1.3
+                if late?
+                    ot_hours = if total_rendered_hours + total_overtime_hours <= 8 
+                                    0
+                                else
+                                    hours_needed = 8 - total_rendered_hours
+                                    total_overtime_hours - hours_needed < 1 ? 0 : total_overtime_hours - hours_needed
+                                end
+                    ot_pay = self.user.rate_per_hour * ot_hours * percentage
+                    total_hour_payment = ot_hours.zero? || total_rendered_hours < 8 ? ( total_rendered_hours * self.user.rate_per_hour ) : 8 * self.user.rate_per_hour
+                    total_payment = total_hour_payment + ot_pay
+                    self.update(overtime_pay: ot_pay.to_d, total_break_hours: break_hours.to_d, total_hours: total_rendered_hours.to_d, overtime: ot_hours.to_d, total_pay: total_payment.to_d)                    
+                elsif undertime? && early_time_in?
+                    ot_hours = if total_rendered_hours + total_overtime_hours < 8 
+                                    0
+                                else
+                                    hours_needed = 8 - total_rendered_hours
+                                    total_overtime_hours - hours_needed < 1 ? 0 : total_overtime_hours - hours_needed
+                                end  
+                    ot_pay = self.user.rate_per_hour * ot_hours * percentage
+                    total_hour_payment = ot_hours.zero? || total_rendered_hours < 8 ? total_rendered_hours * self.user.rate_per_hour : 8 * self.user.rate_per_hour         
+                    total_payment = total_hour_payment + ot_pay
+                    self.update(overtime_pay: ot_pay.to_d, total_break_hours: break_hours.to_d, total_hours: total_rendered_hours.to_d, overtime: ot_hours.to_d, total_pay: total_payment.to_d)                                        
+                else
+                    ot_pay = total_overtime_hours * self.user.rate_per_hour * percentage
+                    total_hour_payment = total_rendered_hours * self.user.rate_per_hour
+                    total_hour_payment = ot_pay + total_hour_payment
+                    self.update(overtime_pay: ot_pay.to_d, total_break_hours: break_hours.to_d, total_hours: total_rendered_hours.to_d, overtime: total_overtime_hours.to_d, total_pay: total_payment.to_d)                                                            
+                end
+            else
+                total_payment = total_rendered_hours * self.user.rate_per_hour
+                self.update(overtime_pay: 0.00.to_d, total_break_hours: break_hours.to_d, total_hours: total_rendered_hours.to_d, overtime: 0.0.to_d, total_pay: total_payment.to_d)                                                                            
             end
         end
     end
