@@ -72,10 +72,10 @@ class Api::EmployeesController < Api::BaseController
         end
 
         def user_params
-            params.require(:user).permit(:email, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :password, :role, :username, :first_name, :last_name)
+            params.require(:user).permit(:email, :is_professional, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :password, :role, :username, :first_name, :last_name)
         end
         
         def update_attributes
-            params.require(:user).permit(:email, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :role, :first_name, :last_name)
+            params.require(:user).permit(:email, :is_professional, :shifting_schedule, :rate_per_hour, :min_flexi_time, :max_flexi_time, :code_num, :role, :first_name, :last_name)
         end
 end

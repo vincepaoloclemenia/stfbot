@@ -16,7 +16,7 @@ class EmployeesController < ApplicationController
             end
         else
             redirect_to employees_path(current_user.company.slug),
-            alert: "#{@timesheet.errors.full_messages}"
+            alert: "#{@timesheet.errors.full_messages.join(', ')}"
         end
     end
 

@@ -15,10 +15,12 @@
                 </h5>      
             </div>  
             <div class='panel-body'>  
-                <% if alert %>         
+                <% if alert && alert.is_a?(Array) %> 
+                    
                     <% alert.map do |message| %>
                         <div class="alert alert-danger" role="alert"><%= message %></div>                  
-                    <% end %>   
+                    <% end %>
+
                 <% end %>       
             </div>
             <%= react_component 'HiredEmployees' %>

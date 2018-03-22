@@ -15,5 +15,6 @@ json.contractors do |json|
         json.min_flexi_time con.min_flexi_time
         json.max_flexi_time con.max_flexi_time
         json.shifting_schedule con.shifting_schedule
+        json.is_professional con.is_professional
     end
 end

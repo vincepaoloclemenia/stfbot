@@ -85,3 +85,16 @@ ul li{
     }
 
 } 
+
+table#timelog{
+    td {
+        text-justify: justify;
+        background-color: lighten($light-blue, 20%);
+        padding: 20px 5px;
+        font-size: 11px;
+        &.timelog-date{
+            text-align: left;
+        }
+    }
+
+}

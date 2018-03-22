@@ -22,6 +22,7 @@ export default class Employees extends React.Component{
             jobLevels: [],
             contractors: [],
             view: 'contractors',
+            professional: false,
             checked: false,
             codeNum: '',
             years: [],
@@ -70,7 +71,8 @@ export default class Employees extends React.Component{
                 rate_per_hour: this.state.hourRate,
                 max_flexi_time: this.state.maxFlexTime,
                 min_flexi_time: this.state.minFlexTime,
-                shifting_chedule: this.state.checked
+                shifting_chedule: this.state.checked,
+                is_professional: this.state.professional
                 },
                 employment_date: `${this.state.month.label} ${this.state.year.label}`,
                 job_level: this.state.jobLevel.label,
@@ -255,9 +257,15 @@ export default class Employees extends React.Component{
                         </div>
                         <div className='row pb20'>
                             <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+                                <input type='checkbox' checked={this.state.professional} onChange={() => this.setState({ professional: !this.state.professional })} /><label className='form-label'><span className='gap3'>Has Professional License?</span></label>  
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
                                 <input type='checkbox' checked={this.state.checked} onChange={() => this.setState({ checked: !this.state.checked })} /><label className='form-label'><span className='gap3'>Shifting Schedule?</span></label>  
                             </div>
                         </div>
+                        
                         {this.renderTimeRange()}
 
                         <div className='row pb20'>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321032212) do
+ActiveRecord::Schema.define(version: 20180322075906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,14 +244,15 @@ ActiveRecord::Schema.define(version: 20180321032212) do
     t.bigint "company_id"
     t.datetime "overtime_in"
     t.decimal "undertime", precision: 5, scale: 2
-    t.decimal "total_break_hours", precision: 5
-    t.decimal "total_hours", precision: 5
+    t.decimal "total_break_hours", precision: 5, scale: 2
+    t.decimal "total_hours", precision: 5, scale: 2
     t.datetime "overtime_out"
     t.boolean "is_holiday", default: false
     t.decimal "total_pay", precision: 8, scale: 2
     t.string "valid_ot"
     t.string "shift"
     t.decimal "overtime_pay", precision: 8, scale: 2
+    t.decimal "gross_pay", precision: 8, scale: 2
     t.index ["company_id"], name: "index_timelogs_on_company_id"
     t.index ["user_id"], name: "index_timelogs_on_user_id"
   end

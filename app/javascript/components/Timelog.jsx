@@ -49,7 +49,7 @@ export default class Timelog extends React.Component{
     renderTimelogs(){
         if (this.state.tabLeftOpen){
             return(
-                <table className='table table-striped table-dark'>
+                <table id='timelog' className='table table-striped table-dark'>
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
@@ -61,7 +61,9 @@ export default class Timelog extends React.Component{
                             <th scope="col">Overtime In</th>
                             <th scope="col">Overtime Out</th>
                             <th scope="col">Overtime Hours</th>
+                            <th scope="col">Overtime Pay</th>
                             <th scope="col">Total Hours Rendered</th>
+                            <th scope="col">Gross Pay</th>
                             <th scope="col">Total Pay</th>
                         </tr>
                     </thead>
@@ -72,7 +74,7 @@ export default class Timelog extends React.Component{
             )
         }else{
             return(
-                <table className='table table-striped table-dark'>
+                <table id='timelog' className='table table-striped table-dark'>
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
@@ -84,7 +86,9 @@ export default class Timelog extends React.Component{
                             <th scope="col">Overtime In</th>
                             <th scope="col">Overtime Out</th>
                             <th scope="col">Overtime Hours</th>
+                            <th scope="col">Overtime Pay</th>
                             <th scope="col">Total Hours Rendered</th>
+                            <th scope="col">Gross Pay</th>
                             <th scope="col">Total Pay</th>
                         </tr>
                     </thead>
@@ -107,7 +111,7 @@ export default class Timelog extends React.Component{
         return(
             this.state.unvalidatedTimelogs.map((timelog, index) => 
                 <tr key={index}>
-                    <td>{timelog.date}</td>
+                    <td className='timelog-date'>{timelog.date}</td>
                     <td>{timelog.login}</td>
                     <td>{timelog.break_out}</td>
                     <td>{timelog.break_in}</td>
@@ -116,7 +120,9 @@ export default class Timelog extends React.Component{
                     <td>{timelog.overtime_in}</td>
                     <td>{timelog.overtime_out}</td>
                     <td>{timelog.overtime}</td>
+                    <td>{timelog.overtime_pay}</td>
                     <td>{timelog.total_hours}</td>
+                    <td>{timelog.gross_pay}</td>
                     <td>{timelog.total_pay}</td>
                 </tr>
             )
@@ -134,7 +140,7 @@ export default class Timelog extends React.Component{
         return(
             this.state.allTimelogs.map((timelog, index) => 
                 <tr key={index}>
-                    <td>{timelog.date}</td>
+                    <td className='timelog-date'>{timelog.date}</td>
                     <td>{timelog.login}</td>
                     <td>{timelog.break_out}</td>
                     <td>{timelog.break_in}</td>
@@ -143,7 +149,9 @@ export default class Timelog extends React.Component{
                     <td>{timelog.overtime_in}</td>
                     <td>{timelog.overtime_out}</td>
                     <td>{timelog.overtime}</td>
+                    <td>{timelog.overtime_pay}</td>
                     <td>{timelog.total_hours}</td>
+                    <td>{timelog.gross_pay}</td>
                     <td>{timelog.total_pay}</td>
                 </tr>
             )

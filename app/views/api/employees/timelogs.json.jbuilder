@@ -11,7 +11,9 @@ json.timelogs do |json|
         json.overtime_out timelog.overtime_out? ? timelog.overtime_out.strftime("%l:%M %p") : "--:--"
         json.overtime timelog.overtime
         json.total_hours timelog.total_hours
-        json.total_pay to_peso(timelog.total_pay.round(2))
+        json.total_pay to_peso(timelog.total_pay)
+        json.gross_pay to_peso(timelog.gross_pay)
+        json.overtime_pay to_peso(timelog.overtime_pay)
     end
 end
 
@@ -28,6 +30,8 @@ json.unvalidated_timelogs do |json|
         json.overtime_out timelog.overtime_out? ? timelog.overtime_out.strftime("%l:%M %p") : "--:--"
         json.overtime timelog.overtime
         json.total_hours timelog.total_hours
-        json.total_pay to_peso(timelog.total_pay.round(2))
+        json.total_pay to_peso(timelog.total_pay)
+        json.gross_pay to_peso(timelog.gross_pay)
+        json.overtime_pay to_peso(timelog.overtime_pay)
     end
 end

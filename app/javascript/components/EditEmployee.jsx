@@ -19,7 +19,8 @@ export default class EditEmployee extends React.Component{
             minFlexTime: this.props.employee.min_flexi_time,
             maxFlexTime: this.props.employee.max_flexi_time,
             employeeRole:  roles.find( x => x.label === this.props.employee.role ),
-            checked: this.props.employee.shifting_schedule
+            checked: this.props.employee.shifting_schedule,
+            professional: this.props.employee.is_professional
         }
     }
 
@@ -37,7 +38,8 @@ export default class EditEmployee extends React.Component{
                 rate_per_hour: this.state.hourRate,
                 max_flexi_time: this.state.maxFlexTime,
                 min_flexi_time: this.state.minFlexTime,
-                shifting_schedule: this.state.checked
+                shifting_schedule: this.state.checked,
+                is_professional: this.state.professional
                 }
             },
             success: (data) => {
@@ -92,6 +94,11 @@ export default class EditEmployee extends React.Component{
                         <div className='row pb20'>
                             <div className='col-lg-4 col-md-4 col-sm-4 col-xs-5'>
                                 <label className='panel-label'>Time Range of Flexibility</label>
+                            </div>
+                        </div>
+                        <div className='row pb20'>
+                            <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+                                <input type='checkbox' checked={this.state.professional} onChange={() => this.setState({ professional: !this.state.professional })} /><label className='form-label'><span className='gap3'>Has Professional License?</span></label>  
                             </div>
                         </div>
                         <div className='row pb20'>

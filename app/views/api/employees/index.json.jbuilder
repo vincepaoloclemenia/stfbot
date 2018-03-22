@@ -10,6 +10,7 @@ json.employers do |json|
         json.contact emp.contact
         json.role emp.role.split.map(&:capitalize!).join(' ')
         json.shifting_schedule emp.shifting_schedule
+        json.is_professional emp.is_professional
     end
 end
 
@@ -25,6 +26,7 @@ json.finance_admins do |json|
         json.contact fa.contact
         json.role fa.role.split.map(&:capitalize!).join(' ')
         json.shifting_schedule fa.shifting_schedule
+        json.is_professional fa.is_professional
     end
 end
 
@@ -43,6 +45,7 @@ json.contractors do |json|
         json.min_flexi_time con.min_flexi_time
         json.max_flexi_time con.max_flexi_time
         json.shifting_schedule con.shifting_schedule
+        json.is_professional con.is_professional
     end
 end
 
