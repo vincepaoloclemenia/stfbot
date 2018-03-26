@@ -6,6 +6,7 @@ class Company < ApplicationRecord
     has_many :contractors, -> { where(role: 'contractor').order(last_name: :asc)}, through: :company_employees, class_name: 'User', source: :user, dependent: :destroy
     has_many :jobs, dependent: :destroy
     has_one :location, dependent: :destroy  
+    has_many :timelogs, through: :employees, dependent: :destroy
 
     pg_search_scope :search, against: [:name],
     using: {tsearch: {dictionary: "english"}}

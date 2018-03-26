@@ -20,7 +20,10 @@ export default class Timelog extends React.Component{
                 this.setState({
                     fetching: false,
                     allTimelogs: data.timelogs,
-                    unvalidatedTimelogs: data.unvalidated_timelogs
+                    unvalidatedTimelogs: data.unvalidated_timelogs,
+                    unpaidOvertime: data.total_unpaid_overtime,
+                    totalHours: data.total_hours_rendered,
+                    totalPay: data.total_pay_for_the_week
                 })
             }
         })
@@ -49,7 +52,7 @@ export default class Timelog extends React.Component{
     renderTimelogs(){
         if (this.state.tabLeftOpen){
             return(
-                <table id='timelog' className='table table-striped table-dark'>
+                <table id='timelog' className='table table-bordered table-striped table-dark'>
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
@@ -69,35 +72,55 @@ export default class Timelog extends React.Component{
                     </thead>
                     <tbody>
                         {this.renderAllTimelogs()}
+                        {this.renderTotalHours()}
+                        {this.renderTotalPay()}
                     </tbody>
                 </table>
             )
         }else{
             return(
-                <table id='timelog' className='table table-striped table-dark'>
+                <table id='timelog' className='table table-bordered table-striped table-dark'>
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
-                            <th scope="col">Time in</th>
-                            <th scope="col">Break Out</th>
-                            <th scope="col">Break In</th>
-                            <th scope="col">Total Break Hours</th>
+                            <th scope="col">Time in</th>                           
                             <th scope="col">Time Out</th>
                             <th scope="col">Overtime In</th>
                             <th scope="col">Overtime Out</th>
-                            <th scope="col">Overtime Hours</th>
-                            <th scope="col">Overtime Pay</th>
                             <th scope="col">Total Hours Rendered</th>
-                            <th scope="col">Gross Pay</th>
-                            <th scope="col">Total Pay</th>
+                            <th scope="col">Overtime Hours</th>
+                            <th scope="col">Hours to Offset</th>
+                            <th scope="col">Adjustments</th>
+                            <th scope="col">Overtime Pay</th>                           
                         </tr>
                     </thead>
                     <tbody>
                         {this.renderUnvalidatedTimeogs()}
+                        {this.showTotalUnpaidOvertime()}
                     </tbody>
                 </table>
             )
         }
+    }
+
+    renderTotalHours(){
+        if(this.state.allTimelogs.length === 0) { return }
+        return(
+            <tr>
+                <td style={{ textAlign: 'right', fontSize: '13px', fontWeight: '900'}} colSpan='11'>Total Hours</td>
+                <td colSpan='2' style={{fontSize: '13px', fontWeight: '900'}} >{this.state.totalHours}</td>
+            </tr>
+        )
+    }
+
+    renderTotalPay(){
+        if(this.state.allTimelogs.length === 0) { return }
+        return(
+            <tr>
+                <td style={{ textAlign: 'right', fontSize: '13px', fontWeight: '900'}} colSpan='11'>Total Amount</td>
+                <td colSpan='2' style={{fontSize: '13px', fontWeight: '900'}} >{this.state.totalPay}</td>
+            </tr>
+        )
     }
 
     renderUnvalidatedTimeogs(){
@@ -113,19 +136,26 @@ export default class Timelog extends React.Component{
                 <tr key={index}>
                     <td className='timelog-date'>{timelog.date}</td>
                     <td>{timelog.login}</td>
-                    <td>{timelog.break_out}</td>
-                    <td>{timelog.break_in}</td>
-                    <td>{timelog.total_break_hours}</td>
                     <td>{timelog.logout}</td>
                     <td>{timelog.overtime_in}</td>
                     <td>{timelog.overtime_out}</td>
-                    <td>{timelog.overtime}</td>
-                    <td>{timelog.overtime_pay}</td>
                     <td>{timelog.total_hours}</td>
-                    <td>{timelog.gross_pay}</td>
-                    <td>{timelog.total_pay}</td>
+                    <td>{timelog.total_overtime_hours}</td>
+                    <td>{timelog.offset}</td>
+                    <td>{timelog.adjustments}</td>
+                    <td>{timelog.unpaid_overtime}</td>
                 </tr>
             )
+        )
+    }
+
+    showTotalUnpaidOvertime(){
+        if(this.state.unvalidatedTimelogs.length === 0){ return }
+        return(
+            <tr>
+                <td style={{ textAlign: 'right', fontSize: '13px', fontWeight: '900'}} colSpan='8'>Total Payment</td>
+                <td colSpan='2' style={{fontSize: '13px', fontWeight: '900'}}>{this.state.unpaidOvertime}</td>
+            </tr>
         )
     }
 

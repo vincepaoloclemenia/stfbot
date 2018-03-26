@@ -72,7 +72,7 @@ class TimesheetImport
               else
                 next
               end
-              @timelog.compute_total_pay     
+              @timelog.compute_total_pay if @timelog.all_ready?     
             end           
           else
             next

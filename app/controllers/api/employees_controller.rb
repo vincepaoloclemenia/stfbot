@@ -59,7 +59,7 @@ class Api::EmployeesController < Api::BaseController
     def timelogs
         @user = User.find(params[:id])
         @timelogs = @user.timelogs
-        @unvalidated_timelogs = @user.timelogs.where(valid_ot: nil)
+        @unvalidated_timelogs = @user.timelogs.unvalidated_overtime
     end
 
     private

@@ -8,7 +8,7 @@ class Timelog < ApplicationRecord
         hours = if break_in? && break_out? && !self.user.shifting_schedule
             ((break_in - break_out) / 60 / 60 ).round(2) <= 1 ? 1.0.to_d : ((break_in - break_out) / 60 / 60 ).round(2).to_d
         else
-            0
+            0.0
         end
         hours.to_d
     end
@@ -25,6 +25,14 @@ class Timelog < ApplicationRecord
         end
     end
 
+    def all_ready?
+        if date.wday == 0 || date.wday == 6
+            overtime_in? && overtime_out?
+        else
+            login? && logout?
+        end
+    end
+
     def user_min_flex_timein
         if self.user.shifting_schedule?
             case shift
@@ -38,15 +46,23 @@ class Timelog < ApplicationRecord
     end
 
     def user_max_flex_timeout
-        "#{date} #{self.user.max_flexi_time}".to_time + 8.hours
+        if self.user.shifting_schedule?
+            user_min_flex_timein + 8.hours
+        else
+            "#{date} #{self.user.max_flexi_time}".to_time + 8.hours
+        end
     end
 
     def user_min_flex_timeout
-        "#{date} #{self.user.min_flexi_time}".to_time + 8.hours
+        if self.user.shifting_schedule?
+            user_min_flex_timein + 8.hours
+        else
+            "#{date} #{self.user.min_flexi_time}".to_time + 8.hours
+        end
     end
 
     def late?
-        return false if login.nil? || date.wday == 0 || date.wday || 6
+        return false if login.nil? || date.wday == 0 || date.wday == 6
         login > user_max_flex_timein
     end
 
@@ -60,12 +76,12 @@ class Timelog < ApplicationRecord
     end
 
     def late_out?
-        return false if logout.nil? || date.wday == 0 || date.wday || 6
+        return false if logout.nil? || date.wday == 0 || date.wday == 6
         logout > user_max_flex_timeout 
     end
 
     def early_time_in?
-        return false if login.nil? || date.wday == 0 || date.wday || 6
+        return false if login.nil? || date.wday == 0 || date.wday == 6
         login < user_min_flex_timein
     end
 
@@ -73,12 +89,16 @@ class Timelog < ApplicationRecord
         if date.wday == 0 || date.wday == 6
             if overtime_out?
                 overtime_out > "#{date} 10:00 PM".to_time ? ((overtime_out - "#{date} 10:00 PM".to_time) / 60 / 60).to_d : 0.0
+            elsif shift == '3RD SHIFT'
+                overtime_out > "#{date} 10:00 PM".to_time ? ((overtime_out - overtime_in)/60/60).to_d : 0.0
             else
                 0.0
             end
         else
             if logout?
                 logout > "#{date} 10:00 PM".to_time ? ((logout - "#{date} 10:00 PM".to_time) / 60 / 60).to_d : 0.0
+            elsif shift == '3RD SHIFT'
+                login > "#{date} 10:00 PM".to_time ? ((logout - login)/60/60).to_d : 0.0
             else
                 0.0
             end
@@ -95,9 +115,11 @@ class Timelog < ApplicationRecord
                         elsif late? && undertime?
                             ((logout - login) /60 /60 - break_hours).to_d
                         elsif early_time_in?  
-                            undertime? ? ((logout - user_min_flex_timein)/60/60 - break_hours).to_d : 8.to_d
-                        elsif undertime? 
-                            ((logout - user_min_flex_timein)/60/60 - break_hours).to_d
+                            if late_out? 
+                                8.to_d
+                            elsif undertime?
+                                ((logout - user_max_flex_timein)/60/60 - break_hours).to_d
+                            end
                         else
                             8.to_d
                         end              
@@ -114,28 +136,24 @@ class Timelog < ApplicationRecord
                     if overtime_out? && overtime_in?
                         ((overtime_out - overtime_in) / 60 / 60 - deduction).to_d
                     else
-                        0
+                        0.0
                     end
                 else    
                     if login? && logout?
                         if late?
-                            if undertime?
-                                0.0
-                            elsif late_out?
+                            if late_out?
                                 ((logout - user_max_flex_timeout)/60/60).to_d
                             else
                                 0.0
                             end
                         elsif early_time_in?
                             if late_out?
-                                ((user_min_flex_timein - login)/60/60).to_d + ((logout - user_max_flex_timeout)/60/60).to_d
+                                ((logout - login)/60/60 - break_hours).to_d - 8
                             else
                                 ((user_min_flex_timein - login)/60/60).to_d
                             end
-                        elsif late? && undertime?
-                            0.0
                         else
-                            0.0
+                           ((logout - login)/60/60 - break_hours).to_d - 8
                         end
                     else
                         0
@@ -144,10 +162,63 @@ class Timelog < ApplicationRecord
         hours.to_d
     end
 
+    def has_overtime?
+        total_overtime_hours >= 1
+    end
+
+    def self.unvalidated_overtime
+        timelogs = []
+        where(valid_ot: nil).map do |timelog|
+            timelogs << timelog if timelog.has_overtime? && timelog.unpaid_overtime > 0.0
+        end
+        timelogs
+    end
+
+    def below_eight_hours?
+        total_rendered_hours < 8
+    end
+
+    def adjustments
+        holiday_percentage = is_holiday? ? 2 : 1
+        if has_overtime?
+            if date.wday == 0 || date.wday == 6   
+                0.0
+            elsif below_eight_hours?
+                offset = (8 - total_rendered_hours) < total_overtime_hours ? 0 : 8 - total_rendered_hours
+                (offset * self.user.rate_per_hour * holiday_percentage).to_d
+            else
+                0.0
+            end
+        else
+            0.0    
+        end
+    end
+
+    def unpaid_overtime
+        holiday_percentage = is_holiday? ? 2 : 1
+        if has_overtime?
+            if date.wday == 0 || date.wday == 6   
+                percentage = is_holiday? ? 2 : 1.5  
+                (total_overtime_hours * self.user.rate_per_hour * percentage).to_d
+            else
+                if below_eight_hours?
+                    percentage = is_holiday? ? 2 : 1.3  
+                    offset = (8 - total_overtime_hours) < total_overtime_hours ? 0 : 8 - total_overtime_hours
+                    excess = total_overtime_hours - offset
+                    adjustments + (excess * self.user.rate_per_hour * percentage).to_d
+                else
+                    (total_overtime_hours * self.user.rate_per_hour * holiday_percentage).to_d
+                end
+            end
+        else
+            0.0
+        end
+    end
+
     def compute_total_pay
         professional_fee = self.user.is_professional? ? 0.08 : 0.02
         holiday_percentage = is_holiday? ? 2 : 1
-        if date.wday == 0 || date.wday == 6
+        if date.wday == 0 || date.wday == 6 #weekends
             night_differential_fee = (self.user.rate_per_hour * night_differential_hours * 0.1)
             percentage = is_holiday? ? 2 : 1.5
             ot_pay = (total_overtime_hours * self.user.rate_per_hour * percentage + night_differential_fee).to_d
