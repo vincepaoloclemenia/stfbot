@@ -4,6 +4,31 @@
             <div class='panel-heading ml15 mr15 with-border'>
                 <h4><%= @user.nil? ? "No such user found" : "#{@user.full_name}'s Timelogs" %></h4>
             </div>
+            <div class='panel-body'>
+                <div class='row ml15'>
+                    <div class='col-md-4'>
+                        <label class='timelog-label'>Time In Allowance</label>
+                        <% if @user.shifting_schedule? %>
+                            <p class='timelog-detail'>First Shift: 7:30 AM, Second Shift: 3:30 PM, Third Shift: 11:30 PM</p>
+                        <% else %>
+                            <p class='timelog-detail'><%= "#{@user.min_flexi_time.to_time.strftime('%l:%M %p')} - #{@user.max_flexi_time.to_time.strftime('%l:%M %p')}"%></p>
+                        <% end %>
+                    </div>
+                    <div class='col-md-4'>
+                        <label class='timelog-label'>Time Out</label>
+                        <% if @user.shifting_schedule? %>
+                            <p class='timelog-detail'>First Shift: 3:30 PM, Second Shift: 11:30 PM, Third Shift: 7:30 AM</p>
+                        <% else %>
+                            <p class='timelog-detail'><%= "#{(@user.min_flexi_time.to_time + 9.hours).strftime('%l:%M %p') } - #{(@user.max_flexi_time.to_time + 9.hours).strftime('%l:%M %p') }"%></p>
+                        <% end %>
+                    </div>
+                    <div class='col-md-4'>
+                        <label class='timelog-label'>Rate per hour</label>
+                        <p class='timelog-detail'><%= to_peso(@user.rate_per_hour) %> / hour</p>
+                    </div>
+                    
+                </div>
+            </div>
             <%= react_component 'Timelog', { user: @user } %>
         </div>
     </div>

@@ -91,7 +91,8 @@ export default class Timelog extends React.Component{
                             <th scope="col">Overtime Hours</th>
                             <th scope="col">Hours to Offset</th>
                             <th scope="col">Adjustments</th>
-                            <th scope="col">Overtime Pay</th>                           
+                            <th scope="col">Overtime Pay</th>  
+                            <th scope="col">Total Amount</th>                          
                         </tr>
                     </thead>
                     <tbody>
@@ -144,6 +145,7 @@ export default class Timelog extends React.Component{
                     <td>{timelog.offset}</td>
                     <td>{timelog.adjustments}</td>
                     <td>{timelog.unpaid_overtime}</td>
+                    <td>{timelog.total_adjustments}</td>
                 </tr>
             )
         )
@@ -153,7 +155,7 @@ export default class Timelog extends React.Component{
         if(this.state.unvalidatedTimelogs.length === 0){ return }
         return(
             <tr>
-                <td style={{ textAlign: 'right', fontSize: '13px', fontWeight: '900'}} colSpan='8'>Total Payment</td>
+                <td style={{ textAlign: 'right', fontSize: '13px', fontWeight: '900'}} colSpan='9'>Total Payment</td>
                 <td colSpan='2' style={{fontSize: '13px', fontWeight: '900'}}>{this.state.unpaidOvertime}</td>
             </tr>
         )

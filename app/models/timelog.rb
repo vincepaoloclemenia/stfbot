@@ -46,18 +46,20 @@ class Timelog < ApplicationRecord
     end
 
     def user_max_flex_timeout
+        time = self.user.shifting_schedule? ? 8 : 9
         if self.user.shifting_schedule?
-            user_min_flex_timein + 8.hours
+            user_min_flex_timein + time.hours
         else
-            "#{date} #{self.user.max_flexi_time}".to_time + 8.hours
+            "#{date} #{self.user.max_flexi_time}".to_time + time.hours
         end
     end
 
     def user_min_flex_timeout
+        time = self.user.shifting_schedule? ? 8 : 9
         if self.user.shifting_schedule?
-            user_min_flex_timein + 8.hours
+            user_min_flex_timein + time.hours
         else
-            "#{date} #{self.user.min_flexi_time}".to_time + 8.hours
+            "#{date} #{self.user.min_flexi_time}".to_time + time.hours
         end
     end
 
@@ -118,7 +120,7 @@ class Timelog < ApplicationRecord
                             if late_out? 
                                 8.to_d
                             elsif undertime?
-                                ((logout - user_max_flex_timein)/60/60 - break_hours).to_d
+                                ((logout - user_min_flex_timein)/60/60 - break_hours).to_d
                             end
                         else
                             8.to_d
@@ -142,7 +144,7 @@ class Timelog < ApplicationRecord
                     if login? && logout?
                         if late?
                             if late_out?
-                                ((logout - user_max_flex_timeout)/60/60).to_d
+                                ((logout - user_max_flex_timeout)/60/60).to_d - ((login - user_max_flex_timein)/60/60).to_d
                             else
                                 0.0
                             end
@@ -178,13 +180,21 @@ class Timelog < ApplicationRecord
         total_rendered_hours < 8
     end
 
+    def hours_to_offset
+        if below_eight_hours?
+            (8 - total_rendered_hours).to_d
+        else
+            0.0
+        end
+    end
+
     def adjustments
         holiday_percentage = is_holiday? ? 2 : 1
         if has_overtime?
             if date.wday == 0 || date.wday == 6   
                 0.0
-            elsif below_eight_hours?
-                offset = (8 - total_rendered_hours) < total_overtime_hours ? 0 : 8 - total_rendered_hours
+            elsif below_eight_hours? && has_overtime?
+                offset = total_overtime_hours > hours_to_offset ? hours_to_offset : total_overtime_hours  
                 (offset * self.user.rate_per_hour * holiday_percentage).to_d
             else
                 0.0
@@ -203,9 +213,8 @@ class Timelog < ApplicationRecord
             else
                 if below_eight_hours?
                     percentage = is_holiday? ? 2 : 1.3  
-                    offset = (8 - total_overtime_hours) < total_overtime_hours ? 0 : 8 - total_overtime_hours
-                    excess = total_overtime_hours - offset
-                    adjustments + (excess * self.user.rate_per_hour * percentage).to_d
+                    offset = total_overtime_hours > hours_to_offset ? (total_overtime_hours - hours_to_offset).to_d : 0.0
+                    (offset * self.user.rate_per_hour * percentage).to_d
                 else
                     (total_overtime_hours * self.user.rate_per_hour * holiday_percentage).to_d
                 end
@@ -213,6 +222,10 @@ class Timelog < ApplicationRecord
         else
             0.0
         end
+    end
+
+    def total_adjustments
+        adjustments + unpaid_overtime
     end
 
     def compute_total_pay

@@ -211,6 +211,25 @@
         margin-bottom: 25px;
     }
 
+    label.timelog-label{
+        font-family: 'Open Sans', sans-serif;
+        color: lighten($font-grey, 10%);
+        font-weight: 900;
+        padding: 5px 15px;  
+        font-size: 15px;
+        width: 100%;  
+    }
+
+    p.timelog-detail{
+        font-family: 'Noto Sans', sans-serif;
+        color: lighten($font-grey, 10%);
+        font-weight: 900;
+        padding: 5px 15px; 
+        font-size: 13px; 
+        width: 100%;  
+        margin-bottom: 15px;
+    }
+
     p{
         &.job-title{ font-weight: bold }
 

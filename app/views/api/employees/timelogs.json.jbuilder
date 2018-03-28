@@ -31,9 +31,10 @@ json.unvalidated_timelogs do |json|
         json.excess (timelog.total_overtime_hours - (8 - timelog.total_overtime_hours))
         json.adjustments to_peso(timelog.adjustments)
         json.unpaid_overtime to_peso(timelog.unpaid_overtime)
+        json.total_adjustments to_peso(timelog.total_adjustments)
     end
 end
 
-json.total_unpaid_overtime to_peso(@unvalidated_timelogs.map { |x| x.unpaid_overtime }.sum)
+json.total_unpaid_overtime to_peso(@unvalidated_timelogs.map { |x| x.total_adjustments }.sum)
 json.total_hours_rendered @timelogs.pluck(:total_hours).sum
 json.total_pay_for_the_week to_peso(@timelogs.pluck(:total_pay).sum)
