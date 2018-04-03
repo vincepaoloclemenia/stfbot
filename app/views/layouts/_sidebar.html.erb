@@ -8,4 +8,6 @@
     <%= render 'layouts/sidebar_employer' %>
 <% elsif user_signed_in? && current_user.role == 'company_admin' && !admin_signed_in? %>
     <%= render 'layouts/sidebar_company_admin' %>
+<% elsif user_signed_in? && current_user.role == 'contractor' && !admin_signed_in? %>
+    <%= render 'layouts/sidebar_contractor' %>
 <% end %>

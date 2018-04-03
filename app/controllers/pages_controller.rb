@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-    
+    before_action :authenticate_user!, only: :timelogs
     def index   
     end
 
@@ -9,6 +9,11 @@ class PagesController < ApplicationController
     end
 
     def inquire
+    end
+
+    def timelogs
+        @timelogs = current_user.timelogs
+        @unvalidated_timelogs = current_user.timelogs.unvalidated_overtime
     end
 
     private

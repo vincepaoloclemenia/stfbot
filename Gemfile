@@ -36,6 +36,9 @@ gem 'responders'
 gem 'friendly_id', '~> 5.1.0'
 gem 'pg_search'
 gem 'roo'
+gem 'axlsx_rails'
+gem 'groupdate'
+gem 'axlsx_styler', '~> 0.2.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

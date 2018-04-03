@@ -106,6 +106,7 @@ Rails.application.routes.draw do
   get '/:slug/jobs' => 'jobs#jobs', as: :jobs
   get '/:slug/jobs/:title' => 'jobs#show', as: :job
   get 'inquire' => 'pages#inquire', as: :inquire
+  get 'timelogs' => 'pages#timelogs'
   get 'add_user' => 'companies#add_user', as: :add_user  
   get 'candidates/:slug' => 'users#show', as: :profile
   get '/dashboard' => 'dashboard#index', as: :dashboard
