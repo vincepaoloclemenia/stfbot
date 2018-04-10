@@ -1,0 +1,33 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "#{@timelogs.last.date.strftime('%b %d, %Y')} - #{@timelogs.first.date.strftime('%b %d, %Y')}") do |sheet|
+
+    sheet.add_row [
+        "Date",
+        "Shift",	
+        "Time In",
+        "Break Out",
+        "Break In",
+        "Time Out",
+        "No. of Break Hours",
+        "No. of Work hours",
+        "Overtime Time In",	
+        "Overtime Time Out",
+        "Total Overtime Hours"
+    ]
+  @timelogs.each do |timelog|
+    sheet.add_row [
+        timelog.date.strftime("%a, %b %d, %Y"), 
+        timelog.shift? ? timelog.shift : "NORMAL", 
+        timelog.login? ? timelog.login.strftime("%l:%M %p") : "--:--",
+        timelog.break_out? ? timelog.break_out.strftime("%l:%M %p") : "--:--",
+        timelog.break_in? ? timelog.break_in.strftime("%l:%M %p") : "--:--",
+        timelog.logout? ? timelog.logout.strftime("%l:%M %p") : "--:--",
+        timelog.break_hours.round(2),
+        timelog.weekend? ? timelog.overtime : timelog.total_hours,
+        timelog.overtime_in? ? timelog.overtime_in.strftime("%l:%M %p") : "--:--",
+        timelog.overtime_out? ? timelog.overtime_out.strftime("%l:%M %p") : "--:--",
+        timelog.total_overtime_hours.round(2)
+    ]
+  end
+  
+end

@@ -107,6 +107,10 @@ class Timelog < ApplicationRecord
         end
     end
 
+    def weekend?
+        date.wday == 0 || date.wday == 6
+    end
+
     def total_rendered_hours
         hours = if date.wday == 0 || date.wday == 6
                     0.0

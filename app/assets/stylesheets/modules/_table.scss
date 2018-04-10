@@ -95,6 +95,18 @@ table#timelog{
         &.timelog-date{
             text-align: left;
         }
+        border-color: grey;
     }
+
+    th.row-header{
+        padding: 20px 10px;
+    }
+
+    tr.weekend{
+        border-color: grey;
+        td { background: lighten(grey, 35%) }
+    }
+
+    th { border-color: grey }
 
 }

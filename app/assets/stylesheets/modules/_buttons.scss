@@ -24,6 +24,31 @@
         float: right !important;
         position: normal;       
     }
+    &.download{
+        position: relative;
+        font-size: 12px;
+        background-color: transparent; 
+        width: 100%;
+        color: $main-color;
+        &:hover{
+            background-color: lighten($main-color, 10%);
+            color: $white;
+            transition: 0.5s;
+        }
+    }
+    &.reset{
+        position: relative;
+        font-size: 12px;
+        background-color: transparent; 
+        width: 100%;
+        color: tomato;
+        border-color: tomato;
+        &:hover{
+            background-color: lighten(tomato, 10%);
+            color: $white;
+            transition: 0.5s;
+        }
+    }
     &.mr2{ margin-right: 2em }
     &.mb2{ margin-bottom: 2em }
     &.company-edit{

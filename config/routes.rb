@@ -93,7 +93,10 @@ Rails.application.routes.draw do
 
     resources :work_experiences
 
-    resources :timelogs
+    resources :timelogs do
+      get :export_timesheet, on: :collection
+      get :generate_timelogs, on: :collection
+    end
 
   end
   
