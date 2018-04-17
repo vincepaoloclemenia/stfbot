@@ -40,6 +40,15 @@ class Api::TimelogsController < Api::BaseController
         end
     end
 
+    def validate_overtime_hours
+        if params[:id].present? && params[:timelogs].present?
+            @user = User.find(params[:id])
+            @user.timelogs.update_timelogs(params[:timelogs])
+        else
+            render json: { errors: 'Missing parameters' }.to_json
+        end
+    end
+
     private
 
         def timelogs_params

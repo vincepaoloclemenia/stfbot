@@ -22,7 +22,9 @@ class Api::EmployeesController < Api::BaseController
     end
 
     def contractors
-        @contractors = @company.contractors.paginate(page: params[:page], per_page: 10)
+        if params[:key].present?
+            @contractors = @company.contractors.last_name_starts_with(params[:key]).paginate(page: params[:page], per_page: 10)
+        end
     end
 
     def create

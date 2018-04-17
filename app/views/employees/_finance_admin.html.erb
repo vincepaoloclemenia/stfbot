@@ -29,7 +29,14 @@
 </div>
 
 <script>
-    $("#import").on('change', function(){
-        $('#label-import').text($(this).val().split(/(\\|\/)/g).pop())
+    $("#save-import").hide();
+    $("#import").on('change', function(){   
+        if(this.files.length == 0){
+            $("#save-import").hide();
+             $('#label-import').text("Upload Timesheet");
+        }else{     
+            $('#label-import').text($(this).val().split(/(\\|\/)/g).pop()) 
+            $("#save-import").show();
+        }
     })
 </script>

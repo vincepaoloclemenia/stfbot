@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     resources :timelogs do
       get :export_timesheet, on: :collection
       get :generate_timelogs, on: :collection
+      put :validate_overtime_hours, on: :collection
     end
 
   end

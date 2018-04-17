@@ -23,6 +23,9 @@ div.tab {
             background-color: $main-color;
             color: white;
         }
+        &.with-border{
+            border: 1px solid $main-color;
+        }
     }
 }
 

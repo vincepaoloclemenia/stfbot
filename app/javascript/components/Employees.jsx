@@ -8,6 +8,7 @@ import DeleteEmployee from 'components/DeleteEmployee.jsx'
 export default class Employees extends React.Component{
     constructor(props){
         super(props)
+        this.userRole = {}
         this.state = { 
             userFirstName: null,
             userLastName: null,
@@ -15,7 +16,7 @@ export default class Employees extends React.Component{
             password: 'password123', 
             userName: null,
             userEmail: null,
-            userRole: null, 
+            role: null, 
             employers: [],
             financeAdmins: [],
             functions: [],
@@ -62,7 +63,7 @@ export default class Employees extends React.Component{
             method: 'post',
             data: { user: {
                 email: this.state.userEmail,
-                role: this.state.userRole.label.toLocaleLowerCase(),
+                role: this.role.label.toLocaleLowerCase(),
                 username: this.state.userName,
                 password: 'password123',
                 first_name: this.state.userFirstName.replace(/\b\w/g, (letter)=>{ return letter.toUpperCase() }),
@@ -112,7 +113,7 @@ export default class Employees extends React.Component{
                     userLastName: null,
                     userName: null,
                     userEmail: null,
-                    userRole: null, 
+                    role: null, 
                     codeNum: null,
                     
 
@@ -120,6 +121,11 @@ export default class Employees extends React.Component{
             }
         })
 
+    }
+
+    fucker(value){
+        this.setState({ role: value })
+        console.log(value.label)
     }
 
     handleUpdate(data){        
@@ -250,11 +256,7 @@ export default class Employees extends React.Component{
                                 <input className='form-control' placeholder='Code Number' onChange={e => this.setState({ codeNum: e.target.value })} />
                             </div>
                         </div>
-                        <div className='row pb20'>
-                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-5'>
-                                <label className='panel-label'>Time Range of Flexibility</label>
-                            </div>
-                        </div>
+                        
                         <div className='row pb20'>
                             <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
                                 <input type='checkbox' checked={this.state.professional} onChange={() => this.setState({ professional: !this.state.professional })} /><label className='form-label'><span className='gap3'>Has Professional License?</span></label>  
@@ -265,58 +267,29 @@ export default class Employees extends React.Component{
                                 <input type='checkbox' checked={this.state.checked} onChange={() => this.setState({ checked: !this.state.checked })} /><label className='form-label'><span className='gap3'>Shifting Schedule?</span></label>  
                             </div>
                         </div>
+
+                        <div className='row pb20'>
+                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-5'>
+                                <label className='panel-label'>Time Range of Flexibility</label>
+                            </div>
+                        </div>
                         
                         {this.renderTimeRange()}
 
                         <div className='row pb20'>
                             <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <label className='panel-label'>Employment Date:</label>
-                            </div>
-                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <VirtualizedSelect
-                                    optionClassName='with-border'
-                                    options={this.state.months}
-                                    onChange={(value) => this.setState({ month: value })}
-                                    value={this.state.month}                                                
-                                />
-                            </div>
-                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <VirtualizedSelect
-                                    optionClassName='with-border'
-                                    options={this.state.years}
-                                    onChange={(value) => this.setState({ year: value })}
-                                    value={this.state.year}                                                
-                                />
-                            </div>
-                        </div>
-
-                        <div className='row pb20'>
-                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <label className='panel-label'>Job Function:</label>
+                                <label className='panel-label'>User Role:</label>
                             </div>
                             <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
                                 <VirtualizedSelect
                                     optionClassName='with-border'
-                                    options={this.state.functions}
-                                    onChange={(value) => this.setState({ jobFunction: value })}
-                                    value={this.state.jobFunction}                                                
+                                    options={this.state.roles}
+                                    onChange={value => this.role = value }
+                                    value={this.role}                                                
                                 />
                             </div>
                         </div>
 
-                        <div className='row pb20'>
-                            <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                                <label className='panel-label'>Job Level:</label>
-                            </div>
-                            <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-                                <VirtualizedSelect
-                                    optionClassName='with-border'
-                                    options={this.state.jobLevels}
-                                    onChange={(value) => this.setState({ jobLevel: value })}
-                                    value={this.state.jobLevel}                                                
-                                />
-                            </div>
-                        </div>
                         <div className='row pt20'>
                             <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                                 <div className='pull-right'>
@@ -326,6 +299,62 @@ export default class Employees extends React.Component{
                         </div>
                     </div>
                 </Modal>
+            </div>
+        )
+    }
+
+    forTheMeanTime(){
+        return(
+            <div>
+                <div className='row pb20'>
+                    <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <label className='panel-label'>Employment Date:</label>
+                    </div>
+                    <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <VirtualizedSelect
+                            optionClassName='with-border'
+                            options={this.state.months}
+                            onChange={(value) => this.setState({ month: value })}
+                            value={this.state.month}                                                
+                        />
+                    </div>
+                    <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <VirtualizedSelect
+                            optionClassName='with-border'
+                            options={this.state.years}
+                            onChange={(value) => this.setState({ year: value })}
+                            value={this.state.year}                                                
+                        />
+                    </div>
+                </div>
+
+                <div className='row pb20'>
+                    <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <label className='panel-label'>Job Function:</label>
+                    </div>
+                    <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                        <VirtualizedSelect
+                            optionClassName='with-border'
+                            options={this.state.functions}
+                            onChange={(value) => this.setState({ jobFunction: value })}
+                            value={this.state.jobFunction}                                                
+                        />
+                    </div>
+                </div>
+
+                <div className='row pb20'>
+                    <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <label className='panel-label'>Job Level:</label>
+                    </div>
+                    <div className='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                        <VirtualizedSelect
+                            optionClassName='with-border'
+                            options={this.state.jobLevels}
+                            onChange={(value) => this.setState({ jobLevel: value })}
+                            value={this.state.jobLevel}                                                
+                        />
+                    </div>
+                </div>
             </div>
         )
     }
@@ -514,7 +543,7 @@ export default class Employees extends React.Component{
     }
 
     disableButton(){
-        if(this.state.userFirstName && this.state.userLastName && this.state.userEmail && this.state.userRole && this.state.userName){ return false }
+        if(this.state.userFirstName && this.state.userLastName && this.state.userEmail && this.state.role && this.state.userName){ return false }
         return true
     }
 

@@ -14,6 +14,7 @@ json.timelogs do |json|
         json.total_pay to_peso(timelog.total_pay)
         json.gross_pay to_peso(timelog.gross_pay)
         json.overtime_pay to_peso(timelog.overtime_pay)
+        json.what_day timelog.date.wday == 0 || timelog.date.wday == 6
     end
 end
 
@@ -27,11 +28,12 @@ json.unvalidated_timelogs do |json|
         json.overtime_out timelog.overtime_out? ? timelog.overtime_out.strftime("%l:%M %p") : "--:--"
         json.total_overtime_hours timelog.total_overtime_hours.round(2)
         json.total_hours timelog.total_hours
-        json.offset (8 - timelog.total_rendered_hours).round(2)
+        json.offset timelog.hours_to_offset.round(2)
         json.excess (timelog.total_overtime_hours - (8 - timelog.total_overtime_hours))
-        json.adjustments to_peso(timelog.adjustments)
-        json.unpaid_overtime to_peso(timelog.unpaid_overtime)
+        json.adjustments timelog.user.is_professional? ? to_peso(timelog.adjustments - (timelog.adjustments * 0.08)) : to_peso(timelog.adjustments - (timelog.adjustments * 0.02))
+        json.unpaid_overtime timelog.user.is_professional? ? to_peso(timelog.unpaid_overtime - (timelog.unpaid_overtime * 0.08)) : to_peso(timelog.unpaid_overtime - (timelog.unpaid_overtime * 0.02))
         json.total_adjustments to_peso(timelog.total_adjustments)
+        json.what_day timelog.date.wday == 0 || timelog.date.wday == 6
     end
 end
 

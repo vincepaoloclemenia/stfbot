@@ -224,6 +224,18 @@
             transition: 0.5s;
         }
     }
+    &.update-timelogs{
+        font-size: 11px;
+        font-family: 'Noto Sans', sans-serif;
+        background-color: transparent;
+        border: 1px solid $blue;
+        color: $main-color;
+        &:hover {
+            background-color: $blue;
+            color: $white;
+            transition: 0.5s;
+        }
+    }
     &.full-width{
         font-size: 15px;
         width: 100%;

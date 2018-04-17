@@ -46,20 +46,18 @@ class Timelog < ApplicationRecord
     end
 
     def user_max_flex_timeout
-        time = self.user.shifting_schedule? ? 8 : 9
         if self.user.shifting_schedule?
-            user_min_flex_timein + time.hours
+            user_min_flex_timein + 8.hours
         else
-            "#{date} #{self.user.max_flexi_time}".to_time + time.hours
+            "#{date} #{self.user.max_flexi_time}".to_time + 9.hours
         end
     end
 
     def user_min_flex_timeout
-        time = self.user.shifting_schedule? ? 8 : 9
         if self.user.shifting_schedule?
-            user_min_flex_timein + time.hours
+            user_min_flex_timein + 8.hours
         else
-            "#{date} #{self.user.min_flexi_time}".to_time + time.hours
+            "#{date} #{self.user.min_flexi_time}".to_time + 9.hours
         end
     end
 
@@ -193,6 +191,7 @@ class Timelog < ApplicationRecord
     end
 
     def adjustments
+        professional_fee = self.user.is_professional? ? 0.08 : 0.02
         holiday_percentage = is_holiday? ? 2 : 1
         if has_overtime?
             if date.wday == 0 || date.wday == 6   
@@ -209,6 +208,7 @@ class Timelog < ApplicationRecord
     end
 
     def unpaid_overtime
+        professional_fee = self.user.is_professional? ? 0.08 : 0.02
         holiday_percentage = is_holiday? ? 2 : 1
         if has_overtime?
             if date.wday == 0 || date.wday == 6   
@@ -229,7 +229,38 @@ class Timelog < ApplicationRecord
     end
 
     def total_adjustments
-        adjustments + unpaid_overtime
+        professional_fee = self.user.is_professional? ? 0.08 : 0.02
+        (adjustments - (adjustments * professional_fee)) + (unpaid_overtime - (unpaid_overtime * professional_fee))
+    end
+
+    def self.update_timelogs(ids)
+        all.where(id: ids).each do |timelog|
+            timelog.update(valid_ot: 'VALID')
+            if timelog.save
+                timelog.compute_adjustment
+            end
+        end
+    end
+
+    def compute_adjustment
+        night_differential_fee = (self.user.rate_per_hour * night_differential_hours * 0.1)
+        professional_fee = self.user.is_professional? ? 0.08 : 0.02
+        holiday_percentage = is_holiday? ? 2 : 1
+        if has_overtime?
+            if below_eight_hours? 
+                hours = total_overtime_hours - hours_to_offset < 0 ? total_hours + total_overtime_hours : 8
+                ot_hours = total_overtime_hours - hours_to_offset < 0 ? 0 : total_overtime_hours - hours_to_offset
+                overtime_payment = ( ot_hours * self.user.rate_per_hour * holiday_percentage).to_d
+                gross_payment = ((hours * self.user.rate_per_hour * holiday_percentage) + overtime_payment + night_differential_fee).to_d
+                total_payment = ( gross_payment - ( gross_payment * professional_fee)).to_d
+                self.update(overtime_pay: overtime_payment, total_hours: hours, gross_pay: gross_payment, total_pay: total_payment)
+            else
+                ot_pay = (total_overtime_hours * self.user.rate_per_hour * holiday_percentage).to_d
+                gross_payment = (gross_pay + ot_pay + night_differential_fee).to_d
+                total_payment = ( gross_payment - ( gross_payment * professional_fee )).to_d
+                self.update(overtime: total_overtime_hours, overtime_pay: ot_pay, gross_pay: gross_payment, total_pay: total_payment)
+            end
+        end   
     end
 
     def compute_total_pay

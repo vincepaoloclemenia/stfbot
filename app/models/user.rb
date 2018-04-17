@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include ApplyJob
   include SaveJobs
   include ViewJob
+  include PgSearch
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -34,14 +35,18 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9_\.]*\z/ }
   friendly_id :username, use: [:slugged, :finders]
   validate :validate_role
-  
-  
-  #scope :qualified_applicants, -> { where.not(role: 'company_admin').joins(:job_applications).where( 'job_applications.qualified = ?', true ) }
-  
+    
   before_save :capitalize_names 
   after_destroy { |user| CompanyEmployee.where(user_id: user.id).destroy_all }
 
   attr_accessor :login
+
+  
+  pg_search_scope :last_name_starts_with,
+                  :against => :last_name,
+                  :using => {
+                    :tsearch => {:prefix => true}
+                  }
 
   def full_name
     "#{first_name} #{last_name}"

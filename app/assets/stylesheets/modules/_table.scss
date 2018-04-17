@@ -86,7 +86,7 @@ ul li{
 
 } 
 
-table#timelog{
+table#timelog, table#timesheet{
     td {
         text-justify: justify;
         background-color: lighten($light-blue, 20%);
@@ -96,6 +96,10 @@ table#timelog{
             text-align: left;
         }
         border-color: grey;
+    }
+
+    th {
+        padding: 20px 5px;
     }
 
     th.row-header{
@@ -108,5 +112,9 @@ table#timelog{
     }
 
     th { border-color: grey }
+
+    input#master-checker{
+       background-color: transparent;
+    }
 
 }

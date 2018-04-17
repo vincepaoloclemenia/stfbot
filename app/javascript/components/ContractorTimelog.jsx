@@ -109,10 +109,8 @@ export default class ContractorTimelog extends React.Component{
                             </div>
                         </div>
                         <div className='row pt10 mr15 ml15'>
-                            <div className={this.state.searching ? this.state.class : 'col-md-10 col-md-offset-1'}>  
-                                <a disabled={this.state.timelogs.length === 0} target="_blank" href={`/api/timelogs/export_timesheet.xlsx?date_from=${moment(this.state.startDate).format('MM/DD/YYYY')}&date_to=${moment(this.state.endDate).format('MM/DD/YYYY')}`} className='btn btn-primary download'><i className="fas fa-arrow-alt-circle-down fa-lg pr1"></i>{this.renderLabel()}</a>
-                            </div> 
-                            {this.renderButton()}
+                            {this.renderSearchButton()} 
+                            {this.renderReset()}
                         </div>     
                     </div>                                                                                          
                 </div>
@@ -149,7 +147,23 @@ export default class ContractorTimelog extends React.Component{
         )
     }
 
-    renderButton(){
+    renderSearchButton(){
+        if(this.state.searching && this.state.timelogs.length > 0){
+            return(
+                <div className={this.state.searching ? this.state.class : 'col-md-10 col-md-offset-1'}>  
+                    <a disabled={this.state.timelogs.length === 0} target="_blank" href={`/api/timelogs/export_timesheet.xlsx?date_from=${moment(this.state.startDate).format('MM/DD/YYYY')}&date_to=${moment(this.state.endDate).format('MM/DD/YYYY')}`} className='btn btn-primary download'><i className="fas fa-arrow-alt-circle-down fa-lg pr1"></i>{this.renderLabel()}</a>
+                </div>
+            )
+        }else{
+            return(
+                <div className={this.state.searching ? this.state.class : 'col-md-10 col-md-offset-1'}>  
+                    <center><i>No Timelogs Found</i></center>
+                </div>
+            )
+        }
+    }
+
+    renderReset(){
         if(this.state.searching){
             return(
                 <div className='col-md-4'> 
@@ -195,13 +209,6 @@ export default class ContractorTimelog extends React.Component{
             return(
                 <div className='row pb20 pt20'>
                     <center><i className="fa fa-spinner fa-spin fa-2x fa-fw with-color"></i></center>                
-                </div>
-            )
-        }
-        if(this.state.timelogs === 0 && !this.state.fetching){
-            return(
-                <div className='row pb20 pt20'>
-                    <center><i>No Timelogs Found</i></center>                
                 </div>
             )
         }
